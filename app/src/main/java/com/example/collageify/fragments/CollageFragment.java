@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bumptech.glide.Glide;
 import com.example.collageify.SongService;
 import com.example.collageify.databinding.FragmentCollageBinding;
 import com.example.collageify.models.Song;
@@ -45,7 +46,6 @@ public class CollageFragment extends Fragment {
         songService = new SongService(getContext().getApplicationContext());
         SharedPreferences sharedPreferences = getContext().getSharedPreferences("SPOTIFY", 0);
         binding.tvUser.setText(sharedPreferences.getString("userid", "No User"));
-
         getTracks();
     }
 
@@ -58,8 +58,10 @@ public class CollageFragment extends Fragment {
 
     private void updateSong() {
         if (recentlyPlayedTracks.size() > 0) {
-            binding.tvSong.setText(recentlyPlayedTracks.get(0).getName());
             song = recentlyPlayedTracks.get(0);
+            binding.tvSong.setText(song.getName());
+            binding.tvArtist.setText(song.getArtist());
+            Glide.with(getContext()).load(song.getAlbumImageUrl()).into(binding.ivAlbum);
         }
     }
 

@@ -37,13 +37,12 @@ public class SongService {
         String endpoint = "https://api.spotify.com/v1/me/player/recently-played";
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
                 (Request.Method.GET, endpoint, null, response -> {
-                    Gson gson = new Gson();
                     JSONArray jsonArray = response.optJSONArray("items");
                     for (int i = 0; i < jsonArray.length(); i++) {
                         try {
                             JSONObject object = jsonArray.getJSONObject(i);
                             object = object.optJSONObject("track");
-                            Song song = gson.fromJson(object.toString(), Song.class);
+                            Song song = Song.fromJson(object);
                             songs.add(song);
                         } catch (JSONException e) {
                             e.printStackTrace();

@@ -1,5 +1,8 @@
 package com.example.collageify.models;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class Song {
     private String id;
     private String name;
@@ -10,6 +13,8 @@ public class Song {
         this.name = name;
         this.id = id;
     }
+
+    public Song() {}
 
     public String getId() {
         return id;
@@ -41,5 +46,15 @@ public class Song {
 
     public void setArtist(String artist) {
         this.artist = artist;
+    }
+
+    public static Song fromJson(JSONObject jsonObject) throws JSONException {
+        Song song = new Song();
+        song.id = jsonObject.getString("id");
+        song.name = jsonObject.getString("name");
+        song.artist = jsonObject.getJSONArray("artists").getJSONObject(0).getString("name");
+        song.albumImageUrl = jsonObject.getJSONObject("album").getJSONArray("images")
+                .getJSONObject(0).getString("url");
+        return song;
     }
 }
