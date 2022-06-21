@@ -13,17 +13,20 @@ import android.widget.Button;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.example.collageify.R;
+import com.example.collageify.UserService;
+import com.example.collageify.models.User;
 import com.spotify.sdk.android.auth.AuthorizationClient;
 import com.spotify.sdk.android.auth.AuthorizationRequest;
 import com.spotify.sdk.android.auth.AuthorizationResponse;
 
 public class LoginActivity extends AppCompatActivity {
 
+    public static final String TAG = "LoginActivity";
     public static final String CLIENT_ID = "241d0f56be9e4824b0ededa9f2c4ae3d";
     public static final String REDIRECT_URI = "com.example.collageify://callback";
     public static final int REQUEST_CODE = 1337;
-    public static final String SCOPES = "user-read-recently-played,user-top-tracks,user-read-private";
-    public static final String TAG = "LoginActivity";
+    public static final String SCOPES = "user-read-recently-played,user-top-read,user-read-private";
+
     private SharedPreferences.Editor editor;
     private SharedPreferences mSharedPreferences;
     private RequestQueue queue;
@@ -37,6 +40,7 @@ public class LoginActivity extends AppCompatActivity {
 
         mSharedPreferences = this.getSharedPreferences("SPOTIFY", 0);
         queue = Volley.newRequestQueue(this);
+
 
         btnLoginSpotify.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,9 +69,9 @@ public class LoginActivity extends AppCompatActivity {
                     // handle successful response
                     editor = getSharedPreferences("SPOTIFY", 0).edit();
                     editor.putString("token", response.getAccessToken());
-                    Log.d(TAG, "starting: got auth token");
+                    Log.d(TAG, "got auth token");
                     editor.apply();
-//                    waitForUserInfo();
+                    waitForUserInfo();
                     break;
 
                 case ERROR:
@@ -83,6 +87,21 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void waitForUserInfo() {
+        UserService userService = new UserService(queue, mSharedPreferences);
+        userService.get(() -> {
+            User user = userService.getUser();
+            editor = getSharedPreferences("SPOTIFY", 0).edit();
+            editor.putString("userid", user.id);
+            Log.d(TAG, "got user information");
+            // use commit instead of apply bc we need the info stored immediately
+            editor.commit();
+            startMainActivity();
+        });
+    }
+
+    private void startMainActivity() {
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        startActivity(intent);
     }
 
 
