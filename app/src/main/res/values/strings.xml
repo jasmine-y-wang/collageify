@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Collageify</string>
+    <string name="login_spotify">Login with Spotify</string>
 </resources>
