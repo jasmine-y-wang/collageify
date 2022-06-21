@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Collageify</string>
-    <string name="login_spotify">Login with Spotify</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
@@ -8,6 +7,8 @@
     <string name="home">Home</string>
     <string name="collage">Collage</string>
     <string name="profile">Profile</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="login">Login</string>
+    <string name="signup">Signup</string>
+    <string name="spotify_connect">Connect to Spotify</string>
+    <string name="logout">Logout</string>
 </resources>

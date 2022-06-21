@@ -49,7 +49,7 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.ViewHolder> 
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            ivImage =itemView.findViewById(R.id.ivImage);
+            ivImage = itemView.findViewById(R.id.ivImage);
         }
 
         public void bind(Song song) {
