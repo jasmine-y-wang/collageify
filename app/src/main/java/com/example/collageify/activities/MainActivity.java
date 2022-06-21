@@ -2,19 +2,27 @@ package com.example.collageify.activities;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.MenuItem;
 
 import com.example.collageify.R;
 import com.example.collageify.SongService;
+import com.example.collageify.fragments.CollageFragment;
+import com.example.collageify.fragments.FeedFragment;
+import com.example.collageify.fragments.ProfileFragment;
 import com.example.collageify.models.Song;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.collageify.databinding.ActivityMainBinding;
+import com.google.android.material.navigation.NavigationBarView;
 
 import java.util.ArrayList;
 
@@ -22,36 +30,42 @@ public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
 
-    private SongService songService;
-    private Song song;
-    private ArrayList<Song> recentlyPlayedTracks;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        songService = new SongService(getApplicationContext());
-        SharedPreferences sharedPreferences = getSharedPreferences("SPOTIFY", 0);
-        binding.tvUser.setText(sharedPreferences.getString("userid", "No User"));
+        final FragmentManager fragmentManager = getSupportFragmentManager();
 
-        getTracks();
-    }
+        final Fragment feedFragment = new FeedFragment();
+        final Fragment collageFragment = new CollageFragment();
+        final Fragment profileFragment = new ProfileFragment();
 
-    private void getTracks() {
-        songService.getRecentlyPlayedTracks(() -> {
-            recentlyPlayedTracks = songService.getSongs();
-            updateSong();
+        binding.bottomNavigation.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                Fragment fragment;
+                switch (item.getItemId()) {
+                    case R.id.action_home:
+                        fragment = feedFragment;
+                        break;
+                    case R.id.action_collage:
+                        fragment = collageFragment;
+                        break;
+                    case R.id.action_profile:
+                        fragment = profileFragment;
+                        break;
+                    default:
+                        fragment = collageFragment;
+                        break;
+                }
+                fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
+                return true;
+            }
         });
-    }
-
-    private void updateSong() {
-        if (recentlyPlayedTracks.size() > 0) {
-            binding.tvSong.setText(recentlyPlayedTracks.get(0).getName());
-            song = recentlyPlayedTracks.get(0);
-        }
+        // set default selection
+        binding.bottomNavigation.setSelectedItemId(R.id.action_collage);
     }
 
 }

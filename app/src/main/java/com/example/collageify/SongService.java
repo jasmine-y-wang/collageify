@@ -2,11 +2,13 @@ package com.example.collageify;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.JsonRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.collageify.models.Song;
 import com.google.gson.Gson;
@@ -23,6 +25,7 @@ public class SongService {
     private ArrayList<Song> songs = new ArrayList<>();
     private SharedPreferences sharedPreferences;
     private RequestQueue queue;
+    public static final String TAG = "SongService";
 
     public SongService(Context context) {
         sharedPreferences = context.getSharedPreferences("SPOTIFY", 0);
@@ -37,13 +40,12 @@ public class SongService {
         String endpoint = "https://api.spotify.com/v1/me/player/recently-played";
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
                 (Request.Method.GET, endpoint, null, response -> {
-                    Gson gson = new Gson();
                     JSONArray jsonArray = response.optJSONArray("items");
-                    for (int n = 0; n < jsonArray.length(); n++) {
+                    for (int i = 0; i < jsonArray.length(); i++) {
                         try {
-                            JSONObject object = jsonArray.getJSONObject(n);
+                            JSONObject object = jsonArray.getJSONObject(i);
                             object = object.optJSONObject("track");
-                            Song song = gson.fromJson(object.toString(), Song.class);
+                            Song song = Song.fromJson(object);
                             songs.add(song);
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -51,8 +53,40 @@ public class SongService {
                     }
                     callBack.onSuccess();
                 }, error -> {
-                    // TODO: Handle error
+                    Log.e(TAG, "an error occurred when fetching recent tracks", error);
+                }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                String token = sharedPreferences.getString("token", "");
+                String auth = "Bearer " + token;
+                headers.put("Authorization", auth);
+                return headers;
+            }
+        };
+        queue.add(jsonObjectRequest);
+        return songs;
+    }
 
+
+    public ArrayList<Song> getTopTracks(final VolleyCallBack callBack) {
+        String endpoint = "https://api.spotify.com/v1/me/top/tracks";
+        String params = "?limit=9&time_range=short_term";
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                (Request.Method.GET, endpoint, null, response -> {
+                    JSONArray jsonArray = response.optJSONArray("items");
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        try {
+                            JSONObject object = jsonArray.getJSONObject(i);
+                            Song song = Song.fromJson(object);
+                            songs.add(song);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    callBack.onSuccess();
+                }, error -> {
+                    Log.e(TAG, "an error occurred when fetching top tracks", error);
                 }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
