@@ -12,7 +12,11 @@
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.26038500506585616" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.4218666850656703" />
         <entry key="app/src/main/res/layout/activity_signup.xml" value="0.16945288753799392" />
+        <entry key="app/src/main/res/layout/fragment_collage.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_feed.xml" value="0.22314814814814815" />
+        <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.25189463297526044" />
+        <entry key="app/src/main/res/menu/menu_bottom_nav.xml" value="0.6703703703703704" />
       </map>
     </option>
   </component>
