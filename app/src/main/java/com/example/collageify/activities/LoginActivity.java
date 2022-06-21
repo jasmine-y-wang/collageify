@@ -98,7 +98,7 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    protected void authenticateSpotify() {
+    private void authenticateSpotify() {
         AuthorizationRequest.Builder builder = new AuthorizationRequest.Builder(CLIENT_ID,
                 AuthorizationResponse.Type.TOKEN, REDIRECT_URI);
         builder.setScopes(new String[]{SCOPES});
@@ -153,8 +153,4 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
-
-
-
-
 }

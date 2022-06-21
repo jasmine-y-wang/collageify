@@ -49,6 +49,7 @@ public class SignupActivity extends AppCompatActivity {
             @Override
             public void done(ParseException e) {
                 if (e == null) {
+                    ParseUser.logOut(); // log out Parse user
                     startLoginActivity();
                 } else {
                     Log.e(TAG, "signup failed :(", e);
