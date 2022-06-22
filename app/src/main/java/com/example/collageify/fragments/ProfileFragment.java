@@ -49,7 +49,6 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        User user = (User) ParseUser.getCurrentUser();
         binding.tvProfileUsername.setText(user.getUsername());
         binding.tvSpotifyId.setText(String.format("%s on Spotify", user.getSpotifyId()));
 
@@ -65,10 +64,16 @@ public class ProfileFragment extends Fragment {
             public void onClick(View v) {
                 Log.i(TAG, "logout");
                 ParseUser.logOut(); // log out Parse user
-                AuthorizationClient.clearCookies(getContext()); // log out Spotify user
+//                AuthorizationClient.clearCookies(getContext()); // log out Spotify user
                 Intent i = new Intent(getContext(), LoginActivity.class);
                 startActivity(i);
             }
         });
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 }
