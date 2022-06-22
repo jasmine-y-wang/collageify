@@ -1,7 +1,6 @@
 package com.example.collageify.models;
 
 import android.util.Log;
-import android.widget.Toast;
 
 import com.parse.ParseClassName;
 import com.parse.ParseException;
@@ -48,14 +47,11 @@ public class User extends ParseUser {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        saveInBackground(new SaveCallback() {
-            @Override
-            public void done(ParseException e) {
-                if (e != null) {
-                    Log.e(TAG, "error while saving", e);
-                } else {
-                    Log.i(TAG, "save was successful");
-                }
+        saveInBackground(e -> {
+            if (e != null) {
+                Log.e(TAG, "error while saving", e);
+            } else {
+                Log.i(TAG, "save was successful");
             }
         });
     }

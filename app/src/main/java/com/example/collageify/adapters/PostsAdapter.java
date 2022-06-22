@@ -22,8 +22,8 @@ import java.util.List;
 
 public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> {
 
-    private Context context;
-    private List<Post> posts;
+    private final Context context;
+    private final List<Post> posts;
 
     public PostsAdapter(Context context, List<Post> posts) {
         this.context = context;
@@ -50,13 +50,13 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView tvUsername;
-        private TextView tvDescription;
-        private ImageView ivImage;
-        private TextView tvTimestamp;
-        private ImageButton ibLike;
-        private TextView tvLikes;
-        private ImageView ivPfp;
+        private final TextView tvUsername;
+        private final TextView tvDescription;
+        private final ImageView ivImage;
+        private final TextView tvTimestamp;
+        private final ImageButton ibLike;
+        private final TextView tvLikes;
+        private final ImageView ivPfp;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -102,20 +102,17 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
 
             tvLikes.setText(post.getLikesCount());
 
-            ibLike.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (post.isLikedByCurrentUser()) {
-                        // unlike
-                        post.unlike();
-                        ibLike.setBackgroundResource(R.drawable.ufi_heart);
-                    } else {
-                        // like
-                        post.like();
-                        ibLike.setBackgroundResource(R.drawable.ic_ufi_heart_active);
-                    }
-                    tvLikes.setText(post.getLikesCount());
+            ibLike.setOnClickListener(v -> {
+                if (post.isLikedByCurrentUser()) {
+                    // unlike
+                    post.unlike();
+                    ibLike.setBackgroundResource(R.drawable.ufi_heart);
+                } else {
+                    // like
+                    post.like();
+                    ibLike.setBackgroundResource(R.drawable.ic_ufi_heart_active);
                 }
+                tvLikes.setText(post.getLikesCount());
             });
 
 //            ivPfp.setOnClickListener(new View.OnClickListener() {
