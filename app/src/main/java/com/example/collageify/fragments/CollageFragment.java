@@ -1,6 +1,5 @@
 package com.example.collageify.fragments;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,10 +13,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.bumptech.glide.Glide;
 import com.example.collageify.R;
 import com.example.collageify.SongService;
-import com.example.collageify.SongsAdapter;
+import com.example.collageify.adapters.SongsAdapter;
 import com.example.collageify.databinding.FragmentCollageBinding;
 import com.example.collageify.models.Song;
 

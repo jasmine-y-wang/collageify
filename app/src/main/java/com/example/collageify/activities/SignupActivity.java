@@ -49,7 +49,8 @@ public class SignupActivity extends AppCompatActivity {
             @Override
             public void done(ParseException e) {
                 if (e == null) {
-                    ParseUser.logOut(); // log out Parse user
+                    // log out Parse user so that they must login and connect to Spotify
+                    ParseUser.logOut();
                     startLoginActivity();
                 } else {
                     Log.e(TAG, "signup failed :(", e);
