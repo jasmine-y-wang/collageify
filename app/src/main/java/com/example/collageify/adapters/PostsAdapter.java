@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.collageify.R;
 import com.example.collageify.models.Post;
+import com.example.collageify.models.User;
 import com.parse.ParseFile;
 
 import java.util.Date;
@@ -69,9 +70,9 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
         }
 
         public void bind(Post post) {
-//            User poster = (User) post.getUser();
+            User poster = (User) post.getUser();
             tvDescription.setText(post.getCaption());
-//            tvUsername.setText(poster.getUsername());
+            tvUsername.setText(poster.getUsername());
             ParseFile image = post.getImage();
             if (image != null) {
                 Glide.with(context).load(image.getUrl())
@@ -86,12 +87,12 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
             tvTimestamp.setText(timeAgo);
 
             // set profile picture in posts
-//            ParseFile profilePic = poster.getPfp();
-//            if (profilePic != null) {
-//                Glide.with(context).load(profilePic.getUrl()).circleCrop().into(ivPfp);
-//            } else {
-//                Glide.with(context).load(R.drawable.profile_placeholder).circleCrop().into(ivPfp);
-//            }
+            String profilePicUrl = poster.getPfpUrl();
+            if (profilePicUrl != null) {
+                Glide.with(context).load(profilePicUrl).circleCrop().into(ivPfp);
+            } else {
+                Glide.with(context).load(R.drawable.profile_placeholder).circleCrop().into(ivPfp);
+            }
 
             if (post.isLikedByCurrentUser()) {
                 ibLike.setBackgroundResource(R.drawable.ic_ufi_heart_active);

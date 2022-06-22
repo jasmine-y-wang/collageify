@@ -43,7 +43,7 @@ public class User extends ParseUser {
             setSpotifyId(jsonObject.getString("id"));
             JSONArray images = jsonObject.getJSONArray("images");
             if (images.length() > 0) {
-                setPfpUrl(images.getString(0));
+                setPfpUrl(images.getJSONObject(0).getString("url"));
             }
         } catch (JSONException e) {
             e.printStackTrace();
