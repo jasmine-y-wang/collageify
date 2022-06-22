@@ -17,7 +17,7 @@ import java.util.List;
 public class Post extends ParseObject {
     public static final String KEY_CAPTION = "caption";
     public static final String KEY_IMAGE = "image";
-    public static final String KEY_USER = "author";
+    public static final String KEY_USER = "user";
     public static final String KEY_CREATED_AT = "createdAt";
     public static final String KEY_LIKED_BY = "likedBy";
 

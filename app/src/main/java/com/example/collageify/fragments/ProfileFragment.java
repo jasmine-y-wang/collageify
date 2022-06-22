@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import com.example.collageify.R;
 import com.example.collageify.activities.LoginActivity;
 import com.example.collageify.databinding.FragmentProfileBinding;
+import com.example.collageify.models.User;
 import com.parse.ParseUser;
 import com.spotify.sdk.android.auth.AuthorizationClient;
 
@@ -42,6 +43,9 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        User user = (User) ParseUser.getCurrentUser();
+        binding.tvProfileUsername.setText(user.getUsername());
+        binding.tvSpotifyId.setText(String.format("%s on Spotify", user.getSpotifyId()));
         binding.btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

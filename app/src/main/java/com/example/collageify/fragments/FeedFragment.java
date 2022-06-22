@@ -77,7 +77,6 @@ public class FeedFragment extends Fragment {
 
                 // for debugging, print every post description to log
                 for (Post post : posts) {
-                    ParseUser user = post.getUser();
                     Log.i(TAG, "post: " + post.getCaption() + ", username: " +
                             post.getUser().getUsername());
                 }

@@ -28,14 +28,6 @@ import com.spotify.sdk.android.auth.AuthorizationResponse;
 public class LoginActivity extends AppCompatActivity {
 
     public static final String TAG = "LoginActivity";
-    public static final String CLIENT_ID = "241d0f56be9e4824b0ededa9f2c4ae3d";
-    public static final String REDIRECT_URI = "com.example.collageify://callback";
-    public static final int REQUEST_CODE = 1337;
-    public static final String SCOPES = "user-read-recently-played,user-top-read,user-read-private";
-
-    private SharedPreferences.Editor editor;
-    private SharedPreferences mSharedPreferences;
-    private RequestQueue queue;
     private ActivityLoginBinding binding;
 
     @Override
@@ -47,18 +39,6 @@ public class LoginActivity extends AppCompatActivity {
         if (ParseUser.getCurrentUser() != null) {
             startMainActivity();
         }
-
-        mSharedPreferences = this.getSharedPreferences("SPOTIFY", 0);
-        queue = Volley.newRequestQueue(this);
-
-        binding.btnLoginSpotify.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                authenticateSpotify();
-            }
-        });
-
-        binding.btnLogin.setEnabled(false);
         binding.btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -92,64 +72,19 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(LoginActivity.this, "issue with login", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                // navigate to the main activity if the user has signed in properly
-                startMainActivity();
+                startConnectSpotifyActivity();
             }
         });
     }
 
-    private void authenticateSpotify() {
-        AuthorizationRequest.Builder builder = new AuthorizationRequest.Builder(CLIENT_ID,
-                AuthorizationResponse.Type.TOKEN, REDIRECT_URI);
-        builder.setScopes(new String[]{SCOPES});
-        AuthorizationRequest request = builder.build();
-        AuthorizationClient.openLoginActivity(this, REQUEST_CODE, request);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE) {
-            AuthorizationResponse response = AuthorizationClient.getResponse(resultCode, data);
-
-            switch (response.getType()) {
-                case TOKEN:
-                    // handle successful response
-                    editor = getSharedPreferences("SPOTIFY", 0).edit();
-                    editor.putString("token", response.getAccessToken());
-                    Log.d(TAG, "got auth token");
-                    editor.apply();
-                    waitForUserInfo();
-                    break;
-
-                case ERROR:
-                    // handle error response
-                    Log.e(TAG, "there was an error logging in: " + response.getError());
-                    break;
-
-                default:
-                    // handle other cases
-            }
-
-        }
-    }
-
-    private void waitForUserInfo() {
-        UserService userService = new UserService(queue, mSharedPreferences);
-        userService.get(() -> {
-            User user = userService.getUser();
-            editor = getSharedPreferences("SPOTIFY", 0).edit();
-            editor.putString("userid", user.id);
-            Log.d(TAG, "got user information");
-            // use commit instead of apply bc we need the info stored immediately
-            editor.commit();
-            binding.btnLoginSpotify.setVisibility(View.GONE);
-            binding.btnLogin.setEnabled(true);
-        });
+    private void startConnectSpotifyActivity() {
+        Intent intent = new Intent(this, ConnectSpotifyActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     private void startMainActivity() {
-        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         finish();
     }
