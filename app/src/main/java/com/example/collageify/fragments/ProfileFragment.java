@@ -12,9 +12,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bumptech.glide.Glide;
 import com.example.collageify.R;
 import com.example.collageify.activities.LoginActivity;
 import com.example.collageify.databinding.FragmentProfileBinding;
+import com.example.collageify.models.User;
 import com.parse.ParseUser;
 import com.spotify.sdk.android.auth.AuthorizationClient;
 
@@ -26,9 +28,14 @@ public class ProfileFragment extends Fragment {
 
     private FragmentProfileBinding binding;
     public static final String TAG = "ProfileFragment";
+    public User user;
 
     public ProfileFragment() {
         // Required empty public constructor
+    }
+
+    public ProfileFragment(ParseUser user) {
+        this.user = (User) user;
     }
 
     @Override
@@ -42,6 +49,17 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        User user = (User) ParseUser.getCurrentUser();
+        binding.tvProfileUsername.setText(user.getUsername());
+        binding.tvSpotifyId.setText(String.format("%s on Spotify", user.getSpotifyId()));
+
+        String profilePicUrl = user.getPfpUrl();
+        if (profilePicUrl != null) {
+            Glide.with(this).load(profilePicUrl).circleCrop().into(binding.ivProfilePic);
+        } else {
+            Glide.with(this).load(R.drawable.profile_placeholder).circleCrop().into(binding.ivProfilePic);
+        }
+
         binding.btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

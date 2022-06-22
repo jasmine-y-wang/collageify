@@ -20,7 +20,6 @@ public class SignupActivity extends AppCompatActivity {
 
     private ActivitySignupBinding binding;
 
-
     public static final String TAG = "SignupActivity";
 
     @Override
@@ -49,8 +48,7 @@ public class SignupActivity extends AppCompatActivity {
             @Override
             public void done(ParseException e) {
                 if (e == null) {
-                    ParseUser.logOut(); // log out Parse user
-                    startLoginActivity();
+                    startConnectSpotifyActivity();
                 } else {
                     Log.e(TAG, "signup failed :(", e);
                 }
@@ -58,11 +56,10 @@ public class SignupActivity extends AppCompatActivity {
         });
     }
 
-    private void startLoginActivity() {
-        Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
+    private void startConnectSpotifyActivity() {
+        Intent intent = new Intent(this, ConnectSpotifyActivity.class);
         startActivity(intent);
         finish();
     }
-
 
 }

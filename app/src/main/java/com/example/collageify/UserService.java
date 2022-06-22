@@ -7,6 +7,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.collageify.models.User;
 import com.google.gson.Gson;
+import com.parse.ParseUser;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -29,6 +30,8 @@ public class UserService {
     public void get(final VolleyCallBack callBack) {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(ENDPOINT, null, response -> {
             Gson gson = new Gson();
+            User currUser = (User) ParseUser.getCurrentUser();
+            currUser.setSpotifyInfo(response);
             user = gson.fromJson(response.toString(), User.class);
             callBack.onSuccess();
         }, error -> get(() -> {
