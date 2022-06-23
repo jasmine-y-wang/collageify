@@ -85,8 +85,6 @@ public class FeedFragment extends Fragment {
                 adapter.notifyDataSetChanged();
             }
         });
-
-
     }
 
     @Override

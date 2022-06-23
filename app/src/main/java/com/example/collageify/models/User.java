@@ -18,7 +18,6 @@ public class User extends ParseUser {
     private static final String TAG = "User";
     public static final String KEY_PFP_URL = "profilePicUrl";
 
-    public String id;
     public String displayName;
 
     public String getSpotifyId() {

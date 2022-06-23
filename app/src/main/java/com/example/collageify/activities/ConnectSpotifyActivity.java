@@ -81,7 +81,6 @@ public class ConnectSpotifyActivity extends AppCompatActivity {
                 default:
                     // handle other cases
             }
-
         }
     }
 
@@ -90,11 +89,11 @@ public class ConnectSpotifyActivity extends AppCompatActivity {
         userService.get(() -> {
             User user = userService.getUser();
             editor = getSharedPreferences("SPOTIFY", 0).edit();
-            editor.putString("userid", user.id);
+            editor.putString("userid", user.getSpotifyId());
             Log.d(TAG, "got user information");
             // use commit instead of apply bc we need the info stored immediately
             editor.commit();
-            Toast.makeText(this, "authenticated as " + user.id, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "authenticated as " + user.getSpotifyId(), Toast.LENGTH_SHORT).show();
             startMainActivity();
         });
     }
