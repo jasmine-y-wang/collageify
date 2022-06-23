@@ -11,23 +11,10 @@ public class Song {
     private JSONObject albumData;
     private String albumId;
 
-    public Song(String id, String name) {
-        this.name = name;
-        this.id = id;
-    }
-
     public Song() {}
 
     public String getName() {
         return name;
-    }
-
-    public String getAlbumImageUrl() {
-        return albumImageUrl;
-    }
-
-    public String getArtist() {
-        return artist;
     }
 
     public JSONObject getAlbumData() {

@@ -29,7 +29,7 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.ViewHolder
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        view = LayoutInflater.from(context).inflate(R.layout.item_song, parent, false);
+        view = LayoutInflater.from(context).inflate(R.layout.item_album, parent, false);
         return new ViewHolder(view);
     }
 

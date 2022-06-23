@@ -18,19 +18,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.example.collageify.R;
 import com.example.collageify.SongService;
 import com.example.collageify.adapters.AlbumsAdapter;
-import com.example.collageify.adapters.SongsAdapter;
 import com.example.collageify.databinding.FragmentCollageBinding;
 import com.example.collageify.models.Album;
 import com.example.collageify.models.Post;
 import com.example.collageify.models.Song;
-import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
-import com.parse.SaveCallback;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -46,10 +42,8 @@ import java.util.List;
 public class CollageFragment extends Fragment {
 
     private SongService songService;
-    private ArrayList<Song> topTracks;
     private List<Album> topAlbums;
     private FragmentCollageBinding binding;
-    private SongsAdapter adapter;
     private AlbumsAdapter albumsAdapter;
     public static final String TAG = "CollageFragment";
     private String photoFileName = "collage.jpg";
@@ -72,14 +66,11 @@ public class CollageFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         songService = new SongService(getContext().getApplicationContext());
         topAlbums = new ArrayList<>();
-        topTracks = new ArrayList<>();
-        adapter = new SongsAdapter(getContext(), topTracks);
         albumsAdapter = new AlbumsAdapter(getContext(), topAlbums);
         RecyclerView rvSongs = view.findViewById(R.id.rvSongs);
         rvSongs.setAdapter(albumsAdapter);
         rvSongs.setLayoutManager(new GridLayoutManager(getContext(), 3, LinearLayoutManager.VERTICAL, false));
-//        getTracks();
-        getTracksForAlbum();
+        getTopAlbums();
         binding.btnPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -94,18 +85,9 @@ public class CollageFragment extends Fragment {
                 savePost(caption, ParseUser.getCurrentUser(), collageFile);
             }
         });
-
-        Log.i(TAG, "song list size " + topTracks.size());
     }
 
-    private void getTracks() {
-        songService.getTopTracks(() -> {
-            topTracks.addAll(songService.getSongs());
-            adapter.notifyDataSetChanged();
-        });
-    }
-
-    private List<Song> getTracksForAlbum() {
+    private List<Song> getTopAlbums() {
         List<Song> tracks = new ArrayList<>();
         songService.getTopTracks(() -> {
             tracks.addAll(songService.getSongs());
@@ -120,13 +102,22 @@ public class CollageFragment extends Fragment {
         for (int i = 0; i < songs.size(); i++) {
             Song song = songs.get(i);
             String albumId = song.getAlbumId();
-            if (albums.containsKey(albumId)) {
+            Album album = albums.get(albumId);
+            if (album != null) {
+                Log.i(TAG, "album incrementing " + album.getName() + " new count: " + album.getSongCount());
                 albums.get(albumId).incrementSongCount();
             } else {
                 albums.put(albumId, new Album(song.getAlbumData(), i));
             }
         }
         topAlbums.addAll(albums.values());
+        topAlbums.sort((a1, a2) -> {
+            int compVal = a2.getSongCount() - a1.getSongCount();
+            if (compVal == 0) {
+                compVal = a1.getRanking() - a2.getRanking();
+            }
+            return compVal;
+        });
         System.out.println("got albums from tracks!!");
     }
 
