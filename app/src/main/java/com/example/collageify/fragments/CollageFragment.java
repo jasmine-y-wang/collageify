@@ -23,6 +23,7 @@ import com.example.collageify.R;
 import com.example.collageify.SongService;
 import com.example.collageify.adapters.SongsAdapter;
 import com.example.collageify.databinding.FragmentCollageBinding;
+import com.example.collageify.models.Album;
 import com.example.collageify.models.Post;
 import com.example.collageify.models.Song;
 import com.parse.ParseException;
@@ -35,6 +36,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -92,6 +94,13 @@ public class CollageFragment extends Fragment {
             topTracks.addAll(songService.getSongs());
             adapter.notifyDataSetChanged();
         });
+    }
+
+    private List<Album> getAlbumsFromTracks(List<Song> songs) {
+        List<Album> albums = new ArrayList<>();
+        for (Song song : songs) {
+
+        }
     }
 
     @Override
