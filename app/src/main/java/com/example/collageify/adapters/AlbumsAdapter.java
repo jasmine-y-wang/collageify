@@ -11,37 +11,37 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.collageify.R;
-import com.example.collageify.models.Song;
+import com.example.collageify.models.Album;
 
 import java.util.List;
 
-public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.ViewHolder> {
+public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.ViewHolder> {
 
     private Context context;
-    private List<Song> songs;
+    private List<Album> albums;
     private View view;
 
-    public SongsAdapter(Context context, List<Song> songs) {
+    public AlbumsAdapter(Context context, List<Album> albums) {
         this.context = context;
-        this.songs = songs;
+        this.albums = albums;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        view = LayoutInflater.from(context).inflate(R.layout.item_song, parent, false);
+        view = LayoutInflater.from(context).inflate(R.layout.item_album, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Song song = songs.get(position);
-        holder.bind(song);
+        Album album = albums.get(position);
+        holder.bind(album);
     }
 
     @Override
     public int getItemCount() {
-        return songs.size();
+        return albums.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -53,8 +53,8 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.ViewHolder> 
             ivImage = itemView.findViewById(R.id.ivImage);
         }
 
-        public void bind(Song song) {
-            String imageUrl = song.getAlbumImageUrl();
+        public void bind(Album album) {
+            String imageUrl = album.getImageUrl();
             Glide.with(context).load(imageUrl).into(ivImage);
         }
     }

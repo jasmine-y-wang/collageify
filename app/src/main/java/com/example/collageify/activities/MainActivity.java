@@ -23,6 +23,7 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.example.collageify.databinding.ActivityMainBinding;
 import com.google.android.material.navigation.NavigationBarView;
+import com.parse.ParseUser;
 
 import java.util.ArrayList;
 
@@ -40,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
         final Fragment feedFragment = new FeedFragment();
         final Fragment collageFragment = new CollageFragment();
-        final Fragment profileFragment = new ProfileFragment();
+        final Fragment profileFragment = new ProfileFragment(ParseUser.getCurrentUser());
 
         binding.bottomNavigation.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
