@@ -8,6 +8,8 @@ public class Song {
     private String name;
     private String albumImageUrl;
     private String artist;
+    private JSONObject albumData;
+    private String albumId;
 
     public Song(String id, String name) {
         this.name = name;
@@ -28,12 +30,22 @@ public class Song {
         return artist;
     }
 
+    public JSONObject getAlbumData() {
+        return albumData;
+    }
+
+    public String getAlbumId() {
+        return albumId;
+    }
+
     public static Song fromJson(JSONObject jsonObject) throws JSONException {
         Song song = new Song();
         song.id = jsonObject.getString("id");
         song.name = jsonObject.getString("name");
         song.artist = jsonObject.getJSONArray("artists").getJSONObject(0).getString("name");
-        song.albumImageUrl = jsonObject.getJSONObject("album").getJSONArray("images")
+        song.albumData = jsonObject.getJSONObject("album");
+        song.albumId = song.albumData.getString("id");
+        song.albumImageUrl = song.albumData.getJSONArray("images")
                 .getJSONObject(0).getString("url");
         return song;
     }
