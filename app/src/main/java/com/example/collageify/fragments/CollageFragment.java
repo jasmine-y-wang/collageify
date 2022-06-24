@@ -128,14 +128,13 @@ public class CollageFragment extends Fragment {
         });
     }
 
-    private List<Song> getTopAlbums(String timeframe) {
+    private void getTopAlbums(String timeframe) {
         List<Song> tracks = new ArrayList<>();
         songService.getTopTracks(timeframe, () -> {
             tracks.addAll(songService.getSongs());
             getAlbumsFromTracks(tracks);
             albumsAdapter.notifyDataSetChanged();
         });
-        return tracks;
     }
 
     private void getAlbumsFromTracks(List<Song> songs) {
@@ -145,7 +144,6 @@ public class CollageFragment extends Fragment {
             String albumId = song.getAlbumId();
             Album album = albums.get(albumId);
             if (album != null) {
-                Log.i(TAG, "album incrementing " + album.getName() + " new count: " + album.getSongCount());
                 albums.get(albumId).incrementSongCount();
             } else {
                 albums.put(albumId, new Album(song.getAlbumData(), i));
@@ -160,7 +158,6 @@ public class CollageFragment extends Fragment {
             }
             return compVal;
         });
-        System.out.println("got albums from tracks!!");
     }
 
     @Override
