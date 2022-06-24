@@ -16,6 +16,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import com.example.collageify.R;
@@ -69,27 +71,66 @@ public class CollageFragment extends Fragment {
         albumsAdapter = new AlbumsAdapter(getContext(), topAlbums);
         RecyclerView rvSongs = view.findViewById(R.id.rvSongs);
         rvSongs.setAdapter(albumsAdapter);
-        rvSongs.setLayoutManager(new GridLayoutManager(getContext(), 3, LinearLayoutManager.VERTICAL, false));
-        getTopAlbums();
-        binding.btnPost.setOnClickListener(new View.OnClickListener() {
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 3, LinearLayoutManager.VERTICAL, false);
+        rvSongs.setLayoutManager(gridLayoutManager);
+        getTopAlbums("short_term");
+
+        // set up dropdowns
+        ArrayAdapter<CharSequence> dimensionAdapter = ArrayAdapter.createFromResource(getContext(), R.array.dimensions, android.R.layout.simple_spinner_item);
+        dimensionAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+        binding.spnDimensions.setAdapter(dimensionAdapter);
+        binding.spnDimensions.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onClick(View v) {
-                Bitmap collageScreenshot = getScreenShot(binding.rvSongs);
-                String caption = binding.etCaption.getText().toString();
-                File collageFile = null;
-                try {
-                    collageFile = bitmapToFile(collageScreenshot);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                savePost(caption, ParseUser.getCurrentUser(), collageFile);
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                int spanCount = position + 3; // 0 -> 3, 1 -> 4, 2 -> 5
+                gridLayoutManager.setSpanCount(spanCount);
             }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        ArrayAdapter<CharSequence> timeframeAdapter = ArrayAdapter.createFromResource(getContext(), R.array.timeframes, android.R.layout.simple_spinner_item);
+        timeframeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+        binding.spnTimeframe.setAdapter(timeframeAdapter);
+        binding.spnTimeframe.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String timeframe;
+                if (position == 0) {
+                    timeframe = "short_term";
+                } else if (position == 1) {
+                    timeframe = "medium_term";
+                } else {
+                    timeframe = "long_term";
+                }
+                getTopAlbums(timeframe);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        // post button
+        binding.btnPost.setOnClickListener(v -> {
+            Bitmap collageScreenshot = getScreenShot(binding.rvSongs);
+            String caption = binding.etCaption.getText().toString();
+            File collageFile = null;
+            try {
+                collageFile = bitmapToFile(collageScreenshot);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            savePost(caption, ParseUser.getCurrentUser(), collageFile);
         });
     }
 
-    private List<Song> getTopAlbums() {
+    private List<Song> getTopAlbums(String timeframe) {
         List<Song> tracks = new ArrayList<>();
-        songService.getTopTracks(() -> {
+        songService.getTopTracks(timeframe, () -> {
             tracks.addAll(songService.getSongs());
             getAlbumsFromTracks(tracks);
             albumsAdapter.notifyDataSetChanged();
@@ -110,6 +151,7 @@ public class CollageFragment extends Fragment {
                 albums.put(albumId, new Album(song.getAlbumData(), i));
             }
         }
+        topAlbums.clear();
         topAlbums.addAll(albums.values());
         topAlbums.sort((a1, a2) -> {
             int compVal = a2.getSongCount() - a1.getSongCount();
@@ -182,4 +224,6 @@ public class CollageFragment extends Fragment {
             binding.etCaption.setText("");
         });
     }
+
+
 }
