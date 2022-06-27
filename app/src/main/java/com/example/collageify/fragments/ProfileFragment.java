@@ -80,7 +80,7 @@ public class ProfileFragment extends Fragment {
         // set adapter on the recycler view
         rvPosts.setAdapter(adapter);
         // set layout manager
-        rvPosts.setLayoutManager(new GridLayoutManager(getContext(), 3, LinearLayoutManager.VERTICAL, false));
+        rvPosts.setLayoutManager(new GridLayoutManager(getContext(), 2, LinearLayoutManager.VERTICAL, false));
         // query posts
         queryPosts();
 

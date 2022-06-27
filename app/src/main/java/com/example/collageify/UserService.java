@@ -30,10 +30,7 @@ public class UserService {
 
     public void get(final VolleyCallBack callBack) {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(ENDPOINT, null, response -> {
-            Gson gson = new Gson();
-//            User currUser = (User) ParseUser.getCurrentUser();
             user.setSpotifyInfo(response);
-//            user = gson.fromJson(response.toString(), User.class);
             callBack.onSuccess();
         }, error -> get(() -> {
         })) {

@@ -10,9 +10,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bumptech.glide.Glide;
+import com.example.collageify.ArtistService;
 import com.example.collageify.R;
+import com.example.collageify.VolleyCallBack;
 import com.example.collageify.databinding.FragmentCollageBinding;
 import com.example.collageify.databinding.FragmentDetailBinding;
+import com.example.collageify.models.Album;
+import com.example.collageify.models.Artist;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -20,9 +25,15 @@ import com.example.collageify.databinding.FragmentDetailBinding;
 public class DetailFragment extends Fragment {
 
     private FragmentDetailBinding binding;
+    private Album album;
+    private Artist albumArtist;
 
     public DetailFragment() {
         // Required empty public constructor
+    }
+
+    public DetailFragment(Album album) {
+        this.album = album;
     }
 
     @Override
@@ -36,9 +47,16 @@ public class DetailFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-//        binding.tvSong.setText(song.getName());
-//            binding.tvArtist.setText(song.getArtist());
-//            Glide.with(getContext()).load(song.getAlbumImageUrl()).into(binding.ivAlbum);
+        binding.tvName.setText(album.getName());
+        binding.tvArtist.setText(album.getArtistName());
+        Glide.with(getContext()).load(album.getImageUrl()).into(binding.ivAlbumImage);
+        ArtistService artistService = new ArtistService(getContext().getApplicationContext());
+        artistService.get(album.getArtistHref(), () -> {
+            albumArtist = artistService.getArtist();
+            Glide.with(getContext()).load(albumArtist.getImageUrl()).circleCrop().into(binding.ivArtistImage);
+
+        });
+
     }
 
     @Override

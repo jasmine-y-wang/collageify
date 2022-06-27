@@ -1,5 +1,7 @@
 package com.example.collageify.models;
 
+import com.example.collageify.ArtistService;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -7,6 +9,7 @@ public class Album {
 
     private String name;
     private String imageUrl;
+    private String artistHref;
     private String artistName;
     private String artistImageUrl;
     private final int ranking; // based on position of top song in top tracks list
@@ -20,8 +23,9 @@ public class Album {
                     .getJSONObject(0).getString("url");
             name = albumData.getString("name");
             JSONObject artist = albumData.getJSONArray("artists").getJSONObject(0);
+            artistHref = artist.getString("href");
             artistName = artist.getString("name");
-            artistImageUrl = artist.getJSONArray("images").getJSONObject(0).getString("url");
+//            artistImageUrl = artist.getJSONArray("images").getJSONObject(0).getString("url");
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -35,7 +39,6 @@ public class Album {
         songCount++;
     }
 
-
     public int getSongCount() {
         return songCount;
     }
@@ -46,5 +49,13 @@ public class Album {
 
     public String getName() {
         return name;
+    }
+
+    public String getArtistHref() {
+        return artistHref;
+    }
+
+    public String getArtistName() {
+        return artistName;
     }
 }
