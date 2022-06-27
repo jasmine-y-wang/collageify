@@ -7,8 +7,10 @@ import android.view.MenuItem;
 import com.example.collageify.R;
 import com.example.collageify.SongService;
 import com.example.collageify.fragments.CollageFragment;
+import com.example.collageify.fragments.DetailFragment;
 import com.example.collageify.fragments.FeedFragment;
 import com.example.collageify.fragments.ProfileFragment;
+import com.example.collageify.models.Album;
 import com.example.collageify.models.Song;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -16,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -30,6 +33,8 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
+    private Fragment collageFragment;
+    private FragmentManager fragmentManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,10 +42,9 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        final FragmentManager fragmentManager = getSupportFragmentManager();
-
+        fragmentManager = getSupportFragmentManager();
         final Fragment feedFragment = new FeedFragment();
-        final Fragment collageFragment = new CollageFragment();
+        collageFragment = new CollageFragment(MainActivity.this);
         final Fragment profileFragment = new ProfileFragment(ParseUser.getCurrentUser());
 
         binding.bottomNavigation.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
@@ -67,6 +71,26 @@ public class MainActivity extends AppCompatActivity {
         });
         // set default selection
         binding.bottomNavigation.setSelectedItemId(R.id.action_collage);
+    }
+
+    public void goToFeedFrag() {
+        binding.bottomNavigation.setSelectedItemId(R.id.action_home);
+    }
+
+    public void goToDetailFrag(Album album) {
+        FragmentTransaction ft = fragmentManager.beginTransaction();
+        ft.hide(collageFragment);
+        DetailFragment detailFragment = new DetailFragment(album);
+        ft.add(R.id.flContainer, detailFragment);
+        ft.addToBackStack("collage to detail");
+        ft.show(detailFragment);
+        ft.commit();
+    }
+
+    public void goToCollageFrag(Album album) {
+        FragmentTransaction ft = fragmentManager.beginTransaction();
+        ft.replace(R.id.flContainer, collageFragment);
+        ft.commit();
     }
 
 }

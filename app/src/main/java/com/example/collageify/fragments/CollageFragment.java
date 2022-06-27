@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.example.collageify.R;
 import com.example.collageify.SongService;
+import com.example.collageify.activities.MainActivity;
 import com.example.collageify.adapters.AlbumsAdapter;
 import com.example.collageify.databinding.FragmentCollageBinding;
 import com.example.collageify.models.Album;
@@ -49,9 +50,14 @@ public class CollageFragment extends Fragment {
     private AlbumsAdapter albumsAdapter;
     public static final String TAG = "CollageFragment";
     private String photoFileName = "collage.jpg";
+    private MainActivity mainActivity;
 
     public CollageFragment() {
         // Required empty public constructor
+    }
+
+    public CollageFragment(MainActivity mainActivity) {
+        this.mainActivity = mainActivity;
     }
 
     @Override
@@ -87,9 +93,7 @@ public class CollageFragment extends Fragment {
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
+            public void onNothingSelected(AdapterView<?> parent) {}
         });
         ArrayAdapter<CharSequence> timeframeAdapter = ArrayAdapter.createFromResource(getContext(), R.array.timeframes, android.R.layout.simple_spinner_item);
         timeframeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
@@ -109,9 +113,7 @@ public class CollageFragment extends Fragment {
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
+            public void onNothingSelected(AdapterView<?> parent) {}
         });
 
         // post button
@@ -219,6 +221,7 @@ public class CollageFragment extends Fragment {
             }
             Log.i(TAG, "post save was successful");
             binding.etCaption.setText("");
+            mainActivity.goToFeedFrag();
         });
     }
 
