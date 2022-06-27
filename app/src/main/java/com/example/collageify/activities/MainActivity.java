@@ -1,34 +1,24 @@
 package com.example.collageify.activities;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.example.collageify.R;
-import com.example.collageify.SongService;
 import com.example.collageify.fragments.CollageFragment;
 import com.example.collageify.fragments.DetailFragment;
 import com.example.collageify.fragments.FeedFragment;
 import com.example.collageify.fragments.ProfileFragment;
 import com.example.collageify.models.Album;
-import com.example.collageify.models.Song;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 
 import com.example.collageify.databinding.ActivityMainBinding;
 import com.google.android.material.navigation.NavigationBarView;
 import com.parse.ParseUser;
-
-import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 

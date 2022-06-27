@@ -1,7 +1,5 @@
 package com.example.collageify.models;
 
-import com.example.collageify.ArtistService;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 

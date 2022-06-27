@@ -11,10 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
-import com.example.collageify.ArtistService;
-import com.example.collageify.R;
-import com.example.collageify.VolleyCallBack;
-import com.example.collageify.databinding.FragmentCollageBinding;
+import com.example.collageify.services.ArtistService;
 import com.example.collageify.databinding.FragmentDetailBinding;
 import com.example.collageify.models.Album;
 import com.example.collageify.models.Artist;

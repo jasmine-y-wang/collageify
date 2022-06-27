@@ -21,7 +21,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import com.example.collageify.R;
-import com.example.collageify.SongService;
+import com.example.collageify.services.SongService;
 import com.example.collageify.activities.MainActivity;
 import com.example.collageify.adapters.AlbumsAdapter;
 import com.example.collageify.databinding.FragmentCollageBinding;
