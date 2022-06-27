@@ -1,11 +1,14 @@
 package com.example.collageify.fragments;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -38,6 +41,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -118,16 +122,39 @@ public class CollageFragment extends Fragment {
 
         // post button
         binding.btnPost.setOnClickListener(v -> {
-            Bitmap collageScreenshot = getScreenShot(binding.rvSongs);
+            File collageFile = getCollageFile();
             String caption = binding.etCaption.getText().toString();
-            File collageFile = null;
-            try {
-                collageFile = bitmapToFile(collageScreenshot);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
             savePost(caption, ParseUser.getCurrentUser(), collageFile);
         });
+
+        // share button
+        binding.ibShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                shareCollageImage();
+            }
+        });
+    }
+
+    private void shareCollageImage() {
+        File collageFile = getCollageFile();
+        final Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setType("image/jpg");
+        Uri uri = FileProvider.getUriForFile(getContext(), "com.example.fileprovider", collageFile);
+        shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+        startActivity(Intent.createChooser(shareIntent, "Share image using"));
+    }
+
+    @Nullable
+    private File getCollageFile() {
+        Bitmap collageScreenshot = getScreenShot(binding.rvSongs);
+        File collageFile = null;
+        try {
+            collageFile = bitmapToFile(collageScreenshot);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return collageFile;
     }
 
     private void getTopAlbums(String timeframe) {
@@ -224,6 +251,5 @@ public class CollageFragment extends Fragment {
             mainActivity.goToFeedFrag();
         });
     }
-
 
 }

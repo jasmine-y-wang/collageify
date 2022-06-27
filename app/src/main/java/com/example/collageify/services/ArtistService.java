@@ -38,7 +38,7 @@ public class ArtistService {
                 e.printStackTrace();
             }
             callBack.onSuccess();
-        }, error -> Log.e(TAG, "an error occurred when fetching recent tracks", error)) {
+        }, error -> Log.e(TAG, "an error occurred when fetching artist", error)) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> headers = new HashMap<>();
