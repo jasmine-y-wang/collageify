@@ -1,5 +1,6 @@
 package com.example.collageify.fragments;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -18,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,8 +41,11 @@ import com.parse.ParseUser;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -86,7 +91,6 @@ public class CollageFragment extends Fragment {
         rvSongs.setAdapter(albumsAdapter);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 3, LinearLayoutManager.VERTICAL, false);
         rvSongs.setLayoutManager(gridLayoutManager);
-        getTopAlbums("short_term");
 
         // set up dropdowns
         ArrayAdapter<CharSequence> dimensionAdapter = ArrayAdapter.createFromResource(getContext(), R.array.dimensions, android.R.layout.simple_spinner_item);
@@ -100,7 +104,9 @@ public class CollageFragment extends Fragment {
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
+            public void onNothingSelected(AdapterView<?> parent) {
+                gridLayoutManager.setSpanCount(3);
+            }
         });
         ArrayAdapter<CharSequence> timeframeAdapter = ArrayAdapter.createFromResource(getContext(), R.array.timeframes, android.R.layout.simple_spinner_item);
         timeframeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
@@ -120,7 +126,9 @@ public class CollageFragment extends Fragment {
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
+            public void onNothingSelected(AdapterView<?> parent) {
+                getTopAlbums("short_term");
+            }
         });
 
         // post button
@@ -131,10 +139,14 @@ public class CollageFragment extends Fragment {
         });
 
         // share button
-        binding.ibShare.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                shareCollageImage();
+        binding.ibShare.setOnClickListener(v -> shareCollageImage());
+
+        binding.ibDownload.setOnClickListener(v -> {
+            Bitmap collageScreenshot = getScreenShot(binding.rvSongs);
+            try {
+                saveImage(collageScreenshot, getContext(), "collageify");
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
             }
         });
     }
@@ -258,6 +270,57 @@ public class CollageFragment extends Fragment {
             binding.etCaption.setText("");
             mainActivity.goToFeedFrag();
         });
+    }
+
+    // save image to phone's Gallery
+    // code from https://stackoverflow.com/questions/36624756/how-to-save-bitmap-to-android-gallery
+    private void saveImage(Bitmap bitmap, Context context, String folderName) throws FileNotFoundException {
+        if (android.os.Build.VERSION.SDK_INT >= 29) {
+            ContentValues values = new ContentValues();
+            values.put(MediaStore.Images.Media.RELATIVE_PATH, "Pictures/" + folderName);
+            values.put(MediaStore.Images.Media.IS_PENDING, true);
+            // RELATIVE_PATH and IS_PENDING are introduced in API 29.
+
+            Uri uri = context.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+            if (uri != null) {
+                saveImageToStream(bitmap, context.getContentResolver().openOutputStream(uri));
+                values.put(MediaStore.Images.Media.IS_PENDING, false);
+                context.getContentResolver().update(uri, values, null, null);
+                Toast.makeText(context, "collage saved to gallery!", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            File dir = new File(context.getApplicationContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES),"");
+            // getExternalStorageDirectory is deprecated in API 29
+
+            if (!dir.exists()) {
+                dir.mkdirs();
+            }
+
+            java.util.Date date = new java.util.Date();
+            File imageFile = new File(dir.getAbsolutePath()
+                    + File.separator
+                    + new Timestamp(date.getTime())
+                    + "Image.jpg");
+
+            saveImageToStream(bitmap, new FileOutputStream(imageFile));
+            if (imageFile.getAbsolutePath() != null) {
+                ContentValues values = new ContentValues();
+                values.put(MediaStore.Images.Media.DATA, imageFile.getAbsolutePath());
+                // .DATA is deprecated in API 29
+                context.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+            }
+        }
+    }
+
+    private void saveImageToStream(Bitmap bitmap, OutputStream outputStream) {
+        if (outputStream != null) {
+            try {
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
+                outputStream.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 }

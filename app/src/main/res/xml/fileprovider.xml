@@ -3,8 +3,4 @@
     <external-files-path
         name="images"
         path="Pictures" />
-    <external-files-path
-        name="images/CollageFragment"
-        path="Pictures" />
-    <external-path name="all_dirs" path="."/>
 </paths>
