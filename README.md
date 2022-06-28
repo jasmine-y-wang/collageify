@@ -80,11 +80,12 @@ An app that creates collages based on your listening history on Spotify.
    * Tap on back button to go back to collage screen
 
 ## Wireframes
-[Add picture of your hand sketched wireframes in this section]
 
 <img src="wireframe.jpg" width=1000>
 
 ### [BONUS] Digital Wireframes & Mockups
+
+<img src="figma_wireframe.png" width=1000>
 
 ### [BONUS] Interactive Prototype
 
