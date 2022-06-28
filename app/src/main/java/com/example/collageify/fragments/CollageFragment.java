@@ -1,6 +1,9 @@
 package com.example.collageify.fragments;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.net.Uri;
@@ -142,7 +145,13 @@ public class CollageFragment extends Fragment {
         shareIntent.setType("image/jpg");
         Uri uri = FileProvider.getUriForFile(getContext(), "com.example.fileprovider", collageFile);
         shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
-        startActivity(Intent.createChooser(shareIntent, "Share image using"));
+        Intent chooser = Intent.createChooser(shareIntent, "Share image using");
+        List<ResolveInfo> resInfoList = getContext().getPackageManager().queryIntentActivities(chooser, PackageManager.MATCH_DEFAULT_ONLY);
+        for (ResolveInfo resolveInfo : resInfoList) {
+            String packageName = resolveInfo.activityInfo.packageName;
+            getContext().grantUriPermission(packageName, uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        }
+        startActivity(chooser);
     }
 
     @Nullable
@@ -201,7 +210,6 @@ public class CollageFragment extends Fragment {
         Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         view.draw(canvas);
-        Log.e(TAG, "took screenshot");
         return bitmap;
     }
 
