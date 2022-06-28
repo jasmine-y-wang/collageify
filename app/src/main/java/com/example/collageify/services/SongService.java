@@ -74,7 +74,6 @@ public class SongService {
         songs.clear();
         String endpoint = "https://api.spotify.com/v1/me/top/tracks";
         String params = "?limit=50&time_range=" + timeframe;
-        Log.i(TAG, endpoint + params);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
                 (Request.Method.GET, endpoint + params, null, response -> {
                     JSONArray jsonArray = response.optJSONArray("items");

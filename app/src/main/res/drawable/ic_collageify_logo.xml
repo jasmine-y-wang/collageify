@@ -1,0 +1,37 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="498.27dp"
+    android:height="498.27dp"
+    android:viewportWidth="498.27"
+    android:viewportHeight="498.27">
+  <path
+      android:pathData="M1,1h496.27v496.27h-496.27z"
+      android:strokeWidth="4"
+      android:fillColor="@color/spotify_black"
+      android:strokeColor="@color/green"/>
+  <path
+      android:pathData="M161.33,1V497.27"
+      android:strokeWidth="4"
+      android:fillColor="#00000000"
+      android:strokeColor="@color/green"/>
+  <path
+      android:pathData="M334.06,1V497.27"
+      android:strokeWidth="4"
+      android:fillColor="#00000000"
+      android:strokeColor="@color/green"/>
+  <path
+      android:pathData="M497.27,181.48H1"
+      android:strokeWidth="4"
+      android:fillColor="#00000000"
+      android:strokeColor="@color/green"/>
+  <path
+      android:pathData="M497.27,339.82H1"
+      android:strokeWidth="4"
+      android:fillColor="#00000000"
+      android:strokeColor="@color/green"/>
+  <path
+      android:pathData="M91.84,250.27a160.05,161.66 0,1 0,320.1 0a160.05,161.66 0,1 0,-320.1 0z"
+      android:fillColor="@color/spotify_black"/>
+  <path
+      android:pathData="M355.57,228.72c-58,-34.45 -153.67,-37.61 -209,-20.81a16.82,16.82 0,1 1,-9.77 -32.2c63.55,-19.3 169.21,-15.57 236,24.06a16.83,16.83 0,0 1,-17.17 28.95ZM353.67,279.72a14,14 0,0 1,-19.3 4.62C286,254.63 212.29,246 155.08,263.38a14,14 0,1 1,-8.15 -26.84c65.35,-19.83 146.59,-10.22 202.12,23.91A14,14 0,0 1,353.67 279.73ZM331.67,328.72a11.21,11.21 0,0 1,-15.42 3.73C274,306.64 220.8,300.8 158.17,315.11a11.21,11.21 0,1 1,-5 -21.86c68.53,-15.67 127.33,-8.93 174.75,20.05A11.22,11.22 0,0 1,331.65 328.73ZM249.14,69.21c-99.37,0 -179.93,80.56 -179.93,179.92A179.93,179.93 0,1 0,249.14 69.21Z"
+      android:fillColor="@color/light_green"/>
+</vector>

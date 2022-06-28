@@ -66,7 +66,6 @@ public class ConnectSpotifyActivity extends AppCompatActivity {
                     // handle successful response
                     editor = getSharedPreferences("SPOTIFY", 0).edit();
                     editor.putString("token", response.getAccessToken());
-                    Log.d(TAG, "got auth token");
                     editor.apply();
                     waitForUserInfo();
                     break;
