@@ -1,18 +1,24 @@
 package com.example.collageify.adapters;
 
 import android.content.Context;
+import android.util.Log;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.collageify.OnDoubleTapListener;
 import com.example.collageify.R;
+import com.example.collageify.activities.MainActivity;
 import com.example.collageify.models.Post;
 import com.example.collageify.models.User;
 import com.parse.ParseFile;
@@ -103,25 +109,38 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
             tvLikes.setText(post.getLikesCount());
 
             ibLike.setOnClickListener(v -> {
-                if (post.isLikedByCurrentUser()) {
-                    // unlike
-                    post.unlike();
-                    ibLike.setBackgroundResource(R.drawable.ufi_heart);
-                } else {
-                    // like
-                    post.like();
-                    ibLike.setBackgroundResource(R.drawable.ic_ufi_heart_active);
-                }
-                tvLikes.setText(post.getLikesCount());
+                handleLike(post);
             });
 
-//            ivPfp.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    Log.i("PostAdapter", "go to profile frag");
-//                    ((MainActivity) context).goToProfileFrag(post.getUser());
-//                }
-//            });
-            }
+            ivImage.setOnTouchListener(new OnDoubleTapListener(context) {
+                @Override
+                public void onDoubleTap(MotionEvent e) {
+                    handleLike(post);
+                }
+            });
+
+
+            ivPfp.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ((MainActivity) context).goToProfileFrag(post.getUser());
+                }
+            });
         }
+
+        private void handleLike(Post post) {
+            if (post.isLikedByCurrentUser()) {
+                // unlike
+                post.unlike();
+                ibLike.setBackgroundResource(R.drawable.ufi_heart);
+            } else {
+                // like
+                post.like();
+                ibLike.setBackgroundResource(R.drawable.ic_ufi_heart_active);
+            }
+            tvLikes.setText(post.getLikesCount());
+        }
+    }
+
+
 }

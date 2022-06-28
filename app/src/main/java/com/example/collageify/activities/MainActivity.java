@@ -83,4 +83,10 @@ public class MainActivity extends AppCompatActivity {
         ft.commit();
     }
 
+    public void goToProfileFrag(ParseUser user) {
+        FragmentTransaction ft = fragmentManager.beginTransaction();
+        ft.replace(R.id.flContainer, new ProfileFragment(user));
+        ft.addToBackStack("profile");
+        ft.commit();
+    }
 }
