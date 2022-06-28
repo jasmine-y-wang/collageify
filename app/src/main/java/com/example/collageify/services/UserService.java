@@ -1,10 +1,11 @@
-package com.example.collageify;
+package com.example.collageify.services;
 
 import android.content.SharedPreferences;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.example.collageify.VolleyCallBack;
 import com.example.collageify.models.User;
 import com.google.gson.Gson;
 import com.parse.ParseUser;
