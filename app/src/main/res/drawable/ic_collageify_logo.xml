@@ -5,27 +5,27 @@
     android:viewportHeight="498.27">
   <path
       android:pathData="M1,1h496.27v496.27h-496.27z"
-      android:strokeWidth="4"
+      android:strokeWidth="10"
       android:fillColor="@color/spotify_black"
       android:strokeColor="@color/green"/>
   <path
       android:pathData="M161.33,1V497.27"
-      android:strokeWidth="4"
+      android:strokeWidth="10"
       android:fillColor="#00000000"
       android:strokeColor="@color/green"/>
   <path
       android:pathData="M334.06,1V497.27"
-      android:strokeWidth="4"
+      android:strokeWidth="10"
       android:fillColor="#00000000"
       android:strokeColor="@color/green"/>
   <path
       android:pathData="M497.27,181.48H1"
-      android:strokeWidth="4"
+      android:strokeWidth="10"
       android:fillColor="#00000000"
       android:strokeColor="@color/green"/>
   <path
       android:pathData="M497.27,339.82H1"
-      android:strokeWidth="4"
+      android:strokeWidth="10"
       android:fillColor="#00000000"
       android:strokeColor="@color/green"/>
   <path

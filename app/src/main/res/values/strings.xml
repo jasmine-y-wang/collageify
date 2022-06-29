@@ -12,6 +12,7 @@
     <string name="spotify_connect">Connect to Spotify</string>
     <string name="logout">Logout</string>
     <string name="share">Share</string>
+    <string name="collageify">collageify</string>
     <string-array name="dimensions">
         <item>3 x 3</item>
         <item>4 x 4</item>
