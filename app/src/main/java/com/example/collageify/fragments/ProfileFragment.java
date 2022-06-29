@@ -88,7 +88,7 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 ParseUser.logOut(); // log out Parse user
-//                AuthorizationClient.clearCookies(getContext()); // log out Spotify user
+                AuthorizationClient.clearCookies(getContext()); // log out Spotify user
                 Intent i = new Intent(getContext(), LoginActivity.class);
                 startActivity(i);
             }

@@ -151,6 +151,40 @@ public class CollageFragment extends Fragment {
         });
     }
 
+    // set list of topAlbums based on timeframef
+    private void getTopAlbums(String timeframe) {
+        List<Song> tracks = new ArrayList<>();
+        songService.getTopTracks(timeframe, () -> {
+            tracks.addAll(songService.getSongs());
+            getAlbumsFromTracks(tracks);
+            albumsAdapter.notifyDataSetChanged();
+        });
+    }
+
+    //
+    private void getAlbumsFromTracks(List<Song> songs) {
+        HashMap<String, Album> albums = new HashMap<>();
+        for (int i = 0; i < songs.size(); i++) {
+            Song song = songs.get(i);
+            String albumId = song.getAlbumId();
+            Album album = albums.get(albumId);
+            if (album != null) {
+                albums.get(albumId).incrementSongCount();
+            } else {
+                albums.put(albumId, new Album(song.getAlbumData(), i));
+            }
+        }
+        topAlbums.clear();
+        topAlbums.addAll(albums.values());
+        topAlbums.sort((a1, a2) -> {
+            int compVal = a2.getSongCount() - a1.getSongCount();
+            if (compVal == 0) {
+                compVal = a1.getRanking() - a2.getRanking();
+            }
+            return compVal;
+        });
+    }
+
     private void shareCollageImage() {
         File collageFile = getCollageFile();
         final Intent shareIntent = new Intent(Intent.ACTION_SEND);
@@ -176,38 +210,6 @@ public class CollageFragment extends Fragment {
             e.printStackTrace();
         }
         return collageFile;
-    }
-
-    private void getTopAlbums(String timeframe) {
-        List<Song> tracks = new ArrayList<>();
-        songService.getTopTracks(timeframe, () -> {
-            tracks.addAll(songService.getSongs());
-            getAlbumsFromTracks(tracks);
-            albumsAdapter.notifyDataSetChanged();
-        });
-    }
-
-    private void getAlbumsFromTracks(List<Song> songs) {
-        HashMap<String, Album> albums = new HashMap<>();
-        for (int i = 0; i < songs.size(); i++) {
-            Song song = songs.get(i);
-            String albumId = song.getAlbumId();
-            Album album = albums.get(albumId);
-            if (album != null) {
-                albums.get(albumId).incrementSongCount();
-            } else {
-                albums.put(albumId, new Album(song.getAlbumData(), i));
-            }
-        }
-        topAlbums.clear();
-        topAlbums.addAll(albums.values());
-        topAlbums.sort((a1, a2) -> {
-            int compVal = a2.getSongCount() - a1.getSongCount();
-            if (compVal == 0) {
-                compVal = a1.getRanking() - a2.getRanking();
-            }
-            return compVal;
-        });
     }
 
     @Override
