@@ -266,7 +266,6 @@ public class CollageFragment extends Fragment {
                 Log.e(TAG, "error while saving", e);
                 Toast.makeText(getContext(), "error while saving :(", Toast.LENGTH_SHORT).show();
             }
-            Log.i(TAG, "post save was successful");
             binding.etCaption.setText("");
             mainActivity.goToFeedFrag();
         });

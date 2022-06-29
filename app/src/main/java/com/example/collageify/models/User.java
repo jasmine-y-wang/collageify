@@ -49,8 +49,6 @@ public class User extends ParseUser {
         saveInBackground(e -> {
             if (e != null) {
                 Log.e(TAG, "error while saving", e);
-            } else {
-                Log.i(TAG, "save was successful");
             }
         });
     }

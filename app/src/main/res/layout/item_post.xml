@@ -67,7 +67,7 @@
         android:layout_height="30dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:background="@drawable/ufi_heart"
+        android:background="@drawable/heart_selector"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ivImage"
         app:srcCompat="@null"
@@ -95,5 +95,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ibLike"
         tools:text="2 likes" />
+
+    <ImageView
+        android:id="@+id/ivHeart"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:alpha="0"
+        app:layout_constraintBottom_toBottomOf="@+id/ivImage"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/ivImage"
+        app:layout_constraintTop_toTopOf="@+id/ivImage"
+        app:srcCompat="@drawable/avd_post_like" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

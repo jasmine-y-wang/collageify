@@ -87,7 +87,6 @@ public class ProfileFragment extends Fragment {
         binding.btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i(TAG, "logout");
                 ParseUser.logOut(); // log out Parse user
 //                AuthorizationClient.clearCookies(getContext()); // log out Spotify user
                 Intent i = new Intent(getContext(), LoginActivity.class);
@@ -117,12 +116,6 @@ public class ProfileFragment extends Fragment {
                 if (e != null) {
                     Log.e(TAG, "issue with getting posts", e);
                     return;
-                }
-
-                // for debugging, print every post description to log
-                for (Post post : posts) {
-                    Log.i(TAG, "post: " + post.getCaption() + ", username: " +
-                            post.getUser().getUsername());
                 }
                 // save received posts to list and notify adapter of data
                 allPosts.addAll(posts);

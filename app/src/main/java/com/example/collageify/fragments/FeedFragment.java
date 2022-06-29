@@ -74,12 +74,6 @@ public class FeedFragment extends Fragment {
                     Log.e(TAG, "issue with getting posts", e);
                     return;
                 }
-
-                // for debugging, print every post description to log
-                for (Post post : posts) {
-                    Log.i(TAG, "post: " + post.getCaption() + ", username: " +
-                            post.getUser().getUsername());
-                }
                 // save received posts to list and notify adapter of data
                 allPosts.addAll(posts);
                 adapter.notifyDataSetChanged();

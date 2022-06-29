@@ -30,7 +30,6 @@ public class SignupActivity extends AppCompatActivity {
         binding.btnSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i(TAG, "onClick signup button");
                 String username = binding.etUsername.getText().toString();
                 String password = binding.etPassword.getText().toString();
                 signupUser(username, password);
@@ -40,7 +39,6 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     private void signupUser(String username, String password) {
-        Log.i(TAG, "attempting to create user " + username);
         ParseUser user = new ParseUser();
         user.setUsername(username);
         user.setPassword(password);

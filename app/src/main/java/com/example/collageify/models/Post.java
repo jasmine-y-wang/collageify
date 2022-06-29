@@ -114,14 +114,9 @@ public class Post extends ParseObject {
             }
         }
         setLikedBy(likedBy);
-        saveInBackground(new SaveCallback() {
-            @Override
-            public void done(ParseException e) {
-                if (e != null) {
-                    Log.e("post", "unlike failed to register", e);
-                } else {
-                    Log.i("post", "unliked");
-                }
+        saveInBackground(e -> {
+            if (e != null) {
+                Log.e("post", "unlike failed to register", e);
             }
         });
     }
@@ -130,14 +125,9 @@ public class Post extends ParseObject {
         List<ParseUser> likedBy = getLikedBy();
         likedBy.add(ParseUser.getCurrentUser());
         setLikedBy(likedBy);
-        saveInBackground(new SaveCallback() {
-            @Override
-            public void done(ParseException e) {
-                if (e != null) {
-                    Log.e("post", "like failed to register", e);
-                } else {
-                    Log.i("post", "liked");
-                }
+        saveInBackground(e -> {
+            if (e != null) {
+                Log.e("post", "like failed to register", e);
             }
         });
     }
