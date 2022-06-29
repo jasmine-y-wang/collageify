@@ -94,7 +94,7 @@ public class CollageFragment extends Fragment {
 
         // set up dropdowns
         ArrayAdapter<CharSequence> dimensionAdapter = ArrayAdapter.createFromResource(getContext(), R.array.dimensions, android.R.layout.simple_spinner_item);
-        dimensionAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+        dimensionAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         binding.spnDimensions.setAdapter(dimensionAdapter);
         binding.spnDimensions.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -109,7 +109,7 @@ public class CollageFragment extends Fragment {
             }
         });
         ArrayAdapter<CharSequence> timeframeAdapter = ArrayAdapter.createFromResource(getContext(), R.array.timeframes, android.R.layout.simple_spinner_item);
-        timeframeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+        timeframeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         binding.spnTimeframe.setAdapter(timeframeAdapter);
         binding.spnTimeframe.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
