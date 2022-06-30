@@ -40,7 +40,7 @@ public class ArtistService {
             callBack.onSuccess();
         }, error -> Log.e(TAG, "an error occurred when fetching artist", error)) {
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
+            public Map<String, String> getHeaders() {
                 Map<String, String> headers = new HashMap<>();
                 String token = sharedPreferences.getString("token", "");
                 String auth = "Bearer " + token;
