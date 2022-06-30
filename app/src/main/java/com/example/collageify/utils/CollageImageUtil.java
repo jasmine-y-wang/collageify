@@ -17,10 +17,6 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.core.content.FileProvider;
 
-import com.example.collageify.models.Post;
-import com.parse.ParseFile;
-import com.parse.ParseUser;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;

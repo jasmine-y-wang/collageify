@@ -58,7 +58,7 @@ public class SongService {
                     Log.e(TAG, "an error occurred when fetching top tracks", error);
                 }) {
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
+            public Map<String, String> getHeaders() {
                 Map<String, String> headers = new HashMap<>();
                 String token = sharedPreferences.getString("token", "");
                 String auth = "Bearer " + token;

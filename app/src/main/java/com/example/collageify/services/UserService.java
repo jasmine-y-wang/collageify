@@ -36,7 +36,7 @@ public class UserService {
         }, error -> get(() -> {
         })) {
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
+            public Map<String, String> getHeaders() {
                 Map<String, String> headers = new HashMap<>();
                 String token = mSharedPreferences.getString("token", "");
                 String auth = "Bearer " + token;

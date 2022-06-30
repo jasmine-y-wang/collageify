@@ -1,25 +1,6 @@
 package com.example.collageify.fragments;
 
-import android.content.ContentValues;
-import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.content.FileProvider;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,28 +9,28 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.collageify.R;
-import com.example.collageify.services.SongService;
 import com.example.collageify.activities.MainActivity;
 import com.example.collageify.adapters.AlbumsAdapter;
 import com.example.collageify.databinding.FragmentCollageBinding;
 import com.example.collageify.models.Album;
 import com.example.collageify.models.Post;
+import com.example.collageify.services.SongService;
 import com.example.collageify.utils.CollageImageUtil;
 import com.example.collageify.utils.TopAlbumsUtil;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-
 
 /**
  * A simple {@link Fragment} subclass.
@@ -61,9 +42,7 @@ public class CollageFragment extends Fragment {
     private FragmentCollageBinding binding;
     private AlbumsAdapter albumsAdapter;
     public static final String TAG = "CollageFragment";
-    private String photoFileName = "collage.jpg";
     private MainActivity mainActivity;
-    private TopAlbumsUtil topAlbumsUtil;
 
     public CollageFragment() {
         // Required empty public constructor
