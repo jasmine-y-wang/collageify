@@ -35,7 +35,7 @@ import com.example.collageify.adapters.AlbumsAdapter;
 import com.example.collageify.databinding.FragmentCollageBinding;
 import com.example.collageify.models.Album;
 import com.example.collageify.models.Post;
-import com.example.collageify.models.Song;
+import com.example.collageify.utils.CollageImageUtil;
 import com.example.collageify.utils.TopAlbumsUtil;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
@@ -48,7 +48,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 
@@ -82,14 +81,13 @@ public class CollageFragment extends Fragment {
         return binding.getRoot();
     }
 
-
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         songService = new SongService(getContext().getApplicationContext());
         topAlbums = new ArrayList<>();
         albumsAdapter = new AlbumsAdapter(getContext(), topAlbums);
-        RecyclerView rvSongs = view.findViewById(R.id.rvSongs);
+        RecyclerView rvSongs = view.findViewById(R.id.rvCollage);
         rvSongs.setAdapter(albumsAdapter);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 3, LinearLayoutManager.VERTICAL, false);
         rvSongs.setLayoutManager(gridLayoutManager);
@@ -135,95 +133,22 @@ public class CollageFragment extends Fragment {
 
         // post button
         binding.btnPost.setOnClickListener(v -> {
-            File collageFile = getCollageFile();
+            File collageFile = CollageImageUtil.getCollageFile(binding.rvCollage);
             String caption = binding.etCaption.getText().toString();
             savePost(caption, ParseUser.getCurrentUser(), collageFile);
         });
 
         // share button
-        binding.ibShare.setOnClickListener(v -> shareCollageImage());
+        binding.ibShare.setOnClickListener(v -> CollageImageUtil.shareCollageImage(getContext(), binding.rvCollage));
 
         // download button
-        binding.ibDownload.setOnClickListener(v -> {
-            Bitmap collageScreenshot = getScreenShot(binding.rvSongs);
-            try {
-                saveImage(collageScreenshot, getContext(), "collageify");
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-        });
-    }
-
-    private void shareCollageImage() {
-        File collageFile = getCollageFile();
-        final Intent shareIntent = new Intent(Intent.ACTION_SEND);
-        shareIntent.setType("image/jpg");
-        Uri uri = FileProvider.getUriForFile(getContext(), "com.example.fileprovider", collageFile);
-        shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
-        Intent chooser = Intent.createChooser(shareIntent, "Share image using");
-        List<ResolveInfo> resInfoList = getContext().getPackageManager().queryIntentActivities(chooser, PackageManager.MATCH_DEFAULT_ONLY);
-        for (ResolveInfo resolveInfo : resInfoList) {
-            String packageName = resolveInfo.activityInfo.packageName;
-            getContext().grantUriPermission(packageName, uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        }
-        startActivity(chooser);
-    }
-
-    @Nullable
-    private File getCollageFile() {
-        Bitmap collageScreenshot = getScreenShot(binding.rvSongs);
-        File collageFile = null;
-        try {
-            collageFile = bitmapToFile(collageScreenshot);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return collageFile;
+        binding.ibDownload.setOnClickListener(v -> CollageImageUtil.downloadCollageImage(binding.rvCollage));
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
-    }
-
-    // takes a screenshot of a view
-    // code from https://stackoverflow.com/questions/2661536/how-to-programmatically-take-a-screenshot-on-android
-    public Bitmap getScreenShot(View view) {
-        Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        view.draw(canvas);
-        return bitmap;
-    }
-
-    // converts a Bitmap to a File
-    public File bitmapToFile(Bitmap bitmap) throws IOException {
-        // configure byte output stream
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        // compress the image
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 40, bytes);
-        // create a new file for the resized bitmap
-        File file = getPhotoFileUri(photoFileName);
-        file.createNewFile();
-        FileOutputStream fos = new FileOutputStream(file);
-        // write the bytes of the bitmap to file
-        fos.write(bytes.toByteArray());
-        fos.close();
-        return file;
-    }
-
-    // returns the File for a photo stored on disk given the fileName
-    public File getPhotoFileUri(String fileName) {
-        // Get safe storage directory for photos
-        // Use `getExternalFilesDir` on Context to access package-specific directories.
-        // This way, we don't need to request external read/write runtime permissions.
-        File mediaStorageDir = new File(getContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES), TAG);
-        // Create the storage directory if it does not exist
-        if (!mediaStorageDir.exists() && !mediaStorageDir.mkdirs()){
-            Log.d(TAG, "failed to create directory");
-        }
-        // Return the file target for the photo based on filename
-        return new File(mediaStorageDir.getPath() + File.separator + fileName);
     }
 
     // save post to Parse database
@@ -240,57 +165,6 @@ public class CollageFragment extends Fragment {
             binding.etCaption.setText("");
             mainActivity.goToFeedFrag();
         });
-    }
-
-    // save image to phone's Gallery
-    // code from https://stackoverflow.com/questions/36624756/how-to-save-bitmap-to-android-gallery
-    private void saveImage(Bitmap bitmap, Context context, String folderName) throws FileNotFoundException {
-        if (android.os.Build.VERSION.SDK_INT >= 29) {
-            ContentValues values = new ContentValues();
-            values.put(MediaStore.Images.Media.RELATIVE_PATH, "Pictures/" + folderName);
-            values.put(MediaStore.Images.Media.IS_PENDING, true);
-            // RELATIVE_PATH and IS_PENDING are introduced in API 29.
-
-            Uri uri = context.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
-            if (uri != null) {
-                saveImageToStream(bitmap, context.getContentResolver().openOutputStream(uri));
-                values.put(MediaStore.Images.Media.IS_PENDING, false);
-                context.getContentResolver().update(uri, values, null, null);
-                Toast.makeText(context, "collage saved to gallery!", Toast.LENGTH_SHORT).show();
-            }
-        } else {
-            File dir = new File(context.getApplicationContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES),"");
-            // getExternalStorageDirectory is deprecated in API 29
-
-            if (!dir.exists()) {
-                dir.mkdirs();
-            }
-
-            java.util.Date date = new java.util.Date();
-            File imageFile = new File(dir.getAbsolutePath()
-                    + File.separator
-                    + new Timestamp(date.getTime())
-                    + "Image.jpg");
-
-            saveImageToStream(bitmap, new FileOutputStream(imageFile));
-            if (imageFile.getAbsolutePath() != null) {
-                ContentValues values = new ContentValues();
-                values.put(MediaStore.Images.Media.DATA, imageFile.getAbsolutePath());
-                // .DATA is deprecated in API 29
-                context.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
-            }
-        }
-    }
-
-    private void saveImageToStream(Bitmap bitmap, OutputStream outputStream) {
-        if (outputStream != null) {
-            try {
-                bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
-                outputStream.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
     }
 
 }

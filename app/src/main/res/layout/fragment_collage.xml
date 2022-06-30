@@ -7,7 +7,7 @@
     tools:context=".fragments.CollageFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvSongs"
+        android:id="@+id/rvCollage"
         android:layout_width="350dp"
         android:layout_height="350dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -22,7 +22,7 @@
         android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rvSongs">
+        app:layout_constraintTop_toBottomOf="@+id/rvCollage">
 
         <EditText
             android:id="@+id/etCaption"
