@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.example.collageify.R;
 import com.example.collageify.databinding.ActivitySignupBinding;
+import com.example.collageify.models.User;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -39,7 +40,7 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     private void signupUser(String username, String password) {
-        ParseUser user = new ParseUser();
+        User user = new User();
         user.setUsername(username);
         user.setPassword(password);
         user.signUpInBackground(new SignUpCallback() {

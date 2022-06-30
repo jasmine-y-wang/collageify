@@ -64,6 +64,7 @@ public class ConnectSpotifyActivity extends AppCompatActivity {
             switch (response.getType()) {
                 case TOKEN:
                     // handle successful response
+
                     editor = getSharedPreferences("SPOTIFY", 0).edit();
                     editor.putString("token", response.getAccessToken());
                     editor.apply();
@@ -85,11 +86,6 @@ public class ConnectSpotifyActivity extends AppCompatActivity {
         UserService userService = new UserService(queue, mSharedPreferences);
         userService.get(() -> {
             User user = userService.getUser();
-            editor = getSharedPreferences("SPOTIFY", 0).edit();
-            editor.putString("userid", user.getSpotifyId());
-            Log.d(TAG, "got user information");
-            // use commit instead of apply bc we need the info stored immediately
-            editor.commit();
             Toast.makeText(this, "authenticated as " + user.getSpotifyId(), Toast.LENGTH_SHORT).show();
             startMainActivity();
         });

@@ -37,39 +37,6 @@ public class SongService {
         return songs;
     }
 
-    public ArrayList<Song> getRecentlyPlayedTracks(final VolleyCallBack callBack) {
-        String endpoint = "https://api.spotify.com/v1/me/player/recently-played";
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
-                (Request.Method.GET, endpoint, null, response -> {
-                    JSONArray jsonArray = response.optJSONArray("items");
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        try {
-                            JSONObject object = jsonArray.getJSONObject(i);
-                            object = object.optJSONObject("track");
-                            Song song = Song.fromJson(object);
-                            songs.add(song);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    callBack.onSuccess();
-                }, error -> {
-                    Log.e(TAG, "an error occurred when fetching recent tracks", error);
-                }) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> headers = new HashMap<>();
-                String token = sharedPreferences.getString("token", "");
-                String auth = "Bearer " + token;
-                headers.put("Authorization", auth);
-                return headers;
-            }
-        };
-        queue.add(jsonObjectRequest);
-        return songs;
-    }
-
-
     public ArrayList<Song> getTopTracks(String timeframe, final VolleyCallBack callBack) {
         songs.clear();
         String endpoint = "https://api.spotify.com/v1/me/top/tracks";

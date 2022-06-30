@@ -96,7 +96,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
 
             // set profile picture in posts
             String profilePicUrl = poster.getPfpUrl();
-            if (profilePicUrl != null) {
+            if (profilePicUrl != null && !profilePicUrl.isEmpty()) {
                 Glide.with(context).load(profilePicUrl).circleCrop().into(ivPfp);
             } else {
                 Glide.with(context).load(R.drawable.profile_placeholder).circleCrop().into(ivPfp);

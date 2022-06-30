@@ -5,16 +5,23 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
+import com.example.collageify.adapters.AlbumTracksAdapter;
+import com.example.collageify.models.Song;
+import com.example.collageify.services.AlbumTracksService;
 import com.example.collageify.services.ArtistService;
 import com.example.collageify.databinding.FragmentDetailBinding;
 import com.example.collageify.models.Album;
 import com.example.collageify.models.Artist;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -24,6 +31,8 @@ public class DetailFragment extends Fragment {
     private FragmentDetailBinding binding;
     private Album album;
     private Artist albumArtist;
+    private List<Song> albumTracks;
+    private AlbumTracksAdapter adapter;
 
     public DetailFragment() {
         // Required empty public constructor
@@ -47,13 +56,30 @@ public class DetailFragment extends Fragment {
         binding.tvName.setText(album.getName());
         binding.tvArtist.setText(album.getArtistName());
         Glide.with(getContext()).load(album.getImageUrl()).into(binding.ivAlbumImage);
+        getArtistInfo();
+
+        albumTracks = new ArrayList<>();
+        adapter = new AlbumTracksAdapter(getContext(), albumTracks);
+        binding.rvSongs.setAdapter(adapter);
+        binding.rvSongs.setLayoutManager(new LinearLayoutManager(getContext()));
+        getAlbumTracksInfo();
+
+    }
+
+    private void getAlbumTracksInfo() {
+        AlbumTracksService albumTracksService = new AlbumTracksService(getContext().getApplicationContext());
+        albumTracksService.get(album.getId(), () -> {
+            albumTracks.addAll(albumTracksService.getAlbumTracks());
+            adapter.notifyDataSetChanged();
+        });
+    }
+
+    private void getArtistInfo() {
         ArtistService artistService = new ArtistService(getContext().getApplicationContext());
         artistService.get(album.getArtistHref(), () -> {
             albumArtist = artistService.getArtist();
             Glide.with(getContext()).load(albumArtist.getImageUrl()).circleCrop().into(binding.ivArtistImage);
-
         });
-
     }
 
     @Override

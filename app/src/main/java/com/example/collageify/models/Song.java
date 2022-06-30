@@ -6,10 +6,10 @@ import org.json.JSONObject;
 public class Song {
     private String id;
     private String name;
-    private String albumImageUrl;
-    private String artist;
     private JSONObject albumData;
     private String albumId;
+    private String duration; // in minutes and seconds
+    private int trackNumber;
 
     public Song() {}
 
@@ -29,11 +29,30 @@ public class Song {
         Song song = new Song();
         song.id = jsonObject.getString("id");
         song.name = jsonObject.getString("name");
-        song.artist = jsonObject.getJSONArray("artists").getJSONObject(0).getString("name");
         song.albumData = jsonObject.getJSONObject("album");
         song.albumId = song.albumData.getString("id");
-        song.albumImageUrl = song.albumData.getJSONArray("images")
-                .getJSONObject(0).getString("url");
         return song;
+    }
+
+    public static Song fromJsonForTracksList(JSONObject jsonObject) throws JSONException {
+        Song song = new Song();
+        song.id = jsonObject.getString("id");
+        song.name = jsonObject.getString("name");
+        song.trackNumber = jsonObject.getInt("track_number");
+
+        // get duration from ms to minutes and seconds
+        int totalSeconds = jsonObject.getInt("duration_ms") / 1000; // convert to seconds
+        int seconds = totalSeconds % 60;
+        int minutes = totalSeconds / 60;
+        song.duration = String.format("%d:%02d", minutes, seconds);
+        return song;
+    }
+
+    public int getTrackNumber() {
+        return trackNumber;
+    }
+
+    public String getDuration() {
+        return duration;
     }
 }

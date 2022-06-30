@@ -8,7 +8,7 @@
         android:id="@+id/ivLogo"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:src="@drawable/ic_collageify_logo" />
+        android:src="@drawable/ic_collageify_logo_white" />
 
     <TextView
         android:id="@+id/tvCollageify"
@@ -17,5 +17,5 @@
         android:layout_marginLeft="25dp"
         android:text="@string/collageify"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColor="@color/green" />
+        android:textColor="@color/material_on_surface_emphasis_high_type" />
 </androidx.appcompat.widget.Toolbar>

@@ -94,7 +94,7 @@ public class CollageFragment extends Fragment {
 
         // set up dropdowns
         ArrayAdapter<CharSequence> dimensionAdapter = ArrayAdapter.createFromResource(getContext(), R.array.dimensions, android.R.layout.simple_spinner_item);
-        dimensionAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+        dimensionAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         binding.spnDimensions.setAdapter(dimensionAdapter);
         binding.spnDimensions.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -109,7 +109,7 @@ public class CollageFragment extends Fragment {
             }
         });
         ArrayAdapter<CharSequence> timeframeAdapter = ArrayAdapter.createFromResource(getContext(), R.array.timeframes, android.R.layout.simple_spinner_item);
-        timeframeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+        timeframeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         binding.spnTimeframe.setAdapter(timeframeAdapter);
         binding.spnTimeframe.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -151,33 +151,7 @@ public class CollageFragment extends Fragment {
         });
     }
 
-    private void shareCollageImage() {
-        File collageFile = getCollageFile();
-        final Intent shareIntent = new Intent(Intent.ACTION_SEND);
-        shareIntent.setType("image/jpg");
-        Uri uri = FileProvider.getUriForFile(getContext(), "com.example.fileprovider", collageFile);
-        shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
-        Intent chooser = Intent.createChooser(shareIntent, "Share image using");
-        List<ResolveInfo> resInfoList = getContext().getPackageManager().queryIntentActivities(chooser, PackageManager.MATCH_DEFAULT_ONLY);
-        for (ResolveInfo resolveInfo : resInfoList) {
-            String packageName = resolveInfo.activityInfo.packageName;
-            getContext().grantUriPermission(packageName, uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        }
-        startActivity(chooser);
-    }
-
-    @Nullable
-    private File getCollageFile() {
-        Bitmap collageScreenshot = getScreenShot(binding.rvSongs);
-        File collageFile = null;
-        try {
-            collageFile = bitmapToFile(collageScreenshot);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return collageFile;
-    }
-
+    // set list of topAlbums based on timeframe
     private void getTopAlbums(String timeframe) {
         List<Song> tracks = new ArrayList<>();
         songService.getTopTracks(timeframe, () -> {
@@ -208,6 +182,33 @@ public class CollageFragment extends Fragment {
             }
             return compVal;
         });
+    }
+
+    private void shareCollageImage() {
+        File collageFile = getCollageFile();
+        final Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setType("image/jpg");
+        Uri uri = FileProvider.getUriForFile(getContext(), "com.example.fileprovider", collageFile);
+        shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+        Intent chooser = Intent.createChooser(shareIntent, "Share image using");
+        List<ResolveInfo> resInfoList = getContext().getPackageManager().queryIntentActivities(chooser, PackageManager.MATCH_DEFAULT_ONLY);
+        for (ResolveInfo resolveInfo : resInfoList) {
+            String packageName = resolveInfo.activityInfo.packageName;
+            getContext().grantUriPermission(packageName, uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        }
+        startActivity(chooser);
+    }
+
+    @Nullable
+    private File getCollageFile() {
+        Bitmap collageScreenshot = getScreenShot(binding.rvSongs);
+        File collageFile = null;
+        try {
+            collageFile = bitmapToFile(collageScreenshot);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return collageFile;
     }
 
     @Override

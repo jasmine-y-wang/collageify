@@ -5,7 +5,7 @@
     android:viewportHeight="498.27">
   <path
       android:pathData="M1,1h496.27v496.27h-496.27z"
-      android:strokeWidth="10"
+      android:strokeWidth="20"
       android:fillColor="@color/spotify_black"
       android:strokeColor="@color/green"/>
   <path
