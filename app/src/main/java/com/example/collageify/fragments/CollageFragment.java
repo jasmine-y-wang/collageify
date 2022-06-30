@@ -36,6 +36,7 @@ import com.example.collageify.databinding.FragmentCollageBinding;
 import com.example.collageify.models.Album;
 import com.example.collageify.models.Post;
 import com.example.collageify.models.Song;
+import com.example.collageify.utils.TopAlbumsUtil;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
 
@@ -63,6 +64,7 @@ public class CollageFragment extends Fragment {
     public static final String TAG = "CollageFragment";
     private String photoFileName = "collage.jpg";
     private MainActivity mainActivity;
+    private TopAlbumsUtil topAlbumsUtil;
 
     public CollageFragment() {
         // Required empty public constructor
@@ -122,12 +124,12 @@ public class CollageFragment extends Fragment {
                 } else {
                     timeframe = "long_term";
                 }
-                getTopAlbums(timeframe);
+                TopAlbumsUtil.getTopAlbums(timeframe, songService, topAlbums, albumsAdapter);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                getTopAlbums("short_term");
+                TopAlbumsUtil.getTopAlbums("short_term", songService, topAlbums, albumsAdapter);
             }
         });
 
@@ -141,6 +143,7 @@ public class CollageFragment extends Fragment {
         // share button
         binding.ibShare.setOnClickListener(v -> shareCollageImage());
 
+        // download button
         binding.ibDownload.setOnClickListener(v -> {
             Bitmap collageScreenshot = getScreenShot(binding.rvSongs);
             try {
@@ -148,39 +151,6 @@ public class CollageFragment extends Fragment {
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
-        });
-    }
-
-    // set list of topAlbums based on timeframe
-    private void getTopAlbums(String timeframe) {
-        List<Song> tracks = new ArrayList<>();
-        songService.getTopTracks(timeframe, () -> {
-            tracks.addAll(songService.getSongs());
-            getAlbumsFromTracks(tracks);
-            albumsAdapter.notifyDataSetChanged();
-        });
-    }
-
-    private void getAlbumsFromTracks(List<Song> songs) {
-        HashMap<String, Album> albums = new HashMap<>();
-        for (int i = 0; i < songs.size(); i++) {
-            Song song = songs.get(i);
-            String albumId = song.getAlbumId();
-            Album album = albums.get(albumId);
-            if (album != null) {
-                albums.get(albumId).incrementSongCount();
-            } else {
-                albums.put(albumId, new Album(song.getAlbumData(), i));
-            }
-        }
-        topAlbums.clear();
-        topAlbums.addAll(albums.values());
-        topAlbums.sort((a1, a2) -> {
-            int compVal = a2.getSongCount() - a1.getSongCount();
-            if (compVal == 0) {
-                compVal = a1.getRanking() - a2.getRanking();
-            }
-            return compVal;
         });
     }
 
