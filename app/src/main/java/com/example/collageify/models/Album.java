@@ -12,11 +12,13 @@ public class Album {
     private String artistImageUrl;
     private final int ranking; // based on position of top song in top tracks list
     private int songCount;
+    private String id;
 
     public Album(JSONObject albumData, int ranking) {
         songCount = 1;
         this.ranking = ranking;
         try {
+            id = albumData.getString("id");
             imageUrl = albumData.getJSONArray("images")
                     .getJSONObject(0).getString("url");
             name = albumData.getString("name");
@@ -55,5 +57,9 @@ public class Album {
 
     public String getArtistName() {
         return artistName;
+    }
+
+    public String getId() {
+        return id;
     }
 }

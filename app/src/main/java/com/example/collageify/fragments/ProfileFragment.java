@@ -70,7 +70,7 @@ public class ProfileFragment extends Fragment {
         adapter = new ProfilePostsAdapter(getContext(), allPosts);
 
         String profilePicUrl = user.getPfpUrl();
-        if (profilePicUrl != null) {
+        if (profilePicUrl != null && !profilePicUrl.isEmpty()) {
             Glide.with(this).load(profilePicUrl).circleCrop().into(binding.ivProfilePic);
         } else {
             Glide.with(this).load(R.drawable.profile_placeholder).circleCrop().into(binding.ivProfilePic);

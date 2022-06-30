@@ -6,6 +6,7 @@
         <entry key="app/src/main/res/drawable-v24/avd_post_like.xml" value="0.119" />
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1095" />
         <entry key="app/src/main/res/drawable/avd_post_like.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/avd_post_unlike.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/heart_selector.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_collageify_logo.xml" value="0.165" />
         <entry key="app/src/main/res/drawable/ic_collageify_logo_white.xml" value="0.1765" />

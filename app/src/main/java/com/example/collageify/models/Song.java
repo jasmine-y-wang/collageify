@@ -36,4 +36,11 @@ public class Song {
                 .getJSONObject(0).getString("url");
         return song;
     }
+
+    public static Song fromJsonForTracksList(JSONObject jsonObject) throws JSONException {
+        Song song = new Song();
+        song.id = jsonObject.getString("id");
+        song.name = jsonObject.getString("name");
+        return song;
+    }
 }
