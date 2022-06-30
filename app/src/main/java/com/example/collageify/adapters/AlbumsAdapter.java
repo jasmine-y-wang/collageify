@@ -21,7 +21,6 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.ViewHolder
 
     private Context context;
     private List<Album> albums;
-    private View view;
     public static final String TAG = "AlbumsAdapter";
 
     public AlbumsAdapter(Context context, List<Album> albums) {
@@ -32,7 +31,7 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.ViewHolder
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        view = LayoutInflater.from(context).inflate(R.layout.item_album, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_album, parent, false);
         return new ViewHolder(view);
     }
 

@@ -151,7 +151,7 @@ public class CollageFragment extends Fragment {
         });
     }
 
-    // set list of topAlbums based on timeframef
+    // set list of topAlbums based on timeframe
     private void getTopAlbums(String timeframe) {
         List<Song> tracks = new ArrayList<>();
         songService.getTopTracks(timeframe, () -> {
@@ -161,7 +161,6 @@ public class CollageFragment extends Fragment {
         });
     }
 
-    //
     private void getAlbumsFromTracks(List<Song> songs) {
         HashMap<String, Album> albums = new HashMap<>();
         for (int i = 0; i < songs.size(); i++) {
