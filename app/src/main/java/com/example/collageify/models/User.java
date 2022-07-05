@@ -3,10 +3,7 @@ package com.example.collageify.models;
 import android.util.Log;
 
 import com.parse.ParseClassName;
-import com.parse.ParseException;
 import com.parse.ParseUser;
-import com.parse.SaveCallback;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -17,6 +14,7 @@ public class User extends ParseUser {
     public static final String KEY_SPOTIFY_ID = "spotifyId";
     private static final String TAG = "User";
     public static final String KEY_PFP_URL = "profilePicUrl";
+    public static final String KEY_SPOTIFY_DISPLAY_NAME = "spotifyDisplayName";
 
     public String getSpotifyId() {
         return getString(KEY_SPOTIFY_ID);
@@ -34,9 +32,18 @@ public class User extends ParseUser {
         put(KEY_PFP_URL, id);
     }
 
+    public void setSpotifyDisplayName(String name) {
+        put(KEY_SPOTIFY_DISPLAY_NAME, name);
+    }
+
+    public String getSpotifyDisplayName() {
+        return getString(KEY_SPOTIFY_DISPLAY_NAME);
+    }
+
     public void setSpotifyInfo(JSONObject jsonObject) {
         try {
             setSpotifyId(jsonObject.getString("id"));
+            setSpotifyDisplayName(jsonObject.getString("display_name"));
             JSONArray images = jsonObject.getJSONArray("images");
             if (images.length() > 0) {
                 setPfpUrl(images.getJSONObject(0).getString("url"));

@@ -64,7 +64,11 @@ public class ProfileFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         binding.tvProfileUsername.setText(user.getUsername());
-        binding.tvSpotifyId.setText(String.format("%s on Spotify", user.getSpotifyId()));
+        String spotifyName = user.getSpotifyDisplayName();
+        if (spotifyName.isEmpty()) {
+            spotifyName = user.getSpotifyId();
+        }
+        binding.tvSpotifyId.setText(String.format("%s on Spotify", spotifyName));
         // initialize array that will hold posts and create PostsAdapter
         allPosts = new ArrayList<>();
         adapter = new ProfilePostsAdapter(getContext(), allPosts);
@@ -84,14 +88,11 @@ public class ProfileFragment extends Fragment {
         // query posts
         queryPosts();
 
-        binding.btnLogout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ParseUser.logOut(); // log out Parse user
-                AuthorizationClient.clearCookies(getContext()); // log out Spotify user
-                Intent i = new Intent(getContext(), LoginActivity.class);
-                startActivity(i);
-            }
+        binding.btnLogout.setOnClickListener(v -> {
+            ParseUser.logOut(); // log out Parse user
+            AuthorizationClient.clearCookies(getContext()); // log out Spotify user
+            Intent i = new Intent(getContext(), LoginActivity.class);
+            startActivity(i);
         });
     }
 
@@ -110,17 +111,14 @@ public class ProfileFragment extends Fragment {
         // order posts by creation data (newest first)
         query.addDescendingOrder(Post.KEY_CREATED_AT);
         // start an asynchronous call for posts
-        query.findInBackground(new FindCallback<Post>() {
-            @Override
-            public void done(List<Post> posts, ParseException e) {
-                if (e != null) {
-                    Log.e(TAG, "issue with getting posts", e);
-                    return;
-                }
-                // save received posts to list and notify adapter of data
-                allPosts.addAll(posts);
-                adapter.notifyDataSetChanged();
+        query.findInBackground((posts, e) -> {
+            if (e != null) {
+                Log.e(TAG, "issue with getting posts", e);
+                return;
             }
+            // save received posts to list and notify adapter of data
+            allPosts.addAll(posts);
+            adapter.notifyDataSetChanged();
         });
     }
 }
