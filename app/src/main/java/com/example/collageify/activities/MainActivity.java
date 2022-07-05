@@ -3,20 +3,19 @@ package com.example.collageify.activities;
 import android.os.Bundle;
 import android.view.MenuItem;
 
-import com.example.collageify.R;
-import com.example.collageify.fragments.CollageFragment;
-import com.example.collageify.fragments.DetailFragment;
-import com.example.collageify.fragments.FeedFragment;
-import com.example.collageify.fragments.ProfileFragment;
-import com.example.collageify.models.Album;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.collageify.R;
 import com.example.collageify.databinding.ActivityMainBinding;
+import com.example.collageify.fragments.CollageFragment;
+import com.example.collageify.fragments.DetailFragment;
+import com.example.collageify.fragments.FeedFragment;
+import com.example.collageify.fragments.ProfileFragment;
+import com.example.collageify.models.Album;
 import com.google.android.material.navigation.NavigationBarView;
 import com.parse.ParseUser;
 
@@ -37,27 +36,24 @@ public class MainActivity extends AppCompatActivity {
         collageFragment = new CollageFragment(MainActivity.this);
         final Fragment profileFragment = new ProfileFragment(ParseUser.getCurrentUser());
 
-        binding.bottomNavigation.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                Fragment fragment;
-                switch (item.getItemId()) {
-                    case R.id.action_home:
-                        fragment = feedFragment;
-                        break;
-                    case R.id.action_collage:
-                        fragment = collageFragment;
-                        break;
-                    case R.id.action_profile:
-                        fragment = profileFragment;
-                        break;
-                    default:
-                        fragment = collageFragment;
-                        break;
-                }
-                fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
-                return true;
+        binding.bottomNavigation.setOnItemSelectedListener(item -> {
+            Fragment fragment;
+            switch (item.getItemId()) {
+                case R.id.action_home:
+                    fragment = feedFragment;
+                    break;
+                case R.id.action_collage:
+                    fragment = collageFragment;
+                    break;
+                case R.id.action_profile:
+                    fragment = profileFragment;
+                    break;
+                default:
+                    fragment = collageFragment;
+                    break;
             }
+            fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
+            return true;
         });
         // set default selection
         binding.bottomNavigation.setSelectedItemId(R.id.action_collage);

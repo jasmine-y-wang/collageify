@@ -67,7 +67,7 @@ public class DetailFragment extends Fragment {
         getArtistInfo();
 
         albumTracks = new ArrayList<>();
-        adapter = new AlbumTracksAdapter(getContext(), albumTracks);
+        adapter = new AlbumTracksAdapter(getContext(), albumTracks, album.getTopSongIds());
         binding.rvSongs.setAdapter(adapter);
         binding.rvSongs.setLayoutManager(new LinearLayoutManager(getContext()));
         getAlbumTracksInfo();

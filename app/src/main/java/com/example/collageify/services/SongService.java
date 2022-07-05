@@ -4,15 +4,12 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.JsonRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.collageify.VolleyCallBack;
 import com.example.collageify.models.Song;
-import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -54,9 +51,7 @@ public class SongService {
                         }
                     }
                     callBack.onSuccess();
-                }, error -> {
-                    Log.e(TAG, "an error occurred when fetching top tracks", error);
-                }) {
+                }, error -> Log.e(TAG, "an error occurred when fetching top tracks", error)) {
             @Override
             public Map<String, String> getHeaders() {
                 Map<String, String> headers = new HashMap<>();

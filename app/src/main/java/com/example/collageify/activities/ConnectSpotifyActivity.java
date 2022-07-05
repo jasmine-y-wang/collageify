@@ -39,12 +39,7 @@ public class ConnectSpotifyActivity extends AppCompatActivity {
 
         mSharedPreferences = this.getSharedPreferences("SPOTIFY", 0);
         queue = Volley.newRequestQueue(this);
-        binding.btnLoginSpotify.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                authenticateSpotify();
-            }
-        });
+        binding.btnLoginSpotify.setOnClickListener(v -> authenticateSpotify());
     }
 
     private void authenticateSpotify() {
@@ -64,7 +59,6 @@ public class ConnectSpotifyActivity extends AppCompatActivity {
             switch (response.getType()) {
                 case TOKEN:
                     // handle successful response
-
                     editor = getSharedPreferences("SPOTIFY", 0).edit();
                     editor.putString("token", response.getAccessToken());
                     editor.apply();
@@ -86,7 +80,7 @@ public class ConnectSpotifyActivity extends AppCompatActivity {
         UserService userService = new UserService(queue, mSharedPreferences);
         userService.get(() -> {
             User user = userService.getUser();
-            Toast.makeText(this, "authenticated as " + user.getSpotifyId(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "authenticated as " + user.getSpotifyDisplayName(), Toast.LENGTH_SHORT).show();
             startMainActivity();
         });
     }
