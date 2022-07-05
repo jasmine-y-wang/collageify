@@ -7,11 +7,13 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
+import com.example.collageify.activities.ConnectSpotifyActivity;
 import com.example.collageify.adapters.AlbumTracksAdapter;
 import com.example.collageify.models.Song;
 import com.example.collageify.services.AlbumTracksService;
@@ -19,7 +21,11 @@ import com.example.collageify.services.ArtistService;
 import com.example.collageify.databinding.FragmentDetailBinding;
 import com.example.collageify.models.Album;
 import com.example.collageify.models.Artist;
+import com.spotify.android.appremote.api.ConnectionParams;
+import com.spotify.android.appremote.api.Connector;
+import com.spotify.android.appremote.api.SpotifyAppRemote;
 
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +39,8 @@ public class DetailFragment extends Fragment {
     private Artist albumArtist;
     private List<Song> albumTracks;
     private AlbumTracksAdapter adapter;
+    private SpotifyAppRemote mSpotifyAppRemote;
+    public static final String TAG = "DetailFragment";
 
     public DetailFragment() {
         // Required empty public constructor
@@ -64,6 +72,33 @@ public class DetailFragment extends Fragment {
         binding.rvSongs.setLayoutManager(new LinearLayoutManager(getContext()));
         getAlbumTracksInfo();
 
+        binding.btnPlayOnSpotify.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                playOnSpotify();
+            }
+        });
+
+    }
+
+    private void playOnSpotify() {
+        ConnectionParams connectionParams = new ConnectionParams.Builder(ConnectSpotifyActivity.CLIENT_ID)
+                .setRedirectUri(ConnectSpotifyActivity.REDIRECT_URI)
+                .showAuthView(true)
+                .build();
+        SpotifyAppRemote.connect(getContext(), connectionParams, new Connector.ConnectionListener() {
+            @Override
+            public void onConnected(SpotifyAppRemote spotifyAppRemote) {
+                mSpotifyAppRemote = spotifyAppRemote;
+                Log.i(TAG, "connected to spotify player");
+                mSpotifyAppRemote.getPlayerApi().play(album.getUri());
+            }
+
+            @Override
+            public void onFailure(Throwable error) {
+                Log.e(TAG, error.getMessage(), error);
+            }
+        });
     }
 
     private void getAlbumTracksInfo() {

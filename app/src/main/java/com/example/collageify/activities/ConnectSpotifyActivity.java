@@ -29,7 +29,7 @@ public class ConnectSpotifyActivity extends AppCompatActivity {
     public static final String CLIENT_ID = "241d0f56be9e4824b0ededa9f2c4ae3d";
     public static final String REDIRECT_URI = "com.example.collageify://callback";
     public static final int REQUEST_CODE = 1337;
-    public static final String SCOPES = "user-read-recently-played,user-top-read,user-read-private";
+    public static final String SCOPES = "user-read-recently-played,user-top-read,user-read-private,user-modify-playback-state";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
