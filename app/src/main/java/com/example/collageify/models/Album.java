@@ -3,6 +3,9 @@ package com.example.collageify.models;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Album {
 
     private String name;
@@ -10,12 +13,12 @@ public class Album {
     private String artistHref;
     private String artistName;
     private final int ranking; // based on position of top song in top tracks list
-    private int songCount;
     private String id;
     private String uri;
+    private final List<String> topSongIds;
 
     public Album(JSONObject albumData, int ranking) {
-        songCount = 1;
+        topSongIds = new ArrayList<>();
         this.ranking = ranking;
         try {
             id = albumData.getString("id");
@@ -35,12 +38,8 @@ public class Album {
         return imageUrl;
     }
 
-    public void incrementSongCount() {
-        songCount++;
-    }
-
     public int getSongCount() {
-        return songCount;
+        return topSongIds.size();
     }
 
     public int getRanking() {
@@ -65,5 +64,13 @@ public class Album {
 
     public String getUri() {
         return uri;
+    }
+
+    public void addTopSong(Song song) {
+        topSongIds.add(song.getId());
+    }
+
+    public List<String> getTopSongIds() {
+        return topSongIds;
     }
 }

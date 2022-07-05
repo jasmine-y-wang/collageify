@@ -8,6 +8,7 @@
         <entry key="app/src/main/res/drawable/avd_post_like.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/avd_post_unlike.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/heart_selector.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_baseline_star_24.xml" value="0.176" />
         <entry key="app/src/main/res/drawable/ic_collageify_logo.xml" value="0.165" />
         <entry key="app/src/main/res/drawable/ic_collageify_logo_white.xml" value="0.1765" />
         <entry key="app/src/main/res/drawable/ic_dashboard_black_24dp.xml" value="0.1095" />
@@ -31,7 +32,7 @@
         <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.335" />
         <entry key="app/src/main/res/layout/item_post.xml" value="0.5" />
         <entry key="app/src/main/res/layout/item_profile_post.xml" value="0.28191489361702127" />
-        <entry key="app/src/main/res/layout/item_song.xml" value="0.2857142857142857" />
+        <entry key="app/src/main/res/layout/item_song.xml" value="0.5" />
         <entry key="app/src/main/res/layout/toolbar_main.xml" value="0.45" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.25189463297526044" />
         <entry key="app/src/main/res/menu/menu_bottom_nav.xml" value="0.6703703703703704" />

@@ -27,12 +27,10 @@ public class TopAlbumsUtil {
         for (int i = 0; i < songs.size(); i++) {
             Song song = songs.get(i);
             String albumId = song.getAlbumId();
-            Album album = albums.get(albumId);
-            if (album != null) {
-                albums.get(albumId).incrementSongCount();
-            } else {
+            if (!albums.containsKey(albumId)) {
                 albums.put(albumId, new Album(song.getAlbumData(), i));
             }
+            albums.get(albumId).addTopSong(song);
         }
         topAlbums.clear();
         topAlbums.addAll(albums.values());

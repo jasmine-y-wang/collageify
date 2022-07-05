@@ -65,9 +65,6 @@ public class ProfileFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         binding.tvProfileUsername.setText(user.getUsername());
         String spotifyName = user.getSpotifyDisplayName();
-        if (spotifyName.isEmpty()) {
-            spotifyName = user.getSpotifyId();
-        }
         binding.tvSpotifyId.setText(String.format("%s on Spotify", spotifyName));
         // initialize array that will hold posts and create PostsAdapter
         allPosts = new ArrayList<>();

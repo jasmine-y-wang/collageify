@@ -42,8 +42,14 @@ public class User extends ParseUser {
 
     public void setSpotifyInfo(JSONObject jsonObject) {
         try {
-            setSpotifyId(jsonObject.getString("id"));
-            setSpotifyDisplayName(jsonObject.getString("display_name"));
+            String spotifyId = jsonObject.getString("id");
+            setSpotifyId(spotifyId);
+            String spotifyName = jsonObject.getString("display_name");
+            if (spotifyName != null) {
+                setSpotifyDisplayName(spotifyName);
+            } else {
+                setSpotifyDisplayName(spotifyId);
+            }
             JSONArray images = jsonObject.getJSONArray("images");
             if (images.length() > 0) {
                 setPfpUrl(images.getJSONObject(0).getString("url"));
