@@ -1,7 +1,6 @@
 package com.example.collageify.adapters;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,7 +65,7 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.ViewHolder
             int position = getAdapterPosition();
             if (position != RecyclerView.NO_POSITION) {
                 Album album = albums.get(position);
-                ((MainActivity) context).goToDetailFrag(album);
+                ((MainActivity) context).goToAlbumDetailFrag(album);
             }
         }
     }

@@ -14,39 +14,39 @@ import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 import com.example.collageify.activities.ConnectSpotifyActivity;
+import com.example.collageify.activities.MainActivity;
 import com.example.collageify.adapters.AlbumTracksAdapter;
+import com.example.collageify.databinding.FragmentAlbumDetailBinding;
 import com.example.collageify.models.Song;
 import com.example.collageify.services.AlbumTracksService;
 import com.example.collageify.services.ArtistService;
-import com.example.collageify.databinding.FragmentDetailBinding;
 import com.example.collageify.models.Album;
 import com.example.collageify.models.Artist;
 import com.spotify.android.appremote.api.ConnectionParams;
 import com.spotify.android.appremote.api.Connector;
 import com.spotify.android.appremote.api.SpotifyAppRemote;
 
-import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class DetailFragment extends Fragment {
+public class AlbumDetailFragment extends Fragment {
 
-    private FragmentDetailBinding binding;
+    private FragmentAlbumDetailBinding binding;
     private Album album;
     private Artist albumArtist;
     private List<Song> albumTracks;
     private AlbumTracksAdapter adapter;
     private SpotifyAppRemote mSpotifyAppRemote;
-    public static final String TAG = "DetailFragment";
+    public static final String TAG = "AlbumDetailFragment";
 
-    public DetailFragment() {
+    public AlbumDetailFragment() {
         // Required empty public constructor
     }
 
-    public DetailFragment(Album album) {
+    public AlbumDetailFragment(Album album) {
         this.album = album;
     }
 
@@ -54,7 +54,7 @@ public class DetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        binding = FragmentDetailBinding.inflate(inflater, container, false);
+        binding = FragmentAlbumDetailBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 
@@ -72,12 +72,8 @@ public class DetailFragment extends Fragment {
         binding.rvSongs.setLayoutManager(new LinearLayoutManager(getContext()));
         getAlbumTracksInfo();
 
-        binding.btnPlayOnSpotify.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                playOnSpotify();
-            }
-        });
+        binding.btnPlayOnSpotify.setOnClickListener(v -> playOnSpotify());
+        binding.ibBack.setOnClickListener(v -> ((MainActivity) getContext()).goToCollageFrag());
 
     }
 
