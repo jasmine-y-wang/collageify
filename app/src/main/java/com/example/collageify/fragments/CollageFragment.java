@@ -1,6 +1,8 @@
 package com.example.collageify.fragments;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,7 +32,20 @@ import com.parse.ParseUser;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import nl.dionsegijn.konfetti.core.Angle;
+import nl.dionsegijn.konfetti.core.Party;
+import nl.dionsegijn.konfetti.core.PartyFactory;
+import nl.dionsegijn.konfetti.core.Position;
+import nl.dionsegijn.konfetti.core.Spread;
+import nl.dionsegijn.konfetti.core.emitter.Emitter;
+import nl.dionsegijn.konfetti.core.emitter.EmitterConfig;
+import nl.dionsegijn.konfetti.core.models.Shape;
+import nl.dionsegijn.konfetti.core.models.Size;
+import nl.dionsegijn.konfetti.xml.KonfettiView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -142,8 +157,22 @@ public class CollageFragment extends Fragment {
                 Toast.makeText(getContext(), "error while saving :(", Toast.LENGTH_SHORT).show();
             }
             binding.etCaption.setText("");
-            mainActivity.goToFeedFrag();
+            confetti();
+            final Handler handler = new Handler(Looper.getMainLooper());
+            handler.postDelayed(() -> mainActivity.goToFeedFrag(), 3000);
         });
+    }
+
+    private void confetti() {
+        EmitterConfig emitterConfig = new Emitter(5L, TimeUnit.SECONDS).perSecond(50);
+        Party party = new PartyFactory(emitterConfig)
+                .spread(360)
+                .shapes(Arrays.asList(Shape.Square.INSTANCE, Shape.Circle.INSTANCE))
+                .colors(Arrays.asList(0xfce18a, 0xff726d, 0xf4306d, 0xb48def))
+                .setSpeedBetween(10f, 30f)
+                .position(new Position.Relative(0.5, 0.3))
+                .build();
+        binding.konfettiView.start(party);
     }
 
 }
