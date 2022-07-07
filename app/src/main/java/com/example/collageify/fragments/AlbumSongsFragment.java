@@ -12,73 +12,71 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.bumptech.glide.Glide;
+import com.example.collageify.R;
 import com.example.collageify.activities.ConnectSpotifyActivity;
 import com.example.collageify.adapters.AlbumTracksAdapter;
+import com.example.collageify.databinding.FragmentAlbumSongsBinding;
+import com.example.collageify.models.Album;
 import com.example.collageify.models.Song;
 import com.example.collageify.services.AlbumTracksService;
-import com.example.collageify.services.ArtistService;
-import com.example.collageify.databinding.FragmentDetailBinding;
-import com.example.collageify.models.Album;
-import com.example.collageify.models.Artist;
 import com.spotify.android.appremote.api.ConnectionParams;
 import com.spotify.android.appremote.api.Connector;
 import com.spotify.android.appremote.api.SpotifyAppRemote;
 
-import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class DetailFragment extends Fragment {
+public class AlbumSongsFragment extends Fragment {
 
-    private FragmentDetailBinding binding;
+    private FragmentAlbumSongsBinding binding;
     private Album album;
-    private Artist albumArtist;
     private List<Song> albumTracks;
     private AlbumTracksAdapter adapter;
     private SpotifyAppRemote mSpotifyAppRemote;
-    public static final String TAG = "DetailFragment";
+    public static final String TAG = "AlbumSongsFragment";
 
-    public DetailFragment() {
+    public AlbumSongsFragment() {
         // Required empty public constructor
     }
 
-    public DetailFragment(Album album) {
+    public AlbumSongsFragment(Album album) {
         this.album = album;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        binding = FragmentDetailBinding.inflate(inflater, container, false);
+        binding = FragmentAlbumSongsBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        binding.tvName.setText(album.getName());
-        binding.tvArtist.setText(album.getArtistName());
-        Glide.with(getContext()).load(album.getImageUrl()).into(binding.ivAlbumImage);
-        getArtistInfo();
-
         albumTracks = new ArrayList<>();
         adapter = new AlbumTracksAdapter(getContext(), albumTracks, album.getTopSongIds());
-        binding.rvSongs.setAdapter(adapter);
-        binding.rvSongs.setLayoutManager(new LinearLayoutManager(getContext()));
         getAlbumTracksInfo();
 
-        binding.btnPlayOnSpotify.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                playOnSpotify();
-            }
-        });
+        binding.rvSongs.setAdapter(adapter);
+        binding.rvSongs.setLayoutManager(new LinearLayoutManager(getContext()));
+        binding.btnPlayOnSpotify.setOnClickListener(v -> playOnSpotify());
+    }
 
+    private void getAlbumTracksInfo() {
+        AlbumTracksService albumTracksService = new AlbumTracksService(getContext().getApplicationContext());
+        albumTracksService.get(album.getId(), () -> {
+            albumTracks.addAll(albumTracksService.getAlbumTracks());
+            adapter.notifyDataSetChanged();
+        });
     }
 
     private void playOnSpotify() {
@@ -90,7 +88,6 @@ public class DetailFragment extends Fragment {
             @Override
             public void onConnected(SpotifyAppRemote spotifyAppRemote) {
                 mSpotifyAppRemote = spotifyAppRemote;
-                Log.i(TAG, "connected to spotify player");
                 mSpotifyAppRemote.getPlayerApi().play(album.getUri());
             }
 
@@ -98,22 +95,6 @@ public class DetailFragment extends Fragment {
             public void onFailure(Throwable error) {
                 Log.e(TAG, error.getMessage(), error);
             }
-        });
-    }
-
-    private void getAlbumTracksInfo() {
-        AlbumTracksService albumTracksService = new AlbumTracksService(getContext().getApplicationContext());
-        albumTracksService.get(album.getId(), () -> {
-            albumTracks.addAll(albumTracksService.getAlbumTracks());
-            adapter.notifyDataSetChanged();
-        });
-    }
-
-    private void getArtistInfo() {
-        ArtistService artistService = new ArtistService(getContext().getApplicationContext());
-        artistService.get(album.getArtistHref(), () -> {
-            albumArtist = artistService.getArtist();
-            Glide.with(getContext()).load(albumArtist.getImageUrl()).circleCrop().into(binding.ivArtistImage);
         });
     }
 
