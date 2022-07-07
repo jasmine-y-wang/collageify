@@ -1,32 +1,26 @@
 package com.example.collageify.fragments;
 
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
 import com.bumptech.glide.Glide;
-import com.example.collageify.activities.ConnectSpotifyActivity;
 import com.example.collageify.activities.MainActivity;
+import com.example.collageify.adapters.AlbumDetailTabsAdapter;
 import com.example.collageify.adapters.AlbumTracksAdapter;
 import com.example.collageify.databinding.FragmentAlbumDetailBinding;
-import com.example.collageify.models.Song;
-import com.example.collageify.services.AlbumTracksService;
-import com.example.collageify.services.ArtistService;
 import com.example.collageify.models.Album;
 import com.example.collageify.models.Artist;
-import com.spotify.android.appremote.api.ConnectionParams;
-import com.spotify.android.appremote.api.Connector;
+import com.example.collageify.models.Song;
+import com.example.collageify.services.ArtistService;
+import com.google.android.material.tabs.TabLayoutMediator;
 import com.spotify.android.appremote.api.SpotifyAppRemote;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -66,43 +60,13 @@ public class AlbumDetailFragment extends Fragment {
         Glide.with(getContext()).load(album.getImageUrl()).into(binding.ivAlbumImage);
         getArtistInfo();
 
-        albumTracks = new ArrayList<>();
-        adapter = new AlbumTracksAdapter(getContext(), albumTracks, album.getTopSongIds());
-        binding.rvSongs.setAdapter(adapter);
-        binding.rvSongs.setLayoutManager(new LinearLayoutManager(getContext()));
-        getAlbumTracksInfo();
-
-        binding.btnPlayOnSpotify.setOnClickListener(v -> playOnSpotify());
         binding.ibBack.setOnClickListener(v -> ((MainActivity) getContext()).goToCollageFrag());
 
-    }
+        AlbumDetailTabsAdapter albumDetailTabsAdapter = new AlbumDetailTabsAdapter(this, binding.tabLayout.getTabCount(), album);
+        binding.pager.setAdapter(albumDetailTabsAdapter);
 
-    private void playOnSpotify() {
-        ConnectionParams connectionParams = new ConnectionParams.Builder(ConnectSpotifyActivity.CLIENT_ID)
-                .setRedirectUri(ConnectSpotifyActivity.REDIRECT_URI)
-                .showAuthView(true)
-                .build();
-        SpotifyAppRemote.connect(getContext(), connectionParams, new Connector.ConnectionListener() {
-            @Override
-            public void onConnected(SpotifyAppRemote spotifyAppRemote) {
-                mSpotifyAppRemote = spotifyAppRemote;
-                Log.i(TAG, "connected to spotify player");
-                mSpotifyAppRemote.getPlayerApi().play(album.getUri());
-            }
-
-            @Override
-            public void onFailure(Throwable error) {
-                Log.e(TAG, error.getMessage(), error);
-            }
-        });
-    }
-
-    private void getAlbumTracksInfo() {
-        AlbumTracksService albumTracksService = new AlbumTracksService(getContext().getApplicationContext());
-        albumTracksService.get(album.getId(), () -> {
-            albumTracks.addAll(albumTracksService.getAlbumTracks());
-            adapter.notifyDataSetChanged();
-        });
+        new TabLayoutMediator(binding.tabLayout, binding.pager,
+                (tab, position) -> tab.setText(AlbumDetailTabsAdapter.tabs[position])).attach();
     }
 
     private void getArtistInfo() {

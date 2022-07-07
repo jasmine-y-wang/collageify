@@ -2,6 +2,10 @@ package com.example.collageify.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -9,11 +13,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 import com.example.collageify.R;
@@ -23,8 +22,6 @@ import com.example.collageify.adapters.ProfilePostsAdapter;
 import com.example.collageify.databinding.FragmentProfileBinding;
 import com.example.collageify.models.Post;
 import com.example.collageify.models.User;
-import com.parse.FindCallback;
-import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.spotify.sdk.android.auth.AuthorizationClient;

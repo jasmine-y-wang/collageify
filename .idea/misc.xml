@@ -28,6 +28,10 @@
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.26038500506585616" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.375" />
         <entry key="app/src/main/res/layout/activity_signup.xml" value="0.16945288753799392" />
+        <entry key="app/src/main/res/layout/fragment_album_detail_tabs.xml" value="0.28292806484295846" />
+        <entry key="app/src/main/res/layout/fragment_album_more.xml" value="0.30927051671732525" />
+        <entry key="app/src/main/res/layout/fragment_album_songs.xml" value="0.15070921985815602" />
+        <entry key="app/src/main/res/layout/fragment_album_stats.xml" value="0.30927051671732525" />
         <entry key="app/src/main/res/layout/fragment_collage.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_detail.xml" value="0.2862208713272543" />
         <entry key="app/src/main/res/layout/fragment_feed.xml" value="0.335" />
