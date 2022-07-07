@@ -31,9 +31,6 @@ public class AlbumDetailFragment extends Fragment {
     private FragmentAlbumDetailBinding binding;
     private Album album;
     private Artist albumArtist;
-    private List<Song> albumTracks;
-    private AlbumTracksAdapter adapter;
-    private SpotifyAppRemote mSpotifyAppRemote;
     public static final String TAG = "AlbumDetailFragment";
 
     public AlbumDetailFragment() {

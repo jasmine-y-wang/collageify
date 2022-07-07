@@ -21,11 +21,10 @@ import java.util.Map;
 
 public class AlbumTracksService {
 
-    private SharedPreferences sharedPreferences;
-    private RequestQueue queue;
+    private final SharedPreferences sharedPreferences;
+    private final RequestQueue queue;
     public static final String TAG = "AlbumTracksService";
-    private List<Song> albumTracks = new ArrayList<>();
-    private String endpointFormat = "https://api.spotify.com/v1/albums/%s/tracks";
+    private final List<Song> albumTracks = new ArrayList<>();
 
     public AlbumTracksService(Context context) {
         sharedPreferences = context.getSharedPreferences("SPOTIFY", 0);
@@ -35,6 +34,7 @@ public class AlbumTracksService {
     public List<Song> getAlbumTracks() { return albumTracks; }
 
     public void get(String albumId, final VolleyCallBack callBack) {
+        String endpointFormat = "https://api.spotify.com/v1/albums/%s/tracks";
         String endpoint = String.format(endpointFormat, albumId);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(endpoint, null, response -> {
             JSONArray jsonArray = response.optJSONArray("items");

@@ -18,8 +18,8 @@ import java.util.List;
 
 public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.ViewHolder> {
 
-    private Context context;
-    private List<Album> albums;
+    private final Context context;
+    private final List<Album> albums;
     public static final String TAG = "AlbumsAdapter";
 
     public AlbumsAdapter(Context context, List<Album> albums) {

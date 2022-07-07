@@ -17,9 +17,9 @@ import java.util.List;
 
 public class AlbumTracksAdapter extends RecyclerView.Adapter<AlbumTracksAdapter.ViewHolder> {
 
-    private Context context;
-    private List<String> topTrackIds;
-    private List<Song> tracks;
+    private final Context context;
+    private final List<String> topTrackIds;
+    private final List<Song> tracks;
 
     public AlbumTracksAdapter(Context context, List<Song> tracks, List<String> topTrackIds) {
         this.tracks = tracks;
