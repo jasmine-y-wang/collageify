@@ -66,7 +66,7 @@ public class AlbumStatsFragment extends Fragment {
         int danceability = (int) Math.round(stats.get("danceability") * 100);
         binding.pbDanceability.setProgress(danceability);
         int valence = (int) Math.round(stats.get("valence") * 100);
-        binding.pbEnergy.setProgress(valence);
+        binding.pbValence.setProgress(valence);
         int energy = (int) Math.round(stats.get("energy") * 100);
         binding.pbEnergy.setProgress(energy);
         int tempo = (int) Math.round(stats.get("tempo"));
