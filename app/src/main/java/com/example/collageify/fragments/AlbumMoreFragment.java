@@ -9,13 +9,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.collageify.R;
+import com.example.collageify.models.Album;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class AlbumMoreFragment extends Fragment {
 
-    public AlbumMoreFragment() {
+    public AlbumMoreFragment(Album album) {
         // Required empty public constructor
     }
 

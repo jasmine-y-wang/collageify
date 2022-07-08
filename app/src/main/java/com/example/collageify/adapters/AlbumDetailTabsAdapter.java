@@ -28,9 +28,9 @@ public class AlbumDetailTabsAdapter extends FragmentStateAdapter {
             case 0:
                 return new AlbumSongsFragment(album);
             case 1:
-                return new AlbumStatsFragment();
+                return new AlbumStatsFragment(album);
             case 2:
-                return new AlbumMoreFragment();
+                return new AlbumMoreFragment(album);
             default: // should not reach here
                 return null;
         }

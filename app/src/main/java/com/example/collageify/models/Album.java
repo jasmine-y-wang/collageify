@@ -16,9 +16,11 @@ public class Album {
     private String id;
     private String uri;
     private final List<String> topSongIds;
+    private final List<String> allSongIds;
 
     public Album(JSONObject albumData, int ranking) {
         topSongIds = new ArrayList<>();
+        allSongIds = new ArrayList<>();
         this.ranking = ranking;
         try {
             id = albumData.getString("id");
@@ -64,6 +66,14 @@ public class Album {
 
     public String getUri() {
         return uri;
+    }
+
+    public List<String> getAllSongIds() {
+        return allSongIds;
+    }
+
+    public void addSong(Song song) {
+        allSongIds.add(song.getId());
     }
 
     public void addTopSong(Song song) {

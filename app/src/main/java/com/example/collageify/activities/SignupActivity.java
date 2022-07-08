@@ -1,19 +1,15 @@
 package com.example.collageify.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
-import com.example.collageify.R;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.collageify.databinding.ActivitySignupBinding;
 import com.example.collageify.models.User;
-import com.parse.LogInCallback;
 import com.parse.ParseException;
-import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
 

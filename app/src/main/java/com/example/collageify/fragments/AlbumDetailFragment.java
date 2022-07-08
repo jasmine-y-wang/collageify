@@ -12,16 +12,11 @@ import androidx.fragment.app.Fragment;
 import com.bumptech.glide.Glide;
 import com.example.collageify.activities.MainActivity;
 import com.example.collageify.adapters.AlbumDetailTabsAdapter;
-import com.example.collageify.adapters.AlbumTracksAdapter;
 import com.example.collageify.databinding.FragmentAlbumDetailBinding;
 import com.example.collageify.models.Album;
 import com.example.collageify.models.Artist;
-import com.example.collageify.models.Song;
 import com.example.collageify.services.ArtistService;
 import com.google.android.material.tabs.TabLayoutMediator;
-import com.spotify.android.appremote.api.SpotifyAppRemote;
-
-import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
