@@ -79,7 +79,11 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
 
         public void bind(Post post) {
             User poster = (User) post.getUser();
-            tvDescription.setText(post.getCaption());
+            if (post.getCaption().isEmpty()) {
+                tvDescription.setVisibility(View.GONE);
+            } else {
+                tvDescription.setText(post.getCaption());
+            }
             tvUsername.setText(poster.getUsername());
             ParseFile image = post.getImage();
             if (image != null) {

@@ -2,7 +2,6 @@ package com.example.collageify.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -46,10 +45,6 @@ public class RecommendedTracksAdapter extends RecyclerView.Adapter<RecommendedTr
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
-        }
 
         public ViewHolder(@NonNull ItemRecommendedTrackBinding binding) {
             super(binding.getRoot());

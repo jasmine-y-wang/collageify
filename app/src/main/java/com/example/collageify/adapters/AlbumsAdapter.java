@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.collageify.R;
 import com.example.collageify.activities.MainActivity;
+import com.example.collageify.databinding.ItemAlbumBinding;
 import com.example.collageify.models.Album;
 
 import java.util.List;
@@ -21,6 +22,7 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.ViewHolder
     private final Context context;
     private final List<Album> albums;
     public static final String TAG = "AlbumsAdapter";
+    private ItemAlbumBinding binding;
 
     public AlbumsAdapter(Context context, List<Album> albums) {
         this.context = context;
@@ -30,8 +32,8 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.ViewHolder
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_album, parent, false);
-        return new ViewHolder(view);
+        binding = ItemAlbumBinding.inflate(LayoutInflater.from(context), parent, false);
+        return new ViewHolder(binding);
     }
 
     @Override
@@ -47,17 +49,15 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.ViewHolder
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        public ImageView ivImage;
 
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
-            itemView.setOnClickListener(this);
-            ivImage = itemView.findViewById(R.id.ivImage);
+        public ViewHolder(@NonNull ItemAlbumBinding binding) {
+            super(binding.getRoot());
+            binding.getRoot().setOnClickListener(this);
         }
 
         public void bind(Album album) {
             String imageUrl = album.getImageUrl();
-            Glide.with(context).load(imageUrl).into(ivImage);
+            Glide.with(context).load(imageUrl).into(binding.ivImage);
         }
 
         @Override
