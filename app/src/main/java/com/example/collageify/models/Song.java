@@ -10,6 +10,8 @@ public class Song {
     private String albumId;
     private String duration; // in minutes and seconds
     private int trackNumber;
+    private String albumImageUrl;
+    private String artistName;
 
     public Song() {}
 
@@ -48,6 +50,14 @@ public class Song {
         return song;
     }
 
+    public static Song fromJsonForRecommendedList(JSONObject jsonObject) throws JSONException {
+        Song song = fromJson(jsonObject);
+        song.albumImageUrl = song.albumData.getJSONArray("images")
+                .getJSONObject(0).getString("url");
+        song.artistName = jsonObject.getJSONArray("artists").getJSONObject(0).getString("name");
+        return song;
+    }
+
     public int getTrackNumber() {
         return trackNumber;
     }
@@ -58,5 +68,13 @@ public class Song {
 
     public String getId() {
         return id;
+    }
+
+    public String getAlbumImageUrl() {
+        return albumImageUrl;
+    }
+
+    public String getArtistName() {
+        return artistName;
     }
 }

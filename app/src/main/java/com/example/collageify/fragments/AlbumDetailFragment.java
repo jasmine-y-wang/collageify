@@ -25,7 +25,6 @@ public class AlbumDetailFragment extends Fragment {
 
     private FragmentAlbumDetailBinding binding;
     private Album album;
-    private Artist albumArtist;
     public static final String TAG = "AlbumDetailFragment";
 
     public AlbumDetailFragment() {
@@ -47,10 +46,9 @@ public class AlbumDetailFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        binding.tvName.setText(album.getName());
-        binding.tvArtist.setText(album.getArtistName());
-        Glide.with(getContext()).load(album.getImageUrl()).into(binding.ivAlbumImage);
         getArtistInfo();
+        binding.tvName.setText(album.getName());
+        Glide.with(getContext()).load(album.getImageUrl()).into(binding.ivAlbumImage);
 
         binding.ibBack.setOnClickListener(v -> ((MainActivity) getContext()).goToCollageFrag());
 
@@ -64,8 +62,10 @@ public class AlbumDetailFragment extends Fragment {
     private void getArtistInfo() {
         ArtistService artistService = new ArtistService(getContext().getApplicationContext());
         artistService.get(album.getArtistHref(), () -> {
-            albumArtist = artistService.getArtist();
+            Artist albumArtist = artistService.getArtist();
+            binding.tvArtist.setText(albumArtist.getName());
             Glide.with(getContext()).load(albumArtist.getImageUrl()).circleCrop().into(binding.ivArtistImage);
+            album.setArtist(albumArtist);
         });
     }
 
