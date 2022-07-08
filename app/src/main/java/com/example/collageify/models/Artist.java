@@ -20,4 +20,12 @@ public class Artist {
     public String getImageUrl() {
         return imageUrl;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getId() {
+        return id;
+    }
 }

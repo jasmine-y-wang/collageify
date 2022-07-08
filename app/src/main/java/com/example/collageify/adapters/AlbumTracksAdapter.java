@@ -4,22 +4,21 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.collageify.R;
+import com.example.collageify.databinding.ItemSongBinding;
 import com.example.collageify.models.Song;
 
 import java.util.List;
 
 public class AlbumTracksAdapter extends RecyclerView.Adapter<AlbumTracksAdapter.ViewHolder> {
 
-    private Context context;
-    private List<String> topTrackIds;
-    private List<Song> tracks;
+    private final Context context;
+    private final List<String> topTrackIds;
+    private final List<Song> tracks;
+    private ItemSongBinding binding;
 
     public AlbumTracksAdapter(Context context, List<Song> tracks, List<String> topTrackIds) {
         this.tracks = tracks;
@@ -30,8 +29,8 @@ public class AlbumTracksAdapter extends RecyclerView.Adapter<AlbumTracksAdapter.
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_song, parent, false);
-        return new ViewHolder(view);
+        binding = ItemSongBinding.inflate(LayoutInflater.from(context), parent, false);
+        return new ViewHolder(binding);
     }
 
     @Override
@@ -47,28 +46,19 @@ public class AlbumTracksAdapter extends RecyclerView.Adapter<AlbumTracksAdapter.
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView tvTitle;
-        public TextView tvDuration;
-        public TextView tvNumber;
-        public ImageView ivStar;
-
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
-            tvTitle = itemView.findViewById(R.id.tvTitle);
-            tvDuration = itemView.findViewById(R.id.tvDuration);
-            tvNumber = itemView.findViewById(R.id.tvNumber);
-            ivStar = itemView.findViewById(R.id.ivStar);
+        public ViewHolder(ItemSongBinding binding) {
+            super(binding.getRoot());
         }
 
         public void bind(Song song) {
-            tvTitle.setText(song.getName());
-            tvNumber.setText(String.valueOf(song.getTrackNumber()));
-            tvDuration.setText(song.getDuration());
+            binding.tvTitle.setText(song.getName());
+            binding.tvNumber.setText(String.valueOf(song.getTrackNumber()));
+            binding.tvDuration.setText(song.getDuration());
             // show star if song is a top track
             if (topTrackIds.contains(song.getId())) {
-                ivStar.setVisibility(View.VISIBLE);
+                binding.ivStar.setVisibility(View.VISIBLE);
             } else {
-                ivStar.setVisibility(View.GONE);
+                binding.ivStar.setVisibility(View.GONE);
             }
         }
     }

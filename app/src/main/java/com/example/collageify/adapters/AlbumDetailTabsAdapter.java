@@ -12,8 +12,8 @@ import com.example.collageify.models.Album;
 public class AlbumDetailTabsAdapter extends FragmentStateAdapter {
 
     public static String[] tabs = {"songs", "stats", "more"};
-    private int numTabs;
-    private Album album;
+    private final int numTabs;
+    private final Album album;
 
     public AlbumDetailTabsAdapter(@NonNull Fragment fragment, int numTabs, Album album) {
         super(fragment);
@@ -28,9 +28,9 @@ public class AlbumDetailTabsAdapter extends FragmentStateAdapter {
             case 0:
                 return new AlbumSongsFragment(album);
             case 1:
-                return new AlbumStatsFragment();
+                return new AlbumStatsFragment(album);
             case 2:
-                return new AlbumMoreFragment();
+                return new AlbumMoreFragment(album);
             default: // should not reach here
                 return null;
         }

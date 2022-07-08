@@ -63,8 +63,8 @@ public class AlbumSongsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         albumTracks = new ArrayList<>();
-        adapter = new AlbumTracksAdapter(getContext(), albumTracks, album.getTopSongIds());
         getAlbumTracksInfo();
+        adapter = new AlbumTracksAdapter(getContext(), albumTracks, album.getTopSongIds());
 
         binding.rvSongs.setAdapter(adapter);
         binding.rvSongs.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -73,7 +73,7 @@ public class AlbumSongsFragment extends Fragment {
 
     private void getAlbumTracksInfo() {
         AlbumTracksService albumTracksService = new AlbumTracksService(getContext().getApplicationContext());
-        albumTracksService.get(album.getId(), () -> {
+        albumTracksService.get(album, () -> {
             albumTracks.addAll(albumTracksService.getAlbumTracks());
             adapter.notifyDataSetChanged();
         });

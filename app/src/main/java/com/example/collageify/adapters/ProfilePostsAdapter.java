@@ -17,8 +17,8 @@ import java.util.List;
 
 public class ProfilePostsAdapter extends PostsAdapter {
 
-    private Context context;
-    private List<Post> posts;
+    private final Context context;
+    private final List<Post> posts;
     private View view;
 
     public ProfilePostsAdapter(Context context, List<Post> posts) {
