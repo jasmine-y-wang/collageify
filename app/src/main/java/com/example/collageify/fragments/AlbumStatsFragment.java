@@ -58,7 +58,20 @@ public class AlbumStatsFragment extends Fragment {
         AlbumStatsService albumStatsService = new AlbumStatsService(getContext().getApplicationContext());
         albumStatsService.get(album, () -> {
             stats.putAll(albumStatsService.getStats());
-            System.out.println(stats);
+            setStats();
         });
+    }
+
+    private void setStats() {
+        int danceability = (int) Math.round(stats.get("danceability") * 100);
+        binding.pbDanceability.setProgress(danceability);
+        int valence = (int) Math.round(stats.get("valence") * 100);
+        binding.pbEnergy.setProgress(valence);
+        int energy = (int) Math.round(stats.get("energy") * 100);
+        binding.pbEnergy.setProgress(energy);
+        int tempo = (int) Math.round(stats.get("tempo"));
+        final int MAX_TEMPO = 200;
+        binding.pbTempo.setMax(MAX_TEMPO); // higher max for tempos
+        binding.pbTempo.setProgress(tempo);
     }
 }
