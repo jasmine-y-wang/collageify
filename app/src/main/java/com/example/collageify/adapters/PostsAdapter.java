@@ -2,7 +2,6 @@ package com.example.collageify.adapters;
 
 import android.content.Context;
 import android.graphics.drawable.AnimatedVectorDrawable;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -63,7 +62,6 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
         private final TextView tvLikes;
         private final ImageView ivPfp;
         private final ImageView ivHeart;
-        private AnimatedVectorDrawable avd;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -143,7 +141,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
                 // like
                 post.like();
                 ivHeart.setAlpha(0.85f);
-                avd = (AnimatedVectorDrawable) ivHeart.getDrawable();
+                AnimatedVectorDrawable avd = (AnimatedVectorDrawable) ivHeart.getDrawable();
                 avd.start();
                 ibLike.setSelected(true);
             }
