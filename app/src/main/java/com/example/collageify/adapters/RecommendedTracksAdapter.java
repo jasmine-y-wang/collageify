@@ -2,22 +2,24 @@ package com.example.collageify.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.collageify.databinding.ItemRecommendedTrackBinding;
+import com.example.collageify.R;
 import com.example.collageify.models.Song;
 
 import java.util.List;
 
 public class RecommendedTracksAdapter extends RecyclerView.Adapter<RecommendedTracksAdapter.ViewHolder> {
 
-    private Context context;
-    private List<Song> recommendedTracks;
-    private ItemRecommendedTrackBinding binding;
+    private final Context context;
+    private final List<Song> recommendedTracks;
 
     public RecommendedTracksAdapter(Context context, List<Song> recommendedTracks) {
         this.context = context;
@@ -27,10 +29,8 @@ public class RecommendedTracksAdapter extends RecyclerView.Adapter<RecommendedTr
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        binding = ItemRecommendedTrackBinding.inflate(LayoutInflater.from(context), parent, false);
-        ViewHolder viewHolder = new ViewHolder(binding);
-        viewHolder.setIsRecyclable(false);
-        return viewHolder;
+        View view = LayoutInflater.from(context).inflate(R.layout.item_recommended_track, parent, false);
+        return new ViewHolder(view);
     }
 
     @Override
@@ -46,14 +46,21 @@ public class RecommendedTracksAdapter extends RecyclerView.Adapter<RecommendedTr
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        public ViewHolder(@NonNull ItemRecommendedTrackBinding binding) {
-            super(binding.getRoot());
+        private final TextView tvTrackName;
+        private final TextView tvArtistName;
+        private final ImageView ivImage;
+
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+            tvTrackName = itemView.findViewById(R.id.tvTrackName);
+            tvArtistName = itemView.findViewById(R.id.tvArtistName);
+            ivImage = itemView.findViewById(R.id.ivImage);
         }
 
         public void bind(Song song) {
-            binding.tvTrackName.setText(song.getName());
-            binding.tvArtistName.setText(song.getArtistName());
-            Glide.with(context).load(song.getAlbumImageUrl()).into(binding.ivImage);
+            tvTrackName.setText(song.getName());
+            tvArtistName.setText(song.getArtistName());
+            Glide.with(context).load(song.getAlbumImageUrl()).into(ivImage);
         }
     }
 }
