@@ -1,6 +1,7 @@
 package com.example.collageify.fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
+import com.example.collageify.activities.ConnectSpotifyActivity;
 import com.example.collageify.activities.MainActivity;
 import com.example.collageify.adapters.AlbumDetailTabsAdapter;
 import com.example.collageify.databinding.FragmentAlbumDetailBinding;
@@ -17,6 +19,9 @@ import com.example.collageify.models.Album;
 import com.example.collageify.models.Artist;
 import com.example.collageify.services.ArtistService;
 import com.google.android.material.tabs.TabLayoutMediator;
+import com.spotify.android.appremote.api.ConnectionParams;
+import com.spotify.android.appremote.api.Connector;
+import com.spotify.android.appremote.api.SpotifyAppRemote;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -73,5 +78,18 @@ public class AlbumDetailFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    public void showPlaying(String trackUri) {
+        String pageTag = "f" + binding.pager.getCurrentItem();
+        Fragment page = getChildFragmentManager().findFragmentByTag(pageTag);
+        if (page != null) {
+            switch (pageTag) {
+                case "f2":
+                    AlbumMoreFragment albumMoreFragment = (AlbumMoreFragment) page;
+                    albumMoreFragment.showPlaying(trackUri);
+                    break;
+            }
+        }
     }
 }

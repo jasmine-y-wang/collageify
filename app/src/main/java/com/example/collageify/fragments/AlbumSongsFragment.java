@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 
 import com.example.collageify.R;
 import com.example.collageify.activities.ConnectSpotifyActivity;
+import com.example.collageify.activities.MainActivity;
 import com.example.collageify.adapters.AlbumTracksAdapter;
 import com.example.collageify.databinding.FragmentAlbumSongsBinding;
 import com.example.collageify.models.Album;
@@ -35,7 +36,6 @@ public class AlbumSongsFragment extends Fragment {
     private Album album;
     private List<Song> albumTracks;
     private AlbumTracksAdapter adapter;
-    private SpotifyAppRemote mSpotifyAppRemote;
     public static final String TAG = "AlbumSongsFragment";
 
     public AlbumSongsFragment() {
@@ -68,7 +68,7 @@ public class AlbumSongsFragment extends Fragment {
 
         binding.rvSongs.setAdapter(adapter);
         binding.rvSongs.setLayoutManager(new LinearLayoutManager(getContext()));
-        binding.btnPlayOnSpotify.setOnClickListener(v -> playOnSpotify());
+        binding.btnPlayOnSpotify.setOnClickListener(v -> ((MainActivity) getContext()).playOnSpotify(album.getUri()));
     }
 
     private void getAlbumTracksInfo() {
@@ -76,25 +76,6 @@ public class AlbumSongsFragment extends Fragment {
         albumTracksService.get(album, () -> {
             albumTracks.addAll(albumTracksService.getAlbumTracks());
             adapter.notifyDataSetChanged();
-        });
-    }
-
-    private void playOnSpotify() {
-        ConnectionParams connectionParams = new ConnectionParams.Builder(ConnectSpotifyActivity.CLIENT_ID)
-                .setRedirectUri(ConnectSpotifyActivity.REDIRECT_URI)
-                .showAuthView(true)
-                .build();
-        SpotifyAppRemote.connect(getContext(), connectionParams, new Connector.ConnectionListener() {
-            @Override
-            public void onConnected(SpotifyAppRemote spotifyAppRemote) {
-                mSpotifyAppRemote = spotifyAppRemote;
-                mSpotifyAppRemote.getPlayerApi().play(album.getUri());
-            }
-
-            @Override
-            public void onFailure(Throwable error) {
-                Log.e(TAG, error.getMessage(), error);
-            }
         });
     }
 

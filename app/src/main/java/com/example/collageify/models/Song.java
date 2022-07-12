@@ -12,6 +12,9 @@ public class Song {
     private int trackNumber;
     private String albumImageUrl;
     private String artistName;
+    private String uri;
+
+    private boolean playing;
 
     public Song() {}
 
@@ -31,8 +34,10 @@ public class Song {
         Song song = new Song();
         song.id = jsonObject.getString("id");
         song.name = jsonObject.getString("name");
+        song.uri = jsonObject.getString("uri");
         song.albumData = jsonObject.getJSONObject("album");
         song.albumId = song.albumData.getString("id");
+        song.playing = false;
         return song;
     }
 
@@ -76,5 +81,17 @@ public class Song {
 
     public String getArtistName() {
         return artistName;
+    }
+
+    public String getUri() {
+        return uri;
+    }
+
+    public boolean isPlaying() {
+        return playing;
+    }
+
+    public void setPlaying(boolean playing) {
+        this.playing = playing;
     }
 }
