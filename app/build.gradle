@@ -55,4 +55,7 @@ dependencies {
 
     implementation 'nl.dionsegijn:konfetti-xml:2.0.2'
 
+    def lottieVersion = "5.2.0"
+    implementation "com.airbnb.android:lottie:$lottieVersion"
+
 }

@@ -27,7 +27,6 @@ import java.util.List;
  */
 public class AlbumMoreFragment extends Fragment {
 
-    private static final String TAG = "AlbumMoreFragment";
     private Album album;
     private List<Song> recommendedTracks;
     private RecommendedTracksAdapter adapter;
@@ -66,7 +65,6 @@ public class AlbumMoreFragment extends Fragment {
     }
 
     public void showPlaying(String trackUri) {
-        Log.i(TAG, "show playing");
         for (int i = 0; i < recommendedTracks.size(); i++) {
             Song song = recommendedTracks.get(i);
             if (song.getUri().equals(trackUri)) {
@@ -80,6 +78,7 @@ public class AlbumMoreFragment extends Fragment {
                 nowPlayingIndex = i;
                 song.setPlaying(true);
                 adapter.notifyItemChanged(i);
+                break;
             }
         }
     }
