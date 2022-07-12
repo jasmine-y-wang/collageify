@@ -1,6 +1,7 @@
 package com.example.collageify.activities;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -15,13 +16,21 @@ import com.example.collageify.fragments.FeedFragment;
 import com.example.collageify.fragments.ProfileFragment;
 import com.example.collageify.models.Album;
 import com.parse.ParseUser;
+import com.spotify.android.appremote.api.ConnectionParams;
+import com.spotify.android.appremote.api.Connector;
+import com.spotify.android.appremote.api.SpotifyAppRemote;
+import com.spotify.protocol.client.Subscription;
+import com.spotify.protocol.types.PlayerState;
+import com.spotify.protocol.types.Track;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String TAG = "MainActivity";
     private ActivityMainBinding binding;
     private Fragment collageFragment;
     private FragmentManager fragmentManager;
     private AlbumDetailFragment detailFragment;
+    private SpotifyAppRemote mSpotifyAppRemote;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction ft = fragmentManager.beginTransaction();
         ft.hide(collageFragment);
         detailFragment = new AlbumDetailFragment(album);
-        ft.add(R.id.flContainer, detailFragment);
+        ft.add(R.id.flContainer, detailFragment, AlbumDetailFragment.TAG);
         ft.addToBackStack("collage to detail");
         ft.show(detailFragment);
         ft.commit();
@@ -84,4 +93,53 @@ public class MainActivity extends AppCompatActivity {
         ft.addToBackStack("profile");
         ft.commit();
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        SpotifyAppRemote.disconnect(mSpotifyAppRemote);
+        SpotifyAppRemote.connect(this, connectionParams, mConnectionListener);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        SpotifyAppRemote.disconnect(mSpotifyAppRemote);
+    }
+
+    public void playOnSpotify(String uri) {
+        mSpotifyAppRemote.getPlayerApi().play(uri);
+    }
+
+    /** Spotify connection fields **/
+    private final ConnectionParams connectionParams = new ConnectionParams.Builder(ConnectSpotifyActivity.CLIENT_ID)
+            .setRedirectUri(ConnectSpotifyActivity.REDIRECT_URI)
+            .showAuthView(true)
+            .build();
+
+    private final Connector.ConnectionListener mConnectionListener = new Connector.ConnectionListener() {
+        @Override
+        public void onConnected(SpotifyAppRemote spotifyAppRemote) {
+            mSpotifyAppRemote = spotifyAppRemote;
+            // subscribe to state
+            mSpotifyAppRemote.getPlayerApi()
+                    .subscribeToPlayerState()
+                    .setEventCallback(data -> {
+                        final Track track = data.track;
+                        if (track != null) {
+                            AlbumDetailFragment albumDetailFragment = (AlbumDetailFragment)
+                                    getSupportFragmentManager().findFragmentByTag(AlbumDetailFragment.TAG);
+                            if (albumDetailFragment != null) {
+                                albumDetailFragment.showPlaying(track.uri);
+                            }
+                            Log.d(TAG, track.name + " by " + track.artist.name);
+                        }
+                    });
+        }
+
+        @Override
+        public void onFailure(Throwable error) {
+            Log.e(TAG, error.getMessage(), error);
+        }
+    };
 }

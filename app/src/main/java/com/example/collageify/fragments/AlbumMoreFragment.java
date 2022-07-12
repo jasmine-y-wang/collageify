@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,10 +27,13 @@ import java.util.List;
  */
 public class AlbumMoreFragment extends Fragment {
 
+    private static final String TAG = "AlbumMoreFragment";
     private Album album;
     private List<Song> recommendedTracks;
     private RecommendedTracksAdapter adapter;
     private FragmentAlbumMoreBinding binding;
+    private Song nowPlaying;
+    private int nowPlayingIndex;
 
     public AlbumMoreFragment(Album album) {
         this.album = album;
@@ -59,5 +63,24 @@ public class AlbumMoreFragment extends Fragment {
             recommendedTracks.addAll(tracksRecommendationService.getTracks());
             adapter.notifyDataSetChanged();
         });
+    }
+
+    public void showPlaying(String trackUri) {
+        Log.i(TAG, "show playing");
+        for (int i = 0; i < recommendedTracks.size(); i++) {
+            Song song = recommendedTracks.get(i);
+            if (song.getUri().equals(trackUri)) {
+                if (nowPlaying != null) {
+                    // mark nowPlaying as not playing
+                    nowPlaying.setPlaying(false);
+                    adapter.notifyItemChanged(nowPlayingIndex);
+                }
+                // song should be marked as currently playing in adapter
+                nowPlaying = song;
+                nowPlayingIndex = i;
+                song.setPlaying(true);
+                adapter.notifyItemChanged(i);
+            }
+        }
     }
 }
