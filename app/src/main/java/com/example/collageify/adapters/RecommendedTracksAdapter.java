@@ -8,8 +8,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
 import com.example.collageify.R;
 import com.example.collageify.activities.MainActivity;
@@ -51,7 +53,7 @@ public class RecommendedTracksAdapter extends RecyclerView.Adapter<RecommendedTr
         private final TextView tvTrackName;
         private final TextView tvArtistName;
         private final ImageView ivImage;
-        private final ImageView ivPlaying;
+        private final LottieAnimationView lavPlaying;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -59,7 +61,7 @@ public class RecommendedTracksAdapter extends RecyclerView.Adapter<RecommendedTr
             tvTrackName = itemView.findViewById(R.id.tvTrackName);
             tvArtistName = itemView.findViewById(R.id.tvArtistName);
             ivImage = itemView.findViewById(R.id.ivImage);
-            ivPlaying = itemView.findViewById(R.id.ivPlaying);
+            lavPlaying = itemView.findViewById(R.id.lavPlaying);
         }
 
         public void bind(Song song) {
@@ -67,9 +69,10 @@ public class RecommendedTracksAdapter extends RecyclerView.Adapter<RecommendedTr
             tvArtistName.setText(song.getArtistName());
             Glide.with(context).load(song.getAlbumImageUrl()).into(ivImage);
             if (song.isPlaying()) {
-                ivPlaying.setVisibility(View.VISIBLE);
+                tvTrackName.setTextColor(ContextCompat.getColor(context, R.color.light_green));
+                lavPlaying.setVisibility(View.VISIBLE);
             } else {
-                ivPlaying.setVisibility(View.GONE);
+                lavPlaying.setVisibility(View.GONE);
             }
         }
 
