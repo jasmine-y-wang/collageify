@@ -1,5 +1,7 @@
 package com.example.collageify.models;
 
+import androidx.annotation.NonNull;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -46,13 +48,18 @@ public class Song {
         song.id = jsonObject.getString("id");
         song.name = jsonObject.getString("name");
         song.trackNumber = jsonObject.getInt("track_number");
+        int durationMs = jsonObject.getInt("duration_ms");
+        song.duration = getStringDuration(durationMs);
+        return song;
+    }
 
-        // get duration from ms to minutes and seconds
-        int totalSeconds = jsonObject.getInt("duration_ms") / 1000; // convert to seconds
+    @NonNull
+    // get duration from ms to minutes and seconds
+    public static String getStringDuration(int durationMs) {
+        int totalSeconds = durationMs / 1000; // convert to seconds
         int seconds = totalSeconds % 60;
         int minutes = totalSeconds / 60;
-        song.duration = String.format("%d:%02d", minutes, seconds);
-        return song;
+        return String.format("%d:%02d", minutes, seconds);
     }
 
     public static Song fromJsonForRecommendedList(JSONObject jsonObject) throws JSONException {
@@ -94,4 +101,14 @@ public class Song {
     public void setPlaying(boolean playing) {
         this.playing = playing;
     }
+
+    /** for testing in TopAlbumsUtilTest **/
+    public void setAlbumId(String albumId) {
+        this.albumId = albumId;
+    }
+
+    public void setAlbumData(JSONObject albumData) {
+        this.albumData = albumData;
+    }
+
 }

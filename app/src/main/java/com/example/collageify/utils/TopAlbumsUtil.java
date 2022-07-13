@@ -22,7 +22,7 @@ public class TopAlbumsUtil {
     }
 
     // get albums from list of tracks
-    private static void getAlbumsFromTracks(List<Song> songs, List<Album> topAlbums) {
+    public static void getAlbumsFromTracks(List<Song> songs, List<Album> topAlbums) {
         HashMap<String, Album> albums = new HashMap<>();
         for (int i = 0; i < songs.size(); i++) {
             Song song = songs.get(i);

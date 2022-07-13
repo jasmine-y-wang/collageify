@@ -1,5 +1,7 @@
 package com.example.collageify.models;
 
+import com.parse.ParseUser;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -24,12 +26,20 @@ public class Album {
         this.ranking = ranking;
         try {
             id = albumData.getString("id");
-            imageUrl = albumData.getJSONArray("images")
-                    .getJSONObject(0).getString("url");
-            name = albumData.getString("name");
-            uri = albumData.getString("uri");
-            JSONObject artistData = albumData.getJSONArray("artists").getJSONObject(0);
-            artistHref = artistData.getString("href");
+            if (albumData.has("images")) {
+                imageUrl = albumData.getJSONArray("images")
+                        .getJSONObject(0).getString("url");
+            }
+            if (albumData.has("name")) {
+                name = albumData.getString("name");
+            }
+            if (albumData.has("uri")) {
+                uri = albumData.getString("uri");
+            }
+            if (albumData.has("artists")) {
+                JSONObject artistData = albumData.getJSONArray("artists").getJSONObject(0);
+                artistHref = artistData.getString("href");
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
