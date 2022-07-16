@@ -38,7 +38,7 @@ public class ProfileFragment extends Fragment {
     private FragmentProfileBinding binding;
     public static final String TAG = "ProfileFragment";
     public User user;
-    protected PostsAdapter adapter;
+    protected ProfilePostsAdapter adapter;
     protected List<Post> allPosts;
 
     public ProfileFragment() {
@@ -82,12 +82,18 @@ public class ProfileFragment extends Fragment {
         // query posts
         queryPosts();
 
-        binding.btnLogout.setOnClickListener(v -> {
-            ParseUser.logOut(); // log out Parse user
-            AuthorizationClient.clearCookies(getContext()); // log out Spotify user
-            Intent i = new Intent(getContext(), LoginActivity.class);
-            startActivity(i);
-        });
+        if (user.hasSameId(ParseUser.getCurrentUser())) {
+            // only allow logout if on current user's profile
+            // logout functionality
+            binding.btnLogout.setOnClickListener(v -> {
+                ParseUser.logOut();
+                Log.i(TAG, "logout");
+                Intent i = new Intent(getContext(), LoginActivity.class);
+                startActivity(i);
+            });
+        } else {
+            binding.btnLogout.setText("Follow");
+        }
     }
 
     @Override

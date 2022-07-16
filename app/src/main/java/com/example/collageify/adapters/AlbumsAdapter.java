@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
+import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -47,17 +48,17 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.ViewHolder
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        public ImageView ivImage;
+        public ImageView ivAlbumGridImage;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
-            ivImage = itemView.findViewById(R.id.ivImage);
+            ivAlbumGridImage = itemView.findViewById(R.id.ivAlbumGridImage);
         }
 
         public void bind(Album album) {
             String imageUrl = album.getImageUrl();
-            Glide.with(context).load(imageUrl).into(ivImage);
+            Glide.with(context).load(imageUrl).into(ivAlbumGridImage);
         }
 
         @Override

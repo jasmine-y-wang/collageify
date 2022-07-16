@@ -9,7 +9,10 @@ import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -20,6 +23,7 @@ public class Post extends ParseObject {
     public static final String KEY_USER = "user";
     public static final String KEY_CREATED_AT = "createdAt";
     public static final String KEY_LIKED_BY = "likedBy";
+    public static final String KEY_TIMEFRAME = "timeframe";
 
     public String getCaption() {
         return getString(KEY_CAPTION);
@@ -43,6 +47,22 @@ public class Post extends ParseObject {
 
     public void setUser(ParseUser user) {
         put(KEY_USER, user);
+    }
+
+    public void setTimeframe(int timeframeIndex) {
+        String timeframe;
+        if (timeframeIndex == 0) {
+            timeframe = "1 month";
+        } else if (timeframeIndex == 1) {
+            timeframe = "6 months";
+        } else {
+            timeframe = "all time";
+        }
+        put(KEY_TIMEFRAME, timeframe);
+    }
+
+    public String getTimeframe() {
+        return getString(KEY_TIMEFRAME);
     }
 
     public List<ParseUser> getLikedBy() {
@@ -89,6 +109,14 @@ public class Post extends ParseObject {
             e.printStackTrace();
         }
         return "";
+    }
+
+    public static String formatDate(Date createdAt) {
+        LocalDate localDate = createdAt.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        int year = localDate.getYear();
+        int month = localDate.getMonthValue();
+        int day = localDate.getDayOfMonth();
+        return String.format("%d/%d/%d", month, day, year);
     }
 
     public String getLikesCount() {

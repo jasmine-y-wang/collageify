@@ -129,7 +129,7 @@ public class CollageFragment extends Fragment {
         binding.btnPost.setOnClickListener(v -> {
             File collageFile = CollageImageUtil.getCollageFile(binding.rvCollage);
             String caption = binding.etCaption.getText().toString();
-            savePost(caption, ParseUser.getCurrentUser(), collageFile);
+            savePost(caption, ParseUser.getCurrentUser(), collageFile, binding.spnTimeframe.getSelectedItemPosition());
         });
 
         // share button
@@ -146,11 +146,12 @@ public class CollageFragment extends Fragment {
     }
 
     // save post to Parse database
-    private void savePost(String description, ParseUser user, File photoFile) {
+    private void savePost(String description, ParseUser user, File photoFile, int timeframeIndex) {
         Post post = new Post();
         post.setCaption(description);
         post.setImage(new ParseFile(photoFile));
         post.setUser(user);
+        post.setTimeframe(timeframeIndex);
         post.saveInBackground(e -> {
             if (e != null) {
                 Log.e(TAG, "error while saving", e);

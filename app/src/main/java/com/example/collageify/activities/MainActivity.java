@@ -1,7 +1,10 @@
 package com.example.collageify.activities;
 
 import android.os.Bundle;
+import android.transition.Transition;
+import android.transition.TransitionInflater;
 import android.util.Log;
+import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -19,8 +22,6 @@ import com.parse.ParseUser;
 import com.spotify.android.appremote.api.ConnectionParams;
 import com.spotify.android.appremote.api.Connector;
 import com.spotify.android.appremote.api.SpotifyAppRemote;
-import com.spotify.protocol.client.Subscription;
-import com.spotify.protocol.types.PlayerState;
 import com.spotify.protocol.types.Track;
 
 public class MainActivity extends AppCompatActivity {
@@ -71,9 +72,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void goToAlbumDetailFrag(Album album) {
+        detailFragment = new AlbumDetailFragment(album);
         FragmentTransaction ft = fragmentManager.beginTransaction();
         ft.hide(collageFragment);
-        detailFragment = new AlbumDetailFragment(album);
         ft.add(R.id.flContainer, detailFragment, AlbumDetailFragment.TAG);
         ft.addToBackStack("collage to detail");
         ft.show(detailFragment);

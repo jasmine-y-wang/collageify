@@ -62,6 +62,7 @@ dependencies {
     def lottieVersion = "5.2.0"
     implementation "com.airbnb.android:lottie:$lottieVersion"
 
-    testImplementation 'org.json:json:20180813'
+    implementation 'com.wajahatkarim:EasyFlipView:3.0.3'
 
+    testImplementation 'org.json:json:20180813'
 }
