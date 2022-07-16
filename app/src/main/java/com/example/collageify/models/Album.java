@@ -1,7 +1,5 @@
 package com.example.collageify.models;
 
-import com.parse.ParseUser;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 

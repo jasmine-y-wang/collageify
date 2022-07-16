@@ -38,8 +38,11 @@
         <entry key="app/src/main/res/layout/fragment_detail.xml" value="0.2862208713272543" />
         <entry key="app/src/main/res/layout/fragment_feed.xml" value="0.335" />
         <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/item_album.xml" value="0.2494934143870314" />
         <entry key="app/src/main/res/layout/item_post.xml" value="0.5" />
         <entry key="app/src/main/res/layout/item_profile_post.xml" value="0.28191489361702127" />
+        <entry key="app/src/main/res/layout/item_profile_post_back.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/item_profile_post_front.xml" value="0.1" />
         <entry key="app/src/main/res/layout/item_recommended_track.xml" value="0.335" />
         <entry key="app/src/main/res/layout/item_song.xml" value="0.5" />
         <entry key="app/src/main/res/layout/toolbar_main.xml" value="0.45" />

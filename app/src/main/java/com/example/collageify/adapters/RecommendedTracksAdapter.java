@@ -15,7 +15,6 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
 import com.example.collageify.R;
 import com.example.collageify.activities.MainActivity;
-import com.example.collageify.models.Album;
 import com.example.collageify.models.Song;
 
 import java.util.List;
@@ -73,6 +72,7 @@ public class RecommendedTracksAdapter extends RecyclerView.Adapter<RecommendedTr
                 lavPlaying.setVisibility(View.VISIBLE);
             } else {
                 lavPlaying.setVisibility(View.GONE);
+                tvTrackName.setTextColor(ContextCompat.getColor(context, R.color.white));
             }
         }
 

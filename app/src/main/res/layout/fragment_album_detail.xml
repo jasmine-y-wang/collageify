@@ -22,6 +22,7 @@
 
     <ImageView
         android:id="@+id/ivAlbumImage"
+        android:transitionName="albumImage"
         android:layout_width="175dp"
         android:layout_height="175dp"
         android:layout_marginTop="32dp"
