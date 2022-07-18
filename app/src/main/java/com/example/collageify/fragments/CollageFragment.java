@@ -33,6 +33,7 @@ import com.parse.ParseUser;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -58,6 +59,7 @@ public class CollageFragment extends Fragment {
     private AlbumsAdapter albumsAdapter;
     public static final String TAG = "CollageFragment";
     private MainActivity mainActivity;
+    private GridLayoutManager gridLayoutManager;
 
     public CollageFragment() {
         // Required empty public constructor
@@ -83,7 +85,7 @@ public class CollageFragment extends Fragment {
         albumsAdapter = new AlbumsAdapter(getContext(), topAlbums);
         RecyclerView rvSongs = view.findViewById(R.id.rvCollage);
         rvSongs.setAdapter(albumsAdapter);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 3, LinearLayoutManager.VERTICAL, false);
+        gridLayoutManager = new GridLayoutManager(getContext(), 3, LinearLayoutManager.VERTICAL, false);
         rvSongs.setLayoutManager(gridLayoutManager);
 
         // set up dropdowns
@@ -152,6 +154,9 @@ public class CollageFragment extends Fragment {
         post.setImage(new ParseFile(photoFile));
         post.setUser(user);
         post.setTimeframe(timeframeIndex);
+        List<Album> collageAlbums = getCollageAlbums();
+        post.setAlbumIds(collageAlbums);
+        post.setArtistIds(collageAlbums);
         post.saveInBackground(e -> {
             if (e != null) {
                 Log.e(TAG, "error while saving", e);
@@ -162,6 +167,18 @@ public class CollageFragment extends Fragment {
             final Handler handler = new Handler(Looper.getMainLooper());
             handler.postDelayed(() -> mainActivity.goToFeedFrag(), 3000);
         });
+    }
+
+    // get list of Albums that are visible in collage
+    @NonNull
+    private List<Album> getCollageAlbums() {
+        List<Album> collageAlbums = new LinkedList<>();
+        int first = gridLayoutManager.findFirstVisibleItemPosition();
+        int last = gridLayoutManager.findLastVisibleItemPosition();
+        for (int i = first; i <= last; i++) {
+            collageAlbums.add(topAlbums.get(i));
+        }
+        return collageAlbums;
     }
 
     private void confetti() {

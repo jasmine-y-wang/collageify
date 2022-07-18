@@ -62,6 +62,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
         private final TextView tvLikes;
         private final ImageView ivPfp;
         private final ImageView ivHeart;
+        private final ImageButton ibCompare;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -73,6 +74,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
             tvLikes = itemView.findViewById(R.id.tvLikes);
             ivPfp = itemView.findViewById(R.id.ivPfp);
             ivHeart = itemView.findViewById(R.id.ivHeart);
+            ibCompare = itemView.findViewById(R.id.ibCompare);
         }
 
         public void bind(Post post) {
@@ -116,6 +118,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
                 handleLike(post);
             });
 
+            ibCompare.setOnClickListener(v -> ((MainActivity) context).goToCompareFrag(post));
 
             ivImage.setOnTouchListener(new OnDoubleTapListener(context) {
                 @Override

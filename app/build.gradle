@@ -65,4 +65,6 @@ dependencies {
     implementation 'com.wajahatkarim:EasyFlipView:3.0.3'
 
     testImplementation 'org.json:json:20180813'
+
+    implementation "androidx.palette:palette:1.0.0"
 }

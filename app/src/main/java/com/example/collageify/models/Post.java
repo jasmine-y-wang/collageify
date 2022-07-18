@@ -14,6 +14,7 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 @ParseClassName("Post")
@@ -24,6 +25,8 @@ public class Post extends ParseObject {
     public static final String KEY_CREATED_AT = "createdAt";
     public static final String KEY_LIKED_BY = "likedBy";
     public static final String KEY_TIMEFRAME = "timeframe";
+    public static final String KEY_ALBUM_IDS = "albumIds";
+    public static final String KEY_ARTIST_IDS = "artistIds";
 
     public String getCaption() {
         return getString(KEY_CAPTION);
@@ -47,6 +50,30 @@ public class Post extends ParseObject {
 
     public void setUser(ParseUser user) {
         put(KEY_USER, user);
+    }
+
+    public List<String> getAlbumIds() {
+        return getList(KEY_ALBUM_IDS);
+    }
+
+    public void setAlbumIds(List<Album> albums) {
+        List<String> albumIds = new LinkedList<>();
+        for (Album album : albums) {
+            albumIds.add(album.getId());
+        }
+        put(KEY_ALBUM_IDS, albumIds);
+    }
+
+    public List<String> getArtistIds() {
+        return getList(KEY_ARTIST_IDS);
+    }
+
+    public void setArtistIds(List<Album> albums) {
+        List<String> artistIds = new LinkedList<>();
+        for (Album album : albums) {
+            artistIds.add(album.getArtistId());
+        }
+        put(KEY_ARTIST_IDS, artistIds);
     }
 
     public void setTimeframe(int timeframeIndex) {

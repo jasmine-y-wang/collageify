@@ -109,4 +109,17 @@
         app:layout_constraintTop_toTopOf="@+id/ivImage"
         app:srcCompat="@drawable/avd_post_like" />
 
+    <ImageButton
+        android:id="@+id/ibCompare"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="16dp"
+        android:background="@null"
+        android:foreground="?android:attr/selectableItemBackground"
+        app:layout_constraintBottom_toTopOf="@+id/ivImage"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_baseline_compare_arrows_24"
+        app:tint="@color/material_on_surface_emphasis_high_type" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

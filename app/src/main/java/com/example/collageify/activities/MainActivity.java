@@ -15,9 +15,11 @@ import com.example.collageify.R;
 import com.example.collageify.databinding.ActivityMainBinding;
 import com.example.collageify.fragments.CollageFragment;
 import com.example.collageify.fragments.AlbumDetailFragment;
+import com.example.collageify.fragments.CompareFragment;
 import com.example.collageify.fragments.FeedFragment;
 import com.example.collageify.fragments.ProfileFragment;
 import com.example.collageify.models.Album;
+import com.example.collageify.models.Post;
 import com.parse.ParseUser;
 import com.spotify.android.appremote.api.ConnectionParams;
 import com.spotify.android.appremote.api.Connector;
@@ -143,4 +145,11 @@ public class MainActivity extends AppCompatActivity {
             Log.e(TAG, error.getMessage(), error);
         }
     };
+
+    public void goToCompareFrag(Post postA) {
+        FragmentTransaction ft = fragmentManager.beginTransaction();
+        ft.replace(R.id.flContainer, new CompareFragment(postA));
+        ft.addToBackStack("compare");
+        ft.commit();
+    }
 }
