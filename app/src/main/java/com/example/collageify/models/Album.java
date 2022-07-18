@@ -11,6 +11,7 @@ public class Album {
     private String name;
     private String imageUrl;
     private String artistHref;
+    private String artistId;
     private final int ranking; // based on position of top song in top tracks list
     private String id;
     private String uri;
@@ -37,6 +38,7 @@ public class Album {
             if (albumData.has("artists")) {
                 JSONObject artistData = albumData.getJSONArray("artists").getJSONObject(0);
                 artistHref = artistData.getString("href");
+                artistId = artistData.getString("id");
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -93,5 +95,9 @@ public class Album {
 
     public void setArtist(Artist artist) {
         this.artist = artist;
+    }
+
+    public String getArtistId() {
+        return artistId;
     }
 }

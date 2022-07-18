@@ -88,6 +88,7 @@ public class ProfileFragment extends Fragment {
             binding.btnLogout.setOnClickListener(v -> {
                 ParseUser.logOut();
                 Log.i(TAG, "logout");
+                AuthorizationClient.clearCookies(getContext());
                 Intent i = new Intent(getContext(), LoginActivity.class);
                 startActivity(i);
             });
