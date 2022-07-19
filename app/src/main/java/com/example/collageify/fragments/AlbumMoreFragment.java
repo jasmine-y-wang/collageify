@@ -1,18 +1,15 @@
 package com.example.collageify.fragments;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import com.example.collageify.R;
 import com.example.collageify.adapters.RecommendedTracksAdapter;
 import com.example.collageify.databinding.FragmentAlbumMoreBinding;
 import com.example.collageify.models.Album;
@@ -23,7 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A simple {@link Fragment} subclass.
+ * A {@link Fragment} that shows recommended tracks based on an album and allows users to
+ * play the tracks through Spotify
  */
 public class AlbumMoreFragment extends Fragment {
 
@@ -42,7 +40,6 @@ public class AlbumMoreFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         binding = FragmentAlbumMoreBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
@@ -64,6 +61,7 @@ public class AlbumMoreFragment extends Fragment {
         });
     }
 
+    /** Show currently playing song in recommended tracks list */
     public void showPlaying(String trackUri) {
         for (int i = 0; i < recommendedTracks.size(); i++) {
             Song song = recommendedTracks.get(i);

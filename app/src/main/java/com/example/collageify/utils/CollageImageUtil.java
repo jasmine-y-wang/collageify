@@ -30,6 +30,7 @@ public class CollageImageUtil {
 
     private static final String TAG = "CollageImageUtil";
 
+    /** Share collage image using built-in share intent */
     public static void shareCollageImage(Context context, View collageView) {
         File collageFile = getCollageFile(collageView);
         final Intent shareIntent = new Intent(Intent.ACTION_SEND);
@@ -45,6 +46,7 @@ public class CollageImageUtil {
         context.startActivity(chooser);
     }
 
+    /** Download collage image to phone gallery */
     public static void downloadCollageImage(View collageView) {
         Bitmap collageScreenshot = getScreenShot(collageView);
         try {
@@ -66,8 +68,10 @@ public class CollageImageUtil {
         return collageFile;
     }
 
-    // takes a screenshot of a view
-    // code from https://stackoverflow.com/questions/2661536/how-to-programmatically-take-a-screenshot-on-android
+    /**
+     * Takes a screenshot of a view
+     * code from https://stackoverflow.com/questions/2661536/how-to-programmatically-take-a-screenshot-on-android
+     */
     public static Bitmap getScreenShot(View view) {
         Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
@@ -75,7 +79,7 @@ public class CollageImageUtil {
         return bitmap;
     }
 
-    // converts a Bitmap to a File
+    /** Converts a Bitmap to a File */
     public static File bitmapToFile(Bitmap bitmap, Context context) throws IOException {
         // configure byte output stream
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
@@ -91,7 +95,7 @@ public class CollageImageUtil {
         return file;
     }
 
-    // returns the File for a photo stored on disk given the fileName
+    /** Returns the File for a photo stored on disk given the fileName */
     public static File getPhotoFileUri(String fileName, Context context) {
         // Get safe storage directory for photos
         // Use `getExternalFilesDir` on Context to access package-specific directories.
@@ -99,21 +103,22 @@ public class CollageImageUtil {
         File mediaStorageDir = new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES), TAG);
         // Create the storage directory if it does not exist
         if (!mediaStorageDir.exists() && !mediaStorageDir.mkdirs()){
-            Log.d(TAG, "failed to create directory");
+            Log.e(TAG, "failed to create directory");
         }
         // Return the file target for the photo based on filename
         return new File(mediaStorageDir.getPath() + File.separator + fileName);
     }
 
-    // save image to phone's Gallery
-    // code from https://stackoverflow.com/questions/36624756/how-to-save-bitmap-to-android-gallery
+    /**
+     * Save image to phone's Gallery
+     * code from https://stackoverflow.com/questions/36624756/how-to-save-bitmap-to-android-gallery
+     */
     private static void saveImage(Bitmap bitmap, Context context, String folderName) throws FileNotFoundException {
         if (android.os.Build.VERSION.SDK_INT >= 29) {
             ContentValues values = new ContentValues();
             values.put(MediaStore.Images.Media.RELATIVE_PATH, "Pictures/" + folderName);
             values.put(MediaStore.Images.Media.IS_PENDING, true);
             // RELATIVE_PATH and IS_PENDING are introduced in API 29.
-
             Uri uri = context.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
             if (uri != null) {
                 saveImageToStream(bitmap, context.getContentResolver().openOutputStream(uri));
@@ -124,7 +129,6 @@ public class CollageImageUtil {
         } else {
             File dir = new File(context.getApplicationContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES),"");
             // getExternalStorageDirectory is deprecated in API 29
-
             if (!dir.exists()) {
                 dir.mkdirs();
             }

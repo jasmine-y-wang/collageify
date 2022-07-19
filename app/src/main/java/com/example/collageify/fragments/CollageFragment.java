@@ -49,7 +49,8 @@ import nl.dionsegijn.konfetti.core.models.Size;
 import nl.dionsegijn.konfetti.xml.KonfettiView;
 
 /**
- * A simple {@link Fragment} subclass.
+ * A {@link Fragment} that generates a collage of user's top albums and
+ * allows them to post, share, or download it
  */
 public class CollageFragment extends Fragment {
 
@@ -61,10 +62,6 @@ public class CollageFragment extends Fragment {
     private MainActivity mainActivity;
     private GridLayoutManager gridLayoutManager;
 
-    public CollageFragment() {
-        // Required empty public constructor
-    }
-
     public CollageFragment(MainActivity mainActivity) {
         this.mainActivity = mainActivity;
     }
@@ -72,7 +69,6 @@ public class CollageFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         binding = FragmentCollageBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
@@ -147,7 +143,7 @@ public class CollageFragment extends Fragment {
         binding = null;
     }
 
-    // save post to Parse database
+    /** Save post to Parse database */
     private void savePost(String description, ParseUser user, File photoFile, int timeframeIndex) {
         Post post = new Post();
         post.setCaption(description);
@@ -169,7 +165,7 @@ public class CollageFragment extends Fragment {
         });
     }
 
-    // get list of Albums that are visible in collage
+    /** Get a list of Albums that are visible in collage */
     @NonNull
     private List<Album> getCollageAlbums() {
         List<Album> collageAlbums = new LinkedList<>();
@@ -181,6 +177,7 @@ public class CollageFragment extends Fragment {
         return collageAlbums;
     }
 
+    /** Use Konfetti library to show confetti when collage is posted successfully */
     private void confetti() {
         EmitterConfig emitterConfig = new Emitter(5L, TimeUnit.SECONDS).perSecond(50);
         Party party = new PartyFactory(emitterConfig)

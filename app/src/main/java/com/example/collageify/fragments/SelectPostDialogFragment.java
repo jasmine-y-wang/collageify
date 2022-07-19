@@ -21,6 +21,9 @@ import com.parse.ParseUser;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A {@link DialogFragment} that lets users select a post to compare
+ */
 public class SelectPostDialogFragment extends DialogFragment {
 
     public static final String TAG = "SelectPostDialogFragment";
@@ -33,7 +36,6 @@ public class SelectPostDialogFragment extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         binding = FragmentSelectPostDialogBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }

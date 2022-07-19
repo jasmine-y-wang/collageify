@@ -97,6 +97,13 @@ public class MainActivity extends AppCompatActivity {
         ft.commit();
     }
 
+    public void goToCompareFrag(Post postA) {
+        FragmentTransaction ft = fragmentManager.beginTransaction();
+        ft.replace(R.id.flContainer, new CompareFragment(postA));
+        ft.addToBackStack("compare");
+        ft.commit();
+    }
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -114,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
         mSpotifyAppRemote.getPlayerApi().play(uri);
     }
 
-    /** Spotify connection fields **/
+    /** Spotify connection fields */
     private final ConnectionParams connectionParams = new ConnectionParams.Builder(ConnectSpotifyActivity.CLIENT_ID)
             .setRedirectUri(ConnectSpotifyActivity.REDIRECT_URI)
             .showAuthView(true)
@@ -135,7 +142,6 @@ public class MainActivity extends AppCompatActivity {
                             if (albumDetailFragment != null) {
                                 albumDetailFragment.showPlaying(track.uri);
                             }
-                            Log.d(TAG, track.name + " by " + track.artist.name);
                         }
                     });
         }
@@ -146,10 +152,5 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    public void goToCompareFrag(Post postA) {
-        FragmentTransaction ft = fragmentManager.beginTransaction();
-        ft.replace(R.id.flContainer, new CompareFragment(postA));
-        ft.addToBackStack("compare");
-        ft.commit();
-    }
+
 }

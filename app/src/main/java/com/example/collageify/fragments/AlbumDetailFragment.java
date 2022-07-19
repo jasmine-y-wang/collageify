@@ -19,17 +19,13 @@ import com.example.collageify.services.ArtistService;
 import com.google.android.material.tabs.TabLayoutMediator;
 
 /**
- * A simple {@link Fragment} subclass.
+ * A {@link Fragment} that shows details about an album
  */
 public class AlbumDetailFragment extends Fragment {
 
     private FragmentAlbumDetailBinding binding;
     private Album album;
     public static final String TAG = "AlbumDetailFragment";
-
-    public AlbumDetailFragment() {
-        // Required empty public constructor
-    }
 
     public AlbumDetailFragment(Album album) {
         this.album = album;
@@ -38,7 +34,6 @@ public class AlbumDetailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         binding = FragmentAlbumDetailBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
@@ -75,6 +70,10 @@ public class AlbumDetailFragment extends Fragment {
         binding = null;
     }
 
+    /**
+     * Find AlbumMoreFragment within ViewPager and call its showPlaying() method with
+     * the trackUri
+     */
     public void showPlaying(String trackUri) {
         String pageTag = "f" + binding.pager.getCurrentItem();
         Fragment page = getChildFragmentManager().findFragmentByTag(pageTag);

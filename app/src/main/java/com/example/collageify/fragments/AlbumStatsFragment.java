@@ -1,16 +1,14 @@
 package com.example.collageify.fragments;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import com.example.collageify.R;
 import com.example.collageify.databinding.FragmentAlbumStatsBinding;
 import com.example.collageify.models.Album;
 import com.example.collageify.services.AlbumStatsService;
@@ -18,17 +16,13 @@ import com.example.collageify.services.AlbumStatsService;
 import java.util.HashMap;
 
 /**
- * A simple {@link Fragment} subclass.
+ * A {@link Fragment} that shows stats for an album
  */
 public class AlbumStatsFragment extends Fragment {
 
     private Album album;
     private FragmentAlbumStatsBinding binding;
     HashMap<String, Double> stats;
-
-    public AlbumStatsFragment() {
-        // Required empty public constructor
-    }
 
     public AlbumStatsFragment(Album album) {
         this.album = album;
@@ -37,7 +31,6 @@ public class AlbumStatsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         binding = FragmentAlbumStatsBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
@@ -57,6 +50,7 @@ public class AlbumStatsFragment extends Fragment {
         });
     }
 
+    /** Display album statistics using progress bars */
     private void setStats() {
         int danceability = (int) Math.round(stats.get("danceability") * 100);
         binding.pbDanceability.setProgress(danceability);

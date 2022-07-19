@@ -11,7 +11,7 @@ import java.util.List;
 
 public class TopAlbumsUtil {
 
-    // set list of topAlbums based on timeframe
+    /** Set list of topAlbums based on timeframe */
     public static void getTopAlbums(String timeframe, SongService songService, List<Album> topAlbums, AlbumsAdapter albumsAdapter) {
         List<Song> tracks = new ArrayList<>();
         songService.getTopTracks(timeframe, () -> {
@@ -21,7 +21,7 @@ public class TopAlbumsUtil {
         });
     }
 
-    // get albums from list of tracks
+    /** Get albums from list of tracks */
     public static void getAlbumsFromTracks(List<Song> songs, List<Album> topAlbums) {
         HashMap<String, Album> albums = new HashMap<>();
         for (int i = 0; i < songs.size(); i++) {
