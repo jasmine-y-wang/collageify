@@ -36,13 +36,10 @@ public class CompareFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getChildFragmentManager().setFragmentResultListener(REQUEST_KEY, this, new FragmentResultListener() {
-            @Override
-            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
-                postB = result.getParcelable(Post.class.getSimpleName());
-                showPostImage(postB, binding.ivPostBImage);
-                binding.btnCalculate.setVisibility(View.VISIBLE);
-            }
+        getChildFragmentManager().setFragmentResultListener(REQUEST_KEY, this, (requestKey, result) -> {
+            postB = result.getParcelable(Post.class.getSimpleName());
+            showPostImage(postB, binding.ivPostBImage);
+            binding.btnCalculate.setVisibility(View.VISIBLE);
         });
     }
 
@@ -66,12 +63,9 @@ public class CompareFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         showPostImage(postA, binding.ivPostAImage);
         binding.btnSelectPost.setOnClickListener(v -> openSelectPostDialog());
-        binding.btnCalculate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                double percentage = CalculatePostSimilarityUtil.calculateSimilarity(postA, postB);
-                binding.tvPercentage.setText(String.format("%.2f%%", percentage));
-            }
+        binding.btnCalculate.setOnClickListener(v -> {
+            double percentage = CalculatePostSimilarityUtil.calculateSimilarity(postA, postB, getContext().getApplicationContext());
+            binding.tvPercentage.setText(String.format("%.2f%%", percentage));
         });
     }
 

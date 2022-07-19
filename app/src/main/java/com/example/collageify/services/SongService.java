@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SongService {
+
     private ArrayList<Song> songs = new ArrayList<>();
     private SharedPreferences sharedPreferences;
     private RequestQueue queue;
