@@ -53,21 +53,21 @@ public class Song {
         return song;
     }
 
-    @NonNull
-    // get duration from ms to minutes and seconds
-    public static String getStringDuration(int durationMs) {
-        int totalSeconds = durationMs / 1000; // convert to seconds
-        int seconds = totalSeconds % 60;
-        int minutes = totalSeconds / 60;
-        return String.format("%d:%02d", minutes, seconds);
-    }
-
     public static Song fromJsonForRecommendedList(JSONObject jsonObject) throws JSONException {
         Song song = fromJson(jsonObject);
         song.albumImageUrl = song.albumData.getJSONArray("images")
                 .getJSONObject(0).getString("url");
         song.artistName = jsonObject.getJSONArray("artists").getJSONObject(0).getString("name");
         return song;
+    }
+
+    @NonNull
+    /** Get duration from ms to minutes and seconds */
+    public static String getStringDuration(int durationMs) {
+        int totalSeconds = durationMs / 1000; // convert to seconds
+        int seconds = totalSeconds % 60;
+        int minutes = totalSeconds / 60;
+        return String.format("%d:%02d", minutes, seconds);
     }
 
     public int getTrackNumber() {
@@ -102,7 +102,7 @@ public class Song {
         this.playing = playing;
     }
 
-    /** for testing in TopAlbumsUtilTest **/
+    /** For testing in TopAlbumsUtilTest **/
     public void setAlbumId(String albumId) {
         this.albumId = albumId;
     }

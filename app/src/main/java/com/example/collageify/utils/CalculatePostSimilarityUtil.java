@@ -1,6 +1,5 @@
 package com.example.collageify.utils;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -17,14 +16,18 @@ import java.util.Set;
 
 public class CalculatePostSimilarityUtil {
 
-    public static double calculateSimilarity(Post postA, Post postB, Context context) {
+    /**
+     * Calculate similarity between postA and postB based on albums, color, and artists
+     * within the posts' collages
+     */
+    public static double calculateSimilarity(Post postA, Post postB) {
         // padding added to reduce effect of differences in other factors
         // otherwise difference in overall similarity is very drastic
-        final int PADDING = 50;
+        final int PADDING = 40;
         double similarity = PADDING;
         final int ALBUM_WEIGHT = 15;
-        final int COLOR_WEIGHT = 15;
-        final int ARTIST_WEIGHT = 20;
+        final int COLOR_WEIGHT = 20;
+        final int ARTIST_WEIGHT = 25;
         similarity += COLOR_WEIGHT * calculateColorSimilarity(postA.getImage(), postB.getImage());
         similarity += ARTIST_WEIGHT * calculateCosineSimilarity(getFreqs(postA.getArtistIds()), getFreqs(postB.getArtistIds()));
         similarity += ALBUM_WEIGHT * calculateJaccardSimilarity(postA.getAlbumIds(), postB.getAlbumIds());
@@ -115,14 +118,6 @@ public class CalculatePostSimilarityUtil {
         return color;
     }
 
-    private static Map<String, Integer> getFreqs(List<String> strings) {
-        Map<String, Integer> freqs = new HashMap<>();
-        for (String s : strings) {
-            freqs.put(s, freqs.getOrDefault(s, 0) + 1);
-        }
-        return freqs;
-    }
-
     /**
      * Compare two frequency maps using the cosine similarity, which is a metric used to measure
      * how similar two sequences of numbers are
@@ -148,6 +143,15 @@ public class CalculatePostSimilarityUtil {
         magnitudeA = Math.sqrt(magnitudeA);
         magnitudeB = Math.sqrt(magnitudeB);
         return dotProduct / (magnitudeA * magnitudeB);
+    }
+
+    /** Get map of frequencies based on list of strings */
+    private static Map<String, Integer> getFreqs(List<String> strings) {
+        Map<String, Integer> freqs = new HashMap<>();
+        for (String s : strings) {
+            freqs.put(s, freqs.getOrDefault(s, 0) + 1);
+        }
+        return freqs;
     }
 
 

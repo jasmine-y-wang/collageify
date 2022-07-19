@@ -36,14 +36,9 @@ public class FeedFragment extends Fragment {
     protected List<Post> allPosts;
     public static final String TAG = "FeedFragment";
 
-    public FeedFragment() {
-        // Required empty public constructor
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         binding = FragmentFeedBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
@@ -60,6 +55,7 @@ public class FeedFragment extends Fragment {
         queryPosts();
     }
 
+    /** Query posts from Parse database */
     private void queryPosts() {
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
         query.setLimit(20);

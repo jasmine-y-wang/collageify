@@ -14,13 +14,14 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.example.collageify.R;
+import com.example.collageify.activities.MainActivity;
 import com.example.collageify.databinding.FragmentCompareBinding;
 import com.example.collageify.models.Post;
 import com.example.collageify.utils.CalculatePostSimilarityUtil;
 import com.parse.ParseFile;
 
 /**
- * A simple {@link Fragment} subclass.
+ * A {@link Fragment} used to compare two collages
  */
 public class CompareFragment extends Fragment {
 
@@ -64,9 +65,10 @@ public class CompareFragment extends Fragment {
         showPostImage(postA, binding.ivPostAImage);
         binding.btnSelectPost.setOnClickListener(v -> openSelectPostDialog());
         binding.btnCalculate.setOnClickListener(v -> {
-            double percentage = CalculatePostSimilarityUtil.calculateSimilarity(postA, postB, getContext().getApplicationContext());
+            double percentage = CalculatePostSimilarityUtil.calculateSimilarity(postA, postB);
             binding.tvPercentage.setText(String.format("%.2f%%", percentage));
         });
+        binding.ibBack.setOnClickListener(v -> ((MainActivity) getContext()).goToFeedFrag());
     }
 
     private void openSelectPostDialog() {

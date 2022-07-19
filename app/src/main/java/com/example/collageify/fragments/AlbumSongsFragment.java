@@ -28,7 +28,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A simple {@link Fragment} subclass.
+ * A {@link Fragment} that shows a list of songs in an album and lets users play the album
+ * through Spotify
  */
 public class AlbumSongsFragment extends Fragment {
 
@@ -37,10 +38,6 @@ public class AlbumSongsFragment extends Fragment {
     private List<Song> albumTracks;
     private AlbumTracksAdapter adapter;
     public static final String TAG = "AlbumSongsFragment";
-
-    public AlbumSongsFragment() {
-        // Required empty public constructor
-    }
 
     public AlbumSongsFragment(Album album) {
         this.album = album;
@@ -54,7 +51,6 @@ public class AlbumSongsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         binding = FragmentAlbumSongsBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }

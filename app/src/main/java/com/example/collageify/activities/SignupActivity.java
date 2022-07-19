@@ -24,13 +24,10 @@ public class SignupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivitySignupBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        binding.btnSignup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String username = binding.etUsername.getText().toString();
-                String password = binding.etPassword.getText().toString();
-                signupUser(username, password);
-            }
+        binding.btnSignup.setOnClickListener(v -> {
+            String username = binding.etUsername.getText().toString();
+            String password = binding.etPassword.getText().toString();
+            signupUser(username, password);
         });
 
     }
@@ -39,14 +36,11 @@ public class SignupActivity extends AppCompatActivity {
         User user = new User();
         user.setUsername(username);
         user.setPassword(password);
-        user.signUpInBackground(new SignUpCallback() {
-            @Override
-            public void done(ParseException e) {
-                if (e == null) {
-                    startConnectSpotifyActivity();
-                } else {
-                    Log.e(TAG, "signup failed :(", e);
-                }
+        user.signUpInBackground(e -> {
+            if (e == null) {
+                startConnectSpotifyActivity();
+            } else {
+                Log.e(TAG, "signup failed :(", e);
             }
         });
     }

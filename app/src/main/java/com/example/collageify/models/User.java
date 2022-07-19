@@ -16,10 +16,6 @@ public class User extends ParseUser {
     public static final String KEY_PFP_URL = "profilePicUrl";
     public static final String KEY_SPOTIFY_DISPLAY_NAME = "spotifyDisplayName";
 
-    public String getSpotifyId() {
-        return getString(KEY_SPOTIFY_ID);
-    }
-
     public void setSpotifyId(String id) {
         put(KEY_SPOTIFY_ID, id);
     }

@@ -30,8 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A simple {@link Fragment} subclass.
- *
+ * A {@link Fragment} to display a user profile, including their posts
  */
 public class ProfileFragment extends Fragment {
 
@@ -41,10 +40,6 @@ public class ProfileFragment extends Fragment {
     protected ProfilePostsAdapter adapter;
     protected List<Post> allPosts;
 
-    public ProfileFragment() {
-        // Required empty public constructor
-    }
-
     public ProfileFragment(ParseUser user) {
         this.user = (User) user;
     }
@@ -52,7 +47,6 @@ public class ProfileFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         binding = FragmentProfileBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
@@ -87,7 +81,6 @@ public class ProfileFragment extends Fragment {
             // logout functionality
             binding.btnLogout.setOnClickListener(v -> {
                 ParseUser.logOut();
-                Log.i(TAG, "logout");
                 AuthorizationClient.clearCookies(getContext());
                 Intent i = new Intent(getContext(), LoginActivity.class);
                 startActivity(i);

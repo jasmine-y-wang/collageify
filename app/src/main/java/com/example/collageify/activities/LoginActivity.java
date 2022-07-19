@@ -27,21 +27,13 @@ public class LoginActivity extends AppCompatActivity {
         if (ParseUser.getCurrentUser() != null) {
             startMainActivity();
         }
-        binding.btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String username = binding.etUsername.getText().toString();
-                String password = binding.etPassword.getText().toString();
-                loginUser(username, password);
-            }
+        binding.btnLogin.setOnClickListener(v -> {
+            String username = binding.etUsername.getText().toString();
+            String password = binding.etPassword.getText().toString();
+            loginUser(username, password);
         });
 
-        binding.btnSignup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startSignupActivity();
-            }
-        });
+        binding.btnSignup.setOnClickListener(v -> startSignupActivity());
     }
 
     private void startSignupActivity() {

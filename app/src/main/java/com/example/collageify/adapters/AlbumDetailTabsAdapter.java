@@ -9,6 +9,9 @@ import com.example.collageify.fragments.AlbumSongsFragment;
 import com.example.collageify.fragments.AlbumStatsFragment;
 import com.example.collageify.models.Album;
 
+/**
+ * A {@link FragmentStateAdapter} used to manage tabs on AlbumDetailFragment
+ */
 public class AlbumDetailTabsAdapter extends FragmentStateAdapter {
 
     public static String[] tabs = {"songs", "stats", "more"};
