@@ -8,7 +8,7 @@
 
     <!-- load toolbar -->
     <include
-        android:id="@+id/include"
+        android:id="@+id/toolbarCollage"
         layout="@layout/toolbar_main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -100,7 +100,7 @@
         android:minHeight="48dp"
         app:layout_constraintBottom_toTopOf="@+id/rvCollage"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/include" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbarCollage" />
 
     <Spinner
         android:id="@+id/spnTimeframe"
@@ -113,6 +113,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.462"
         app:layout_constraintStart_toEndOf="@+id/spnDimensions"
-        app:layout_constraintTop_toBottomOf="@+id/include" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbarCollage" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
