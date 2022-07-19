@@ -14,7 +14,6 @@ public class Artist {
         artist.id = jsonObject.getString("id");
         artist.name = jsonObject.getString("name");
         artist.imageUrl = jsonObject.getJSONArray("images").getJSONObject(0).getString("url");
-
         return artist;
     }
 
