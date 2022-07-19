@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.example.collageify.adapters.PostsAdapter;
 import com.example.collageify.databinding.FragmentFeedBinding;
@@ -31,9 +32,8 @@ public class FeedFragment extends Fragment {
 
 
     private FragmentFeedBinding binding;
-    private RecyclerView rvPosts;
-    protected PostsAdapter adapter;
-    protected List<Post> allPosts;
+    private PostsAdapter adapter;
+    private List<Post> allPosts;
     public static final String TAG = "FeedFragment";
 
     @Override
@@ -46,6 +46,7 @@ public class FeedFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        binding.feedToolbar.pbLoading.setVisibility(View.VISIBLE);
         allPosts = new ArrayList<>();
         adapter = new PostsAdapter(getContext(), allPosts);
         binding.rvPosts.setAdapter(adapter);
@@ -63,17 +64,15 @@ public class FeedFragment extends Fragment {
         // order posts by creation data (newest first)
         query.addDescendingOrder(Post.KEY_CREATED_AT);
         // start an asynchronous call for posts
-        query.findInBackground(new FindCallback<Post>() {
-            @Override
-            public void done(List<Post> posts, ParseException e) {
-                if (e != null) {
-                    Log.e(TAG, "issue with getting posts", e);
-                    return;
-                }
-                // save received posts to list and notify adapter of data
-                allPosts.addAll(posts);
-                adapter.notifyDataSetChanged();
+        query.findInBackground((posts, e) -> {
+            if (e != null) {
+                Log.e(TAG, "issue with getting posts", e);
+                return;
             }
+            // save received posts to list and notify adapter of data
+            allPosts.addAll(posts);
+            adapter.notifyDataSetChanged();
+            binding.feedToolbar.pbLoading.setVisibility(View.INVISIBLE);
         });
     }
 

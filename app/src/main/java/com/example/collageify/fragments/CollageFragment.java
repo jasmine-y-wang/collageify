@@ -114,12 +114,12 @@ public class CollageFragment extends Fragment {
                 } else {
                     timeframe = "long_term";
                 }
-                TopAlbumsUtil.getTopAlbums(timeframe, songService, topAlbums, albumsAdapter);
+                TopAlbumsUtil.getTopAlbums(timeframe, songService, topAlbums, albumsAdapter, binding.toolbarCollage.pbLoading);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                TopAlbumsUtil.getTopAlbums("short_term", songService, topAlbums, albumsAdapter);
+                TopAlbumsUtil.getTopAlbums("short_term", songService, topAlbums, albumsAdapter, binding.toolbarCollage.pbLoading);
             }
         });
 

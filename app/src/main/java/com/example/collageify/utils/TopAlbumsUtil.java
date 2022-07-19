@@ -1,5 +1,8 @@
 package com.example.collageify.utils;
 
+import android.view.View;
+import android.widget.ProgressBar;
+
 import com.example.collageify.adapters.AlbumsAdapter;
 import com.example.collageify.models.Album;
 import com.example.collageify.models.Song;
@@ -12,12 +15,14 @@ import java.util.List;
 public class TopAlbumsUtil {
 
     /** Set list of topAlbums based on timeframe */
-    public static void getTopAlbums(String timeframe, SongService songService, List<Album> topAlbums, AlbumsAdapter albumsAdapter) {
+    public static void getTopAlbums(String timeframe, SongService songService, List<Album> topAlbums, AlbumsAdapter albumsAdapter, ProgressBar pbLoading) {
+        pbLoading.setVisibility(View.VISIBLE);
         List<Song> tracks = new ArrayList<>();
         songService.getTopTracks(timeframe, () -> {
             tracks.addAll(songService.getSongs());
             getAlbumsFromTracks(tracks, topAlbums);
             albumsAdapter.notifyDataSetChanged();
+            pbLoading.setVisibility(View.INVISIBLE);
         });
     }
 
