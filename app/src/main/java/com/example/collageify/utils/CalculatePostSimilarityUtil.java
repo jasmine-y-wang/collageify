@@ -20,17 +20,19 @@ public class CalculatePostSimilarityUtil {
      * Calculate similarity between postA and postB based on albums, color, and artists
      * within the posts' collages
      */
-    public static double calculateSimilarity(Post postA, Post postB) {
+    public static double calculateSimilarity(Post postA, Post postB, Map<String, Integer> postAGenres, Map<String, Integer> postBGenres) {
         // padding added to reduce effect of differences in other factors
         // otherwise difference in overall similarity is very drastic
-        final int PADDING = 40;
+        final int PADDING = 30;
         double similarity = PADDING;
         final int ALBUM_WEIGHT = 15;
         final int COLOR_WEIGHT = 20;
         final int ARTIST_WEIGHT = 25;
+        final int GENRE_WEIGHT = 10;
         similarity += COLOR_WEIGHT * calculateColorSimilarity(postA.getImage(), postB.getImage());
         similarity += ARTIST_WEIGHT * calculateCosineSimilarity(getFreqs(postA.getArtistIds()), getFreqs(postB.getArtistIds()));
         similarity += ALBUM_WEIGHT * calculateJaccardSimilarity(postA.getAlbumIds(), postB.getAlbumIds());
+        similarity += GENRE_WEIGHT * calculateCosineSimilarity(postAGenres, postBGenres);
         return similarity;
     }
 
@@ -146,13 +148,12 @@ public class CalculatePostSimilarityUtil {
     }
 
     /** Get map of frequencies based on list of strings */
-    private static Map<String, Integer> getFreqs(List<String> strings) {
+    public static Map<String, Integer> getFreqs(List<String> strings) {
         Map<String, Integer> freqs = new HashMap<>();
         for (String s : strings) {
             freqs.put(s, freqs.getOrDefault(s, 0) + 1);
         }
         return freqs;
     }
-
 
 }
