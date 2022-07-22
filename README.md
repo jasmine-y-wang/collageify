@@ -16,7 +16,7 @@ An app that creates collages based on your listening history on Spotify.
 ### App Evaluation
 
 - **Category:** Entertainment
-- **Mobile:** Not super uniquely mobile, although might be able to incorporate feature that plays music through Spotify app
+- **Mobile:** Incorporates feature that plays music through Spotify app
 - **Story:** Could be fun for Spotify listeners to see a visual representation of their top artists and songs and potentially share with friends
 - **Market:** Spotify listeners (406 million monthly active listeners as of 2022)
 - **Habit:** Typical user may be inclined to check the app once per month to see how their listening history has changed, though users could check more or less frequently as desired
@@ -38,11 +38,15 @@ An app that creates collages based on your listening history on Spotify.
 
 **Optional Nice-to-have Stories**
 
-* Play a song from collage through Spotify (on details screen of that song)
-* Calculate and show stats for collage on details screen (like energy or valence, which can indicate mood)
+* Play an album from collage through Spotify (on details screen of that album)
+* Calculate and show stats for album on details screen (like energy or valence, which can indicate mood)
 * Post collage with a caption
 * Like posts
-* Comment on posts
+
+**Additional Stories**
+
+* Get song recommendations based on an album and tap to play a track
+* Compare collages from feed with user's own collages
 
 ### 2. Screen Archetypes
 
@@ -50,14 +54,11 @@ An app that creates collages based on your listening history on Spotify.
    * Sign in with Spotify account
 * Collage screen
    * Generate collage of song or artist images based on listening history (give both options)
-    * Select time frame of data to be used (1 month, 6 months, or all time)
+   * Select time frame of data to be used (1 month, 6 months, or all time)
 * Detail screen
-    * Tap on a song or artist image within the collage to open a more detailed page with information about that artist or song
+   * Tap on a song or artist image within the collage to open a more detailed page with information about that artist or song
 * Feed
-    * View everyone's posts
-
-**Optional Nice-to-have Screens**
-* Share screen (add caption to collage before posting)
+   * View everyone's posts
 
 ### 3. Navigation
 
@@ -78,16 +79,16 @@ An app that creates collages based on your listening history on Spotify.
    * Tap on an image within a collage to get to detail screen
 * Detail Screen
    * Tap on back button to go back to collage screen
+* Compare Screen
+   * Tap on compare button on a post within feed
 
 ## Wireframes
 
 <img src="wireframe.jpg" width=1000>
 
-### [BONUS] Digital Wireframes & Mockups
+### Digital Wireframes & Mockups
 
 <img src="figma_wireframe.png" width=1000>
-
-### [BONUS] Interactive Prototype
 
 ## Schema 
 
@@ -135,7 +136,6 @@ Using combination of Parse database and Spotify API
 - Home Feed Screen
     - (get) Query all posts
     - (put) Like or unlike a post
-    - (put) Comment on a post
 - Collage Screen
     - (GET) Get data from Spotify API
     - (put) Post collage (if user decides to share)
