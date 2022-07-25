@@ -103,19 +103,22 @@ An app that creates collages based on your listening history on Spotify.
 | createdAt  | Date   | date when user is created (default field)      |
 | password   | String | password for user to authenticate with         |
 | username   | String | username for user to sign in with              |
-| profilePic | File   | pulled from user's spotify account             |
-| spotifyId  | String | user's unique spotify user id                  |
+| profilePic | File   | pulled from user's Spotify account             |
+| spotifyId  | String | user's unique Spotify user id                  |
 
 **Post**
 
-| Property  | Type            | Description                                    |
-|:--------- |:--------------- |:---------------------------------------------- |
-| objectId  | String          | unique id for the post (default field)         |
-| author    | Pointer to User | author of this post                            |
-| image     | File            | collage image                                  |
-| likedBy   | Array           | list of users who have liked this post         |
-| updatedAt | Date            | date when post is last updated (default field) |
-| createdAt | Date            | date when post is created (default field)      |
+| Property  | Type             | Description                                        |
+|:--------- |:---------------- |:-------------------------------------------------- |
+| objectId  | String           | unique id for the post (default field)             |
+| author    | Pointer to User  | author of this post                                |
+| image     | File             | collage image                                      |
+| likedBy   | Array            | list of users who have liked this post             |
+| updatedAt | Date             | date when post is last updated (default field)     |
+| timeframe | String           | timeframe of collage (1 month, 6 months, all time) |
+| artistIds | Array of Strings | list of artistIds in collage                       |
+| albumIds  | Array of Strings | list of albumIds in collage                        |
+| createdAt | Date             | date when post is created (default field)          |
 
 
 ### Networking
@@ -146,11 +149,15 @@ Using combination of Parse database and Spotify API
 
 #### Existing API Endpoint
 Spotify API
+
+- Documentation: https://developer.spotify.com/documentation/web-api/reference/#/
 - Base URL: https://api.spotify.com/v1
-    | HTTP Verb | Endpoint         | Description                                                              |
-    |:--------- |:---------------- |:------------------------------------------------------------------------ |
-    | GET       | /me              | get current user information                                             |
-    | GET       | /users/{user_id} | get user profile information such as profile picture and Spotify user id |
-    | GET       | /me/top/tracks   | get current user's top tracks                                            |
 
-
+| HTTP Verb | Endpoint            | Description                                         |
+|:--------- |:------------------- |:--------------------------------------------------- |
+| GET       | /me                 | get current user information                        |
+| GET       | /me/top/tracks      | get current user's top tracks                       |
+| GET       | /audio-features     | get audio features for tracks based on ids          |
+| GET       | /albums/{id}/tracks | get tracks from given album                         |
+| GET       | /recommendations    | get recommendations based on seed artist and tracks |
+| GET       | /artists/{id}       | get artist information                              |
