@@ -76,17 +76,15 @@ public class MainActivity extends AppCompatActivity {
     public void goToAlbumDetailFrag(Album album) {
         detailFragment = new AlbumDetailFragment(album);
         FragmentTransaction ft = fragmentManager.beginTransaction();
-        ft.hide(collageFragment);
-        ft.add(R.id.flContainer, detailFragment, AlbumDetailFragment.TAG);
+        ft.replace(R.id.flContainer, detailFragment);
         ft.addToBackStack("collage to detail");
-        ft.show(detailFragment);
         ft.commit();
     }
 
     public void goToCollageFrag() {
         FragmentTransaction ft = fragmentManager.beginTransaction();
-        ft.hide(detailFragment);
-        ft.show(collageFragment);
+        ft.replace(R.id.flContainer, collageFragment);
+        ft.addToBackStack("detail to collage");
         ft.commit();
     }
 
