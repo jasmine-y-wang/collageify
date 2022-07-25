@@ -97,6 +97,7 @@ public class ProfileFragment extends Fragment {
     }
 
     protected void queryPosts() {
+        binding.pbLoading.setVisibility(View.VISIBLE);
         // specify what type of data we want to query
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
         query.include(Post.KEY_USER);
@@ -113,6 +114,7 @@ public class ProfileFragment extends Fragment {
             // save received posts to list and notify adapter of data
             allPosts.addAll(posts);
             adapter.notifyDataSetChanged();
+            binding.pbLoading.setVisibility(View.INVISIBLE);
         });
     }
 }

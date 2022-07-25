@@ -75,18 +75,6 @@
         app:srcCompat="@null"
         tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
 
-    <ImageButton
-        android:id="@+id/ibComment"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/ic_ufi_comment"
-        app:layout_constraintStart_toEndOf="@+id/ibLike"
-        app:layout_constraintTop_toBottomOf="@+id/ivImage"
-        app:srcCompat="@null"
-        tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
-
     <TextView
         android:id="@+id/tvLikes"
         android:layout_width="wrap_content"
