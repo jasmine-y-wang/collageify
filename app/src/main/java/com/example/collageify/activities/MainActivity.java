@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
     public void goToAlbumDetailFrag(Album album) {
         detailFragment = new AlbumDetailFragment(album);
         FragmentTransaction ft = fragmentManager.beginTransaction();
-        ft.replace(R.id.flContainer, detailFragment);
+        ft.replace(R.id.flContainer, detailFragment, AlbumDetailFragment.TAG);
         ft.addToBackStack("collage to detail");
         ft.commit();
     }
