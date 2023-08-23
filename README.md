@@ -3,6 +3,10 @@ MetaU Capstone Project
 
 # Collageify
 
+https://github.com/jasmine-y-wang/collageify/assets/52613733/eef88c1b-c6cf-4a81-be54-4e2b2a69b325
+
+
+
 ## Table of Contents
 1. [Overview](#Overview)
 1. [Product Spec](#Product-Spec)
